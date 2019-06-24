@@ -1,0 +1,79 @@
+What is ML?
+Examples:
+    - Google ranking web pages from searches
+    - FB/Apple recognizing friends in photos
+    - E-mail/spam filter distinguishing spam from emails
+    - Robots tidying up a house by demonstrating tasks and robots watching
+
+AI Problem - building truly intelligent machines that humans can do
+    How to make progress? Neural networks: mimic how the human brain works.
+
+----------
+
+Supervised Learning - All the correct answers are given
+
+Regression problems - trying to predict results within a continuous output
+Classification problems - trying to predict results in a discrete output, map input variables into discrete categories
+
+Ex. Housing price prediction.
+    - Size in ft^2 x-axis, price in 1000s y-axis
+    - What line should be used to model the data?
+        + e.g. linear, quadratic line
+
+Def: regression - predict continuous valued output
+    - in HPP, refers to price
+
+Ex. Breast cancer prediction (malignant vs. benign)
+    - tumor size x-axis, malignant? 0 no 1 yes y-axis
+    - This is a classification problem, where there is a discrete-valued output (0 or 1)
+        + Therefore, you can map the data to one line using different symbols to define 0 or 1 outputs
+    
+Ex. Tumor Size vs. Age
+    - Given points of data indicating tumor size, age and says whether they're malignant/benign
+    - Friend is a point
+    - Can draw a line that will separate the groups of malignant/benign tumors to predict whether your friend has a malignant/benign tumor
+
+Problem: Running a company, want to develop learning algs to address both problems:
+    Problem 1: Have a large inventory of identical items. Want to predict how many of these items will sell over the next 3 months.
+        Regression problem
+    Problem 2: Want software to examine individual customer accounts, and for each account decide if it has been hacked/compromised.
+        Classification problem
+
+----------
+
+Unsupervised Learning - here's a data set, can you find some kind of structure in it?
+
+Google News - clustering algorithm
+    - Looks at 100000s of news stories on the web, groups them into cohesive news stories
+    - Can click on different links in the group to get related articles on the same story
+
+Genomics - clustering algorithm
+    - Measure how much of certain genes are expressed
+    - Colors measure how much the individual has of a certain type of gene
+    - Can you arrange these individuals into clusters?
+
+Other applications of clustering/unsupervised learning
+    - Organize computer clusters
+    - Social network analysis - given knowledge about what friends you message the most, can we identify what groups of people identify as friends?
+    - Market segmentation - can you look at this customer data set and group your customers into different market segments to more efficiently sell products?
+    - Galaxy formation
+
+Cocktail party
+    - Large group of people talking amongst themselves, might be hard to hear each other
+    - Can separate two people counting from 1-10 in Spanish/English at microphones at 2 different distances
+    - Can separate one person counting and background music
+    - This process can be done with one line of code in Octave (alternative to MATLAB).
+
+        [W,s,v] = svd((repmat(sum(x.*x,1), size(x,1),1).*x)*x');
+
+Problem: Which examples would you use an unsupervised learning algorithm?
+    1. Given email labeled as spam/not spam, learn a spam filter.
+        No, because you already know what category the email is in and can predict a result based off of that.
+        This is a classification supervised learning problem.
+    2. Given a set of news articles found on the web, group them into sets of articles about the same stories.
+        Yes, this is similar to the Google News example.
+    3. Given a database of customer data, automatically discover market segments and group customers into different market segments.
+        Yes, this is the market segmentation example.
+    4. Given a dataset of patients diagnosed as either having diabetes or not, learn to classify new patients as having diabetes or not.
+        No, you're given "the correct answers" to the problem already and want to predict results based on those.
+        This is a classification supervised learning problem. 
