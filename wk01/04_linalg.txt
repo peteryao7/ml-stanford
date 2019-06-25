@@ -1,0 +1,138 @@
+Matrices are 2D arrays.
+
+[a b c]
+[d e f]
+[g h i]
+[j k l]
+
+^ is a 4x3 matrix (row x col).
+
+A vector is a matrix with one column.
+
+[w]
+[x]
+[y]
+[z]
+
+^ is a 4x1 matrix, or a 4-dimensional vector.
+
+A_ij refers to the ith row and jth col of matrix A.
+All vectors and matrices in this course is 1-indexed, so the first element is at index 1.
+A scalar is a single value, not an object like a vector or matrix.
+R refers to the set of scalar real numbers.
+R^n refers to the set of n-dimensional vectors of real numbers.
+
+Octave notation:
+    Initialize a 4x3 matrix A. ; denotes a new row.
+        A = [1, 2, 3; 4, 5, 6; 7, 8, 9; 10, 11, 12]
+    Initialize a vector.
+        v = [1;2;3]
+    Get dimension of matrix A where m = rows, n = cols
+        [m,n] = size(A) => m = 4, n = 3
+        dim_A = size(A) => 4   3
+        dim_v = size(v) => 3   1
+    Index into 2nd row 3rd col of matrix A
+        A_23 = A(2,3) => 6
+
+----------
+
+Addition and Scalar Multiplication
+
+[a b] + [w x] = [a+w b+x]
+[c d] + [y z] = [c+y d+z] => same for subtraction
+
+[a b] * x = [a*x b*x]
+[c d]       [c*x d*x] => same for division
+
+Octave notation:
+    Initializes matrices A, B
+        A = [1, 2, 4; 5, 3, 2]
+        B = [1, 3, 4; 1, 1, 1]
+    Initialize constant s
+        s = 2
+    Addition and subtraction
+        add_AB = A + B
+        sub_AB = A - B
+    Multiplication and division
+        mult_As = A * s
+        div_As = A / s => note this returns double values up to 5 decimal places
+    Add scalar to matrix
+        add_As = A + s => adds s to every value in matrix
+
+----------
+
+Matrix-Vector Multiplication
+
+[a b] * [x] = [a*x + b*y]
+[c d] * [y] = [c*x + d*y]
+[e f]       = [e*x + f*y]
+
+The result is a 3x1 vector.
+
+m x n matrix multiplied by an n x 1 vectors results in a m x 1 vector.
+
+Can multiply a matrix and vector the same way as with a scalar.
+
+----------
+
+Matrix-Matrix Multiplication
+
+[a b] * [w x] = [a*w+b*y a*x+b*z]
+[c d] * [y z] = [c*w+d*y c*x+d*z]
+[e f]         = [e*w+f*y e*x+f*z]
+
+The result is a 3x2 matrix.
+
+To better visualize, go through rows on matrix 1 and cols on matrix 2,
+the value goes to the intersecting index.
+
+m x n matrix multiplied by n x p matrix results in a m x p matrix.
+The # cols in matrix 1 must equal the # rows in matrix 2.
+
+Can multiple 2 matrices the same way as with a scalar.
+
+----------
+
+Matrix Multiplication Properties
+
+Matrices are not commutative, but they are associative.
+
+The identity matrix has 1s on the main diagonal and 0s everywhere else.
+
+[1 0 0]
+[0 1 0]
+[0 0 1]
+
+Octave notation:
+    Initialize a 2x2 identity matrix
+        I = eye(2)
+
+----------
+
+Inverse and Transpose
+
+The inverse of a matrix A is denoted A^(-1).
+Multiplying A by its inverse gives the identity matrix.
+A non-square matrix cannot have an inverse.
+    Matrices with no inverse are singular.
+
+The transposition of a matrix is like rotating the matrix 90 deg clockwise.
+
+A = [a b]
+    [c d]
+    [e f]
+
+A^T = [a c e]
+      [b d f]
+
+A_ij = (A^T)_ji
+
+Octave notation:
+    Initialize matrix A
+        A = [1,2,0;0,5,6;7,0,9]
+    Transpose A
+        A_trans = A'
+    Take inverse of A
+        A_inv = inv(A) (pinv(A) in Octave)
+    Multiplying A by A_inv gives eye(3)
+        A_invA = inv(A)*A => trailing zeros from multiplying decimals and -0 from roundoff
