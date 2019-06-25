@@ -1,5 +1,19 @@
 What is ML?
-Examples:
+    Arthur Samuel (1959): Field of study that gives computers the ability to learn w/o being explicitly programmed
+
+Def: Well-posed Learning Problem
+    Tom Mitchell (1998): A computer program is said to learn from experience E with respect to some task T 
+    and some performance measure P, if its performance on T, measured by P, improves with experience E.
+
+Example:
+    Suppose your email program watches which emails you do or do not mark as spam, and based on that 
+    learns how to better filter spam.
+
+    T: classifying emails as spam/not spam
+    E: watching you label emails as spam/not spam
+    P: the # or fraction of emails correctly classified as spam/not spam
+
+ML Examples:
     - Google ranking web pages from searches
     - FB/Apple recognizing friends in photos
     - E-mail/spam filter distinguishing spam from emails
@@ -7,6 +21,8 @@ Examples:
 
 AI Problem - building truly intelligent machines that humans can do
     How to make progress? Neural networks: mimic how the human brain works.
+
+
 
 ----------
 
@@ -43,6 +59,9 @@ Problem: Running a company, want to develop learning algs to address both proble
 
 Unsupervised Learning - here's a data set, can you find some kind of structure in it?
 
+Useful for deriving structure from data where we don't necessarily know the effect of the variables. 
+Cluster data based on relationship among variables in data. No feedback based on prediction results.
+
 Google News - clustering algorithm
     - Looks at 100000s of news stories on the web, groups them into cohesive news stories
     - Can click on different links in the group to get related articles on the same story
@@ -58,7 +77,7 @@ Other applications of clustering/unsupervised learning
     - Market segmentation - can you look at this customer data set and group your customers into different market segments to more efficiently sell products?
     - Galaxy formation
 
-Cocktail party
+Cocktail party - non-clustering unsupervised learning algorithm
     - Large group of people talking amongst themselves, might be hard to hear each other
     - Can separate two people counting from 1-10 in Spanish/English at microphones at 2 different distances
     - Can separate one person counting and background music

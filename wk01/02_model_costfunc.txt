@@ -1,0 +1,60 @@
+Linear regression with one variable
+
+Ex. Housing Prices in Portland, OR
+    - size (ft^2) x-axis, price in 1000s y-axis
+    - supervised learning algorithm: given right answers (actual prices) for each example
+    - regression problem: predicting a real-value output
+
+Training set (data set) notation
+    - m = number of training examples (# rows)
+    - x = "input" variable / features
+    - y = "output" variable / "target" variable
+    - (x,y) = one training example
+    - (x^(i), y^(i)) = ith training example (NOT exponent)
+
+Training set -> learning algorithm -> hypothesis (h)
+h maps from x's to y's
+    - e.g. size of house -> h -> estimated price
+
+How do we represent h?
+    h_θ(x) = θ_0 + θ_1x represents a line (think y = mx + b)
+    h(x) is shorthand for h_θ(x)
+
+----------
+
+Cost Function - Fitting the best possible straight line to our data
+
+Hypothesis: h_θ(x) = θ_0 + θ_1x
+    - θ_i's are the parameters.
+    - θ_0 is like the y-intercept, θ_1 is like the slope
+
+How to find the best fit line for the data?
+    - idea: choose θ_0, θ_1 so that h(x) is close to y for our training examples (x,y)
+    - objective function for linear regression:
+        minimize θ_0θ_1 -> J(θ_0, θ_1) = (1/2m) * sum(i=1, m)(h(x^(i)) - y^(i))^2
+    Cost function (squared error function) is the sum J(θ_0, θ_1).
+
+----------
+
+Cost Function Intuition I - Global Minimum of J(θ_1)
+
+Simplified hypothesis function
+    h(x) = θ_1x (θ_0 = 0 so regression line intersects (0,0))
+
+Ex. h_θ(x) crossing (1,1), (2,2), (3,3)
+For θ_1 = 1
+    J(θ_1) = 1/2m * (sum(i=1, m) (h_θ(x^(i) - y^(i))^2))
+               = 0
+
+    Graph of J(θ_1)
+        θ_1 on x-axis, J(θ_1) on y-axis
+        point at (1,0)
+        Want to find the global minimum of the function graphed to find the best θ_1
+
+----------
+
+Cost Function Intuition II - Contour Plots (nonzero θ_0)
+
+Contour lines indicate points of J(θ_0, θ_1)
+Any points that lie on the same contour line have the same value of J(θ_0, θ_1)
+To minimize the cost function, take the center of the innermost circle
