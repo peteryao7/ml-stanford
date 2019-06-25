@@ -1,0 +1,61 @@
+Gradient Descent - an algorithm that minimizes the cost function J using partial derivatives.
+
+"If I'm on a hill and want to go down, what direction should I go in if I make a baby step?"
+
+Have some function J(θ_0, θ_1, ..., θ_n), want min(θ_0, θ_1, ..., θ_n) J(θ_0, θ_1, ..., θ_n)
+
+Outline:
+    Start with some θ_0, θ_1
+    Keep changing θ_0, θ_1 to reduce J(θ_0, θ_1) until we end up at a minimum.
+
+Algorithm:
+    repeat until convergence {
+        θ_j := θ_j - α * ∂/∂θ_j * J(θ_0, θ_1) (for j = 0 and j = 1)
+    }
+
+    α = learning rate
+        smaller α results in small step, larger α larger step
+
+    Simultaneous update:
+        temp0 := θ_0 - α * ∂/∂θ_0 * J(θ_0, θ_1)
+        temp1 := θ_1 - α * ∂/∂θ_1 * J(θ_0, θ_1)
+        θ_0 := temp0
+        θ_1 := temp1
+
+----------
+
+Gradient Desent Intuition
+
+Formula for a single parameter:
+    θ_1 := θ_1 - α * d/dθ_1 * J(θ_1)
+
+Given a point of a graph, find the tangent line intersecting at that point.
+    d/dθ_1 * J(θ_1) is the derivative
+    If the value is positive, you will be going left to the minimum.
+    If the value is negative, you will be going right to the minimum.
+
+If α is too small, gradient descent can be slow (too many baby steps).
+If α is too large, gradient descent can overshoot the minimum and fail to converge or diverge.
+α doesn't need to be changed as when you approach a local minimum, you automatically take smaller steps.
+
+If θ_1 is already at the local minimum, the derivative will = 0 and θ_1 won't change.
+
+----------
+
+Gradient Descent for Linear Regression
+
+Algorithm for linear regression:
+    repeat until convergence: {
+        θ_0 := θ_0 - α * 1/m * sum(i=1, m) (h_θ(x^(i)) - y^(i))
+        θ_1 := θ_1 - α * 1/m * sum(i=1, m) ((h_θ(x^(i)) - y^(i)) * x^(i))
+    }
+
+    Simultaneous update:
+        temp0 := θ_0 - α * 1/m * sum(i=1, m) (h_θ(x^(i)) - y^(i))
+        temp1 := θ_1 - α * 1/m * sum(i=1, m) ((h_θ(x^(i)) - y^(i)) * x^(i))
+        θ_0 := temp0
+        θ_1 := temp1
+
+Batch gradient descent
+    - looks at every example in the whole traing set on every step
+    - guaranteed to only have a global minimum and no local ones
