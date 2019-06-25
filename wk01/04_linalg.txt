@@ -116,7 +116,7 @@ Multiplying A by its inverse gives the identity matrix.
 A non-square matrix cannot have an inverse.
     Matrices with no inverse are singular.
 
-The transposition of a matrix is like rotating the matrix 90 deg clockwise.
+To find the transpose, hoist values from col n up to row n.
 
 A = [a b]
     [c d]
