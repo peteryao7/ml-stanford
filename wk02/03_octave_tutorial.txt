@@ -1,21 +1,308 @@
 Basic Operations
 
+Can do +-*/, / converts int to a float
+1 == 2 % false, returns 0
+1 ~= 2 % true, returns 1
+1 && 0 % AND, returns 0
+1 || 0 % OR, returns 1
+xor(1,0) % XOR, returns 1
+
+Semicolons suppress output.
+
+a=pi; % 3.1416
+disp(a); % like print statement in Python
+
+format long
+a % displays value of a as a long
+
+Matrix assignment
+    A = [1 2;
+    3 4;
+    5 6]
+
+    Will display the 3x2 matrix as if you typed it on one line
+
+v = 1:0.1:2 % start:increment:end
+    returns a 1x11 matrix from 1.0000 to 2.0000
+
+ones(2,3) % returns a 2x3 matrix of just 1s
+2*ones(2,3) % returns 2x3 matrix of just 2s
+zeros(1,3) % 1x3 matrix of 0s
+
+w = rand(1,3) % 1x3 matrix of randoms numbers from a uniform distribution from 0-1
+
+w = randn(1,3) % picks nums from a Gaussian distribution with mean = 0 and variance or stdev = 1
+
+w = -6 + sqrt(10) * randn(1,10000)
+hist(w) % plots a histogram of values
+hist(w,50) % plots histogram with 50 bins
+
+eye(4) % 4x4 identity matrix
+
+help command for description of command
+
 ----------
 
 Moving Data Around
+
+A = [1 2;3 4;5 6];
+
+size(A) % ans = 3 2, a 1x2 matrix of rows cols
+size(A,1) to access # rows
+size(A,2) to access # cols
+
+v = [1 2 3 4]
+w = [1;2;3;4;5]
+length(v) picks the max of # rows and # cols % ans = 4
+length(w) % ans = 5
+
+Loading data in Octave
+    load featuresX.dat
+    load('featuresX.dat')
+
+who % shows variables in my Octave workspace
+whos % gives a more detailed view of size of variables and class
+clear featuresX % remove variable from workspace
+v = priceY(1:10) sets v to the first 10 elts of priceY
+
+save hello.mat v % saves v into a new file hellot.mat
+
+save hello.txt v -ascii % save as text (ASCII)
+
+Indexing
+    A = [1 2; 3 4; 5 6]
+    A(3,2) returns 6
+    A(2,:) returns every elt in row 2
+    A(:,2) returns every elt in col 2
+    A([1,3],:) gets all elts of rows 1 and 3, and return every elt from them
+    A(:,2) = [10;11;12] reassigns col 2 with new values
+    A = [A, [100; 101; 102]] appends a new column vector to the right of A
+    A(:) puts all elts of A into a single column vector
+
+A = [1 2; 3 4; 5 6]
+B = [11 12; 13 14; 15 16]
+C = [A B] (or [A, B]) concatenates A and B together to make a 3x4 matrix
+C = [A; B] puts A on top of B to make a 6x2 matrix 
 
 ----------
 
 Computing on Data
 
+A = [1 2; 3 4; 5 6]
+B = [11 12; 13 14; 15 16]
+C = [1 1; 2 2]
+
+A * B does matrix multiplication
+A .* B does element-wise multiplication (only multiplies each respective index)
+    [1*11 2*12]
+    [3*13 4*14]
+    [5*15 6*16]
+A .^ 2 squares each elt of A by 2
+
+v = [1;2;3]
+1 ./ v does element-wise division
+
+log(v) does element-wise log
+exp(v) does element-wise base e exponentiation
+abs(v) does element-wise absolute value
+-v gives negative values of each elt in v
+
+v + ones(length(v),1) increments each elt of v by 1
+    adds [1;1;1] to [1;2;3] to get [2;3;4]
+
+A' gives the transpose of A
+(A')' gives you back A
+
+a = [1 15 2 0.5]
+val = max(a) % 15
+[val, ind] = max(a) % returns 15 and the index of 15, 2
+max(A) finds the row-wise maximum
+a < 3 returns an array of 0 and 1s depending on if the elt fulfills the condition
+    1 0 1 1
+find(a < 3) returns the indices of the elts that fulfill the condition
+    1 3 4
+
+A = magic(3) returns a magic square (all rows/cols/diags sum up to the same thing)
+    Useful for generating a square matrix.
+
+
+Let A = [8 1 6; 3 5 7; 4 9 2]
+[r,c] = find(A >= 7) finds indices of all elts of A that are >= 7
+    r = [1;3;2], c = [1;2;3]
+    So (1,1) => 8, (3,2) => 9, (2,3) => 7
+
+sum(a) adds all elts of a
+prod(a) multiplies all elts of a
+floor(a) rounds down all elts of a
+ceil(a) rounds up all elts of a
+
+rand(3) generates a random 3x3 matrix
+max(rand(3), rand(3)) takes the element-wise max of 2 random 3x3 matrices
+
+max(A,[],1) returns the column-wise maximum
+    ans = [8 9 7]
+    1 represents the first dimension of A
+
+max(A,[],2) returns the row-wise maximum
+    ans = [8;7;9]
+
+max(max(A)) returns the true max of the matrix A
+can also turn A into 9x1 vector with A(:) and take max(A(:))
+
+Checking sum of a diagonal
+    A .* eye(9) removes all elts except on the main diagonal
+    sum(sum(A.*eye(9))) adds all elts on main diagonal
+
+    sum(sum(A.*flipud(eye(9)))) adds all elts on other diagonal
+
+
+flipud(eye(3)) [0 0 1]
+               [0 1 0]
+               [1 0 0]
+
+pinv(A) to get inverse of A
+A * pinv(A) returns matrix close to A with roundoff error
+
 ----------
 
 Plotting Data
+
+t = [0:0.01:0.98];
+y1 = sin(2*pi*4*t);
+plot(t,y1) % x-axis, y-axis
+
+y2 = cos(2*pi*4*t);
+plot(t, y2) % takes sinusoid plot and replaces it with cos function
+
+Printing both on one graph
+    plot(t,y1);
+    hold on;
+    plot(t,y2,'r'); % cos line is red
+    xlabel('time') to label x-axis
+    ylabel('value') to label y-axis
+    legend('sin', 'cos') to label what the 2 lines are
+    title('my plot') puts a title on the top of the figure
+    cd 'C:\Users\pathname'; print -dpng 'myPlot.png' to save the graph
+        other file extensions work, check help
+    close to make figure disappear
+
+figure(1); plot(t,y1); to specify figures
+figure(2); plot(t,y2);
+
+subplot(1,2,1); divides plot into a 1x2 grid, access first element
+plot(t,y1); draws figure in the first half of the screen
+subplot(1,2,2); access second part of the grid
+plot(t,y2); draws figure in the second half of the screen
+
+axis([0.5 1 -1 1]) to change axis ranges for the last plot (min x max x min y max y)
+
+clf to clear current figure
+
+A = magic(5)
+imagesc(A) plots a 5x5 matrix of colors that correspond to the values of A
+imagesc(A), colorbar, colormap gray; draws 5x5 matrix of gray squares with a color bar illustrating the different shades
+
+Command chaining
+    a=1, b=2, c=3
+    a=1; b=2; c=3 won't print out anything
 
 ----------
 
 Control Statements (for, while, if statements)
 
+v = zeros(10,1)
+
+for i=1:10,
+    v(i) = 2^i;
+end;
+
+i = 1;
+while i <= 5,
+    v(i) = 100;
+    i = i + 1;
+end; 
+
+while true,
+    v(i) = 999;
+    i = i + 1;
+    if i == 6,
+        break;
+    end
+end
+
+v(1) = 2;
+if v(1) == 1,
+    disp('the val is one');
+elseif v(1) == 2,
+    disp('the val is two');
+else
+    disp('the val is not 1 or 2');
+end;
+=> the val is two
+
+Defining functions
+    Create a file with your function name
+    Filename: squareThisNumber.m
+
+    function y = squareThisNumber(x) % return y, expects argument x
+    y = x^2;
+
+    In terminal, squareThisNumber(5) => returns ans = 25
+    Make sure you're in the same directory as the .m file.
+
+Another example:
+    function [y1, y2] = squareAndCubeThisNumber(x) % returns 2 numbers
+    y1 = x^2;
+    y2 = x^3;
+
+    [a,b] = squareAndCubeThisNumber(5);
+    a = 25
+    b = 125
+
+Third example with the cost function:
+    X = [1 1; 1 2; 1 3]
+    y = [1;2;3]
+    theta = [0;1];
+
+    function J = costFunctionJ(X, y, theta)
+
+    % X is the "design matrix" containing our training examples
+    % y is the class labels
+
+    m = size(X,1);                      % number of training examples
+    predictions = X*theta;              % predictions of hypothesis on all m
+    sqrErrors = (predictions-y).^2;     % squared errors
+
+    J = 1/(2*m) * sum(sqrErrors);
+
+    j = costFunctionJ(X,y,theta);
+        j = 0 since it gives the 45 deg line that fits the data perfectly
+    
+    theta = [0;0];
+    j = costFunctionJ(X,y,theta);
+        j = 2.3333, where (1^2 + 2^2 + 3^2) / (2*m) = 14 / 6
+
 ----------
 
-Vectorization
+Vectorization - making Octave programs run faster
+
+Languages like Octave, MATLAB, Java, C++ etc. have numerical linalg libraries that are
+highly optimized and well written.
+
+Using those libraries instead of writing code yourself makes your code run more efficiently.
+
+Something like multiplying matrices should be done with A*B instead of writing your own function for it.
+
+Hypothesis function example:
+    h_θ(x) = sum(j=0, n) (θ_jx_j)
+           = θ^Tx
+
+    Unvectorized implementation
+        prediction = 0.0;
+        for j = 1:n+1,
+            prediction = prediction + theta(j) * x(j)
+        end;
+
+    Vectorized implementation
+        prediction = theta' * x;
+
