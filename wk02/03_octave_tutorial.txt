@@ -1,0 +1,21 @@
+Basic Operations
+
+----------
+
+Moving Data Around
+
+----------
+
+Computing on Data
+
+----------
+
+Plotting Data
+
+----------
+
+Control Statements (for, while, if statements)
+
+----------
+
+Vectorization
