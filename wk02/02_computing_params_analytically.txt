@@ -1,5 +1,82 @@
-Normal Equation
+Normal Equation - Another way of minimizing the cost function J(θ)
+
+Take J's derivative with respect to each θ_j, then set them to 0. 
+This lets you find the optimum theta without iteration.
+
+Formula:
+    θ = (X^TX)^(-1) * X^Ty
+
+Ex: m = 4
+
+        | size (ft^2) | # bedrooms | # floors | age of home (yrs) | price ($1000)
+    x_0 |     x_1     |     x_2    |    x_3   |       x_4         |      y
+-------------------------------------------------------------------------------------
+     1       2104            5           1            45                460
+     1       1416            3           2            40                232
+     1       1534            3           2            30                315
+     1       852             2           1            36                178
+
+    X = [1 2104 5 1 45]  y = [460]
+        [1 1416 3 2 40]      [232]
+        [1 1534 3 2 30]      [315]
+        [1 852  2 1 36]      [178]
+
+    θ = (X^TX)^(-1) * X^Ty
+    In Octave, θ = pinv(X' * X) * X' * y
+
+General case:
+    m examples (x^(1), y^(1)), ..., (x^(m), y^(m)); n features
+
+    x^(i) = [x_0^(i)]
+            [x_1^(i)]
+            [...]
+            [x_n^(i)] in R^(n+1) 
+
+    X = [--- (x^(1))^T ---]
+        [--- (x^(2))^T ---]
+        [...]
+        [--- (x^(m))^T ---] m x (n+1) matrix
+
+Case with one feature:
+
+    x^(i) = [1]
+            [x_1^(i)]
+
+    X = [1 x_1^(1)]
+        [1 x_2^(1)]
+        [...]
+        [1 x_m^(1)] m x 2 matrix
+
+    y = [y^(1)]
+        [y^(2)]
+        [...]
+        [y^(m)] m x 1 vector
+
+Comparison of gradient descent vs. normal equation
+    GD:
+    need to choose alpha
+    needs many iterations
+    works well when n is large
+    O(kn^2)
+
+    NE:
+    no alpha
+    no iterations
+    slow if n is large
+    O(n^3) to calculate inverse of X^TX
+
+If n>10000, use an iterative process like GD.
 
 ----------
 
 Normal Equation Noninvertibility
+
+When implementing NE in Octave, use the function 'pinv' over 'inv'.
+    Even if X^TX is not invertible, you will still get a θ.
+
+If X^TX is not invertible (singular/degenerate):
+    - There may be redundant features, where 2 features are so closely related or they're linearly dependent
+        - e.g. x_1 = size in ft^2, x_2 = size in m^2
+    - Too many features (m≤n).
+        - Delete some features or use regularization.
+
