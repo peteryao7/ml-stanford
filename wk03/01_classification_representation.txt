@@ -1,0 +1,85 @@
+Classification - want to predict discrete valued y
+
+Examples:
+    - email: spam/not spam?
+    - online transactions: fraudulent?
+    - tumor: malignant/benign?
+
+y∈{0,1}, where 0 is the negative class and 1 negative class
+
+Use linear regression and map all predictions >0.5 as 1 and <0.5 as 0
+    - Doesn't work well since classification is not really linear
+    - If you get a training example really far out, then your regression line flattens out
+    - Can lead to training examples classified as 1 being rounded down to 0
+    - h(x) can also be less than 0 or greater than 1
+
+Binary classification problem
+    - y can take on only 2 values, 0 and 1
+    - ex. spam classifier:
+        - x^(i) represents features of a piece of email
+        - y = 1 if it's spam, y = 0 otherwise, so y∈{0,1}
+        - given x^(i), the corresponding y^(i) is the label of the training example
+
+Logistic regression => 0≤h_θ(x)≤1
+    - Note this is a classification algorithm, despite the name.
+
+----------
+
+Hypothesis Representation - the function to represent h in a classification problem
+
+h(x) = 1 / (1 + e^(-θ^Tx))
+
+To restrict our hypotheses h_θ(x) to satisfy 0≤h(x)≤1, 
+plug θ^Tx into the logistic function (sigmoid function).
+    h(x) = g(θ^Tx)
+    z = θ^Tx
+    g(z) = 1/(1+e^(-z))
+        - all input in R will be mapped to the (0,1) interval
+        - Useful for tranforming an arbitrary-valued function into a function for classification
+
+h_θ(x) is the estimated probability that our output is 1 on input x.
+    - if h_θ(x) is 0.7, there's a 70% chance our output is 1 and a 30% chance it's 0
+    - h_θ(x) = P(y=1|x;θ) = 1 - P(y=0|x;θ)
+    - P(y=0|x;θ) + P(y=1|x;θ) = 1
+
+    Ex: if x = [x_0] = [1]
+               [x_1] = [tumorSize]
+           h_θ(x) = 0.7
+    Tell patient there's a 70% chance of the tumor being malignant.
+
+----------
+
+Decision Boundary - the line that separates the area where y=0 and y=1.
+
+To get our discrete 0 or 1 classification, translate the output of h:
+    h(x) ≥ 0.5 -> y=1
+    h(x) < 0.5 -> y=0
+    With the logistic function, there won't be any problem of h being OOB.
+
+The way g behaves is if the input z is ≥0, then the output g(z) is ≥0.5
+    - So if our input to g is θ^Tx, then:
+        - h(x) = g(θ^Tx) ≥ 0.5 when θ^Tx ≥ 0
+
+Therefore:
+    If θ^Tx ≥ 0, then y = 1
+    If θ^Tx < 0, then y = 0.
+
+Ex. θ = [5;-1;0]
+    y = 1 if 5 + (-1)x_1 + 0x_2 ≥ 0
+    5 - x_1 ≥ 0
+    -x_1 ≥ -5
+    x_1 ≤ 5
+
+Ex. h(x) = g(θ_0 + θ_1x_1 + θ_2x_2)
+    Let θ_0 = -3, θ_1 = 1, θ_2 = 1
+    Then θ = [-3; 1; 1].
+    Predict y=1 if -3 + x_1 + x_2 ≥ 0, what θ^Tx = -3 + x_1 + x_2.
+
+    Decision boundary is a straight vertical line placed on the graph where x_1 = 5.
+    Everything to the left denotes y=1, while right denotes y=0.
+
+Ex. h(x) = g(θ_0 + θ_1x_1 + θ_2x_2 + θ_3(x_1)^2 + θ_4(x_2)^2)
+    θ_0 = -1, θ_1 = 0, θ_2 = 0, θ_3 = 1, θ_4 = 1
+    So θ = [-1;0;0;1;1]
+    Predict y=1 if -1 + (x_1)^2 + (x_2)^2 ≥ 0.
+    Plot x_1^2 + x_2^2 = 1 as your decision boundary.

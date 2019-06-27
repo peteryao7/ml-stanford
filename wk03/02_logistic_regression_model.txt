@@ -1,0 +1,9 @@
+Cost Function
+
+----------
+
+Simplified Cost Function and Gradient Descent
+
+----------
+
+Advanced Optimization

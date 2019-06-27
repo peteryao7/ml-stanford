@@ -1,0 +1,13 @@
+The Problem of Overfitting
+
+----------
+
+Cost Function
+
+----------
+
+Regularized Linear Regression
+
+----------
+
+Regularized Logistic Regression
