@@ -1,5 +1,48 @@
 The Problem of Overfitting
 
+Overfitting can cause linear and logistic regression to act poorly.
+To fix it, we can use regularization.
+
+Ex. Linear regression for housing prices
+
+"underfit" and "high bias" - the model doesn't even fit the training data
+    - the model says the price will vary linearly with the size, but the
+      data says the contrary
+    - e.g. using a linear function to fit data with a quadratic behavior
+
+"overfit" and "high variance" - the moeel fits the training data "too well"
+    - the model could fit all the current data, but is bad at generalizing for new data
+    - almost as if the data could fit any function and is too variable
+    - e.g. using an order 5 polynomial to fit data with a quadratic behavior
+
+"generalize" - how a model can correctly predict new data outside the training data
+
+Ex. Logistic regression
+
+"underfit" - using a straight line to separate positive/negative examples with
+             quadratic behavior
+
+"overfit" - using an order 6 polynomial that contorts itself to make a boundary that
+            goes to great lengths to fit every single training datum
+
+-----
+
+Addressing overfitting:
+
+Plotting the hypothesis and assessing the behavior yourself isn't always the best way.
+
+More often than not, we might have learning problems where we have a bunch of features,
+like size of house, # bedrooms, age of house etc., and it's hard to decide which
+features to keep or not when we don't have much fitting data.
+
+Options:
+    - reduce number of features
+        - manually select which features are most important to keep and which to throw out
+        - model selection algorithm (later in course)
+    - regularization
+        - keep all features, but reduce magnitude/values of parameters θ_j
+        - works well when we have a lot of features, each of which contributes a bit to predicting y
+
 ----------
 
 Cost Function
