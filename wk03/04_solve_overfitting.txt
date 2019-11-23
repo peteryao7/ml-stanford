@@ -45,7 +45,30 @@ Options:
 
 ----------
 
-Cost Function
+Cost Function for Regularization
+
+Let the function θ_0 + θ_1x + θ_2x^2 fit the data well
+and θ_0 + θ_1x + θ_2x^2 + θ_3x^3 + θ_4x^4 overfit the data
+
+Suppose we penalize θ_3 and θ_4 and make them really small:
+
+min_θ 1/(2m) * (sum (i=1, m) (h_θ(x^(i)) - y^(i))^2) + 1000θ_3^2 + 1000θ_4x^2
+where θ_3 and θ_4 are very close to 0.
+
+Small values for parameters θ_0, θ_1, ..., θ_n
+    - "simpler" hypothesis
+    - less prone to overfitting
+
+Ex. Housing:
+    - features: x_1, x_2, ..., x_100
+    - parameters: θ_0, θ_1, ..., θ_100
+
+We have 101 parameters and we don't know which parameters that we should shrink.
+What we can do is take our cost function for linear regeression and modify it to
+shrink all the parameters, then add an extra regularization term at the end:
+
+
+
 
 ----------
 
