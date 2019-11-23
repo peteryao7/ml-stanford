@@ -1,9 +1,76 @@
-Cost Function
+Cost Function for Logistic Regression
+
+If we use the same cost function for logistic regression, the output will be wavy (not convex),
+    resulting in multiple local optima.
+
+How to choose parameters θ?
+
+J(θ) = (1/m) * sum(i=1, m) (Cost(h_θ(x^(i)), y^(i)))
+Cost(h_θ(x), y) = -log(h_θ(x)) if y=1
+Cost(h_θ(x), y) = -log(1-h_θ(x)) if y=0
+
+Graph of J(θ) vs. h_θ(x):
+    When y=1, graph approaches x-axis concave
+    When y=0, graph approaches infinity concave
+        Cost(h_θ(x),y) -> inf if y=0 and h(x) -> 1
+        Cost(h_θ(x),y) -> inf if y=1 and h(x) -> 0
+        Cost(h_θ(x),y) -> inf if y=1 and h(x) -> 0
+        Cost(h_θ(x),y) = 0 if h_θ(x) = y
+
+If the correct answer y is 0, then the cost function will be 0 if h also outputs 0.
+    If h approaches 1, then the cost function approaches infinity.
+
+If the correct answer y is 1, then the cost function will be 0 if h outputs 1.
+    If h approaches 0, then the cost function approaches infinity.
 
 ----------
 
-Simplified Cost Function and Gradient Descent
+Simplified Cost Function and Gradient Descent for Logistic Regression
+
+J(θ) = (1/m) * sum(i=1, m) (Cost(h_θ(x^(i)), y^(i)))
+Cost(h_θ(x), y) = -log(h_θ(x)) if y=1
+Cost(h_θ(x), y) = -log(1-h_θ(x)) if y=0
+
+We can condense the cost function into one equation since y is only 0 or 1:
+
+Cost(h_θ(x),y) = -y*log(h_θ(x)) - (1-y)*log(1-h_θ(x))
+
+If y=1: Cost(h_θ(x),y) = -log(h_θ(x))
+If y=0: Cost(h_θ(x),y) = -log(1-h_θ(x))
+
+J(θ) = -(1/m) * sum(i=1, m) (-y^(i)*log(h_θ(x^(i))) - (1-y^(i))*log(1-h_θ(x^(i))))
+
+To fit parameters θ:
+min_θ J(θ)
+
+To make a prediction given new x:
+Output h_θ(x) = 1/(1+e^(-θ^T*x)) (T = transpose)
+
+---
+
+Gradient descent:
+Take our previous equation for J(θ).
+
+Want min_θ J(θ):
+Repeat {
+    θ_j := θ_j - α*(sum(i=1,m) (h_θ(x^(i)) - y^(i)) * x_j^(i))
+}
+
+^ This looks identical to linear regression, but h_θ(x) = 1/(1+e^(-θ^T*x)) (T = transpose),
+where as h_θ(x) = θ^T(x) is for linear regression.
+
+Quiz: Suppose you are running GD to fit a logistic regression model with 
+parameter θ ∈ R^(n+1). To make sure the learning rate α is set properly, 
+plot the simplified cost function as a function of the number of iterations
+and make sure J(θ) is decreasing on every iteration.
+
+Quiz: To vectorize θ := θ - αδ for some vector δ ∈ R^(n+1), we should use the form
+θ := θ - α*(1/m)*(sum(i=1, m) (h_θ(x^(i)) - y^(i) * x^(i)))
 
 ----------
 
-Advanced Optimization
+Advanced Optimization - faster ways of optimizing θ
+
+Octave functions
+    fminunc() - 
+    optimset() - 
