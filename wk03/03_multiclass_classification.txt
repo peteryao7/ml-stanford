@@ -1,1 +1,38 @@
-Multiclass Classification: One-vs-all
+Multiclass Classification: One-vs-all Classification
+
+Ex. Email foldering/tagging: Work, Friends, Family, Hobby
+                              y=1    y=2      y=3    y=4
+
+Ex. Medical Diagrams: Not ill, Cold, Flu
+                        y=1     y=2  y=3
+
+Ex. Weather: Sunny, Cloudy, Rain, Snow
+              y=1     y=2    y=3   y=4
+
+Can start at y=0
+
+        |    O
+x_2     |   O  O
+        |     O     X X X
+        |            X X
+        |    □ □
+        |     □
+        -------------------
+                x_1
+
+Class 1: O
+Class 2: □
+Class 3: X
+
+We can isolate each class and lump the others into the another "negative class"
+Then we can just treat the problem as a linear regression problem.
+
+h_θ^1(x) - has Os as positive class
+h_θ^2(x) - has □s as positive class
+h_θ^3(x) - has Xs as positive class
+h_θ^(i)(x) = P(y=i|x;θ)
+
+Train a logistic regression classifier h_θ^(i)(x) for each class i to predict
+the probability that y=i.
+On a new input x, to make a prediction, pick the class i that maximizes 
+max_i h_θ^(i)(x).
