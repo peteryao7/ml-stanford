@@ -46,6 +46,10 @@ min_θ J(θ)
 To make a prediction given new x:
 Output h_θ(x) = 1/(1+e^(-θ^T*x)) (T = transpose)
 
+Vectorizing the cost function:
+J(θ) = 1/m * (-y^T*log(h) - (1-y)^T*log(1-h))
+for h = g(Xθ)
+
 ---
 
 Gradient descent:
@@ -71,6 +75,75 @@ Quiz: To vectorize θ := θ - αδ for some vector δ ∈ R^(n+1), we should use
 
 Advanced Optimization - faster ways of optimizing θ
 
-Octave functions
-    fminunc() - 
-    optimset() - 
+Optimizing logistic regression to run much more quickly than it's possible with GD,
+and scaling the machine to bigger ML problems with more features.
+
+With cost function J(θ), we want min_θ J(θ).
+Given θ, we can compute J(θ) and δ/(δθ_j)*J(θ) for j = 0,1,2,...,n
+
+For GD:
+Repeat {
+    θ_j := θ_j - α*δ/(δθ_j)*J(θ)
+}
+
+But there are different algorithms for optimizing min_θ like GD:
+    - conjugate gradient
+    - BFGS
+    - L-BFGS
+
+These algorithms are more complex, but we don't need to pick a learning rate α
+and are often faster at converging than GD. 
+
+Octave has built-in libraries that have implementations for these algorithms, and
+some are more efficient than others.
+
+Ex.
+
+θ = [θ_1]
+    [θ_2]
+
+J(θ) = (θ_1 - 5)^2 + (θ_2 - 5)^2
+δ/(δθ_1) J(θ) = 2(θ_1-5)
+δ/(δθ_2) J(θ) = 2(θ_2-5)
+
+---
+
+function [jVal, gradient] = costFunction(theta)
+    jVal = (theta(1)-5)^2 + (theta(2)-5)^2;
+    gradient = zeros(2,1);
+    gradient(1) = 2 * (theta(1) - 5);
+    gradient(2) = 2 * (theta(2) - 5);
+
+    options = optimset('GradObj', 'on', 'MaxIter', 100); // 100 iterations
+    initialTheta = zeros(2,1); 
+    [optTheta, functionVal, exitFlag] = fminuc(@costFunction, initialTheta, options);
+
+optTheta = 5.000
+           5.000
+
+functionVal = 1.5777e-030
+exitFlag = 1
+
+
+    fminunc() - optimization algorithm, in our case the cost function
+    optimset() - creates an object containing the options we want to send to fminunc()
+
+(initialTheta ∈ R^d for d >= 2)
+(@ - pointer to costFunction)
+(help for info on functions)
+
+---
+
+Applying this to logistic regression
+
+theta = [θ_0]
+        [θ_1]
+        [...]
+        [θ_n]
+
+function [jVal, gradient] = costFunction(theta)
+    jVal = code to compute J(θ);
+    gradient(1) = code to compute δ/(δθ_0) J(θ);
+    gradient(2) = code to compute δ/(δθ_1) J(θ);
+    ...
+    gradient(n+1) = code to compute δ/(δθ_n) J(θ);
