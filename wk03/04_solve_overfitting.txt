@@ -65,15 +65,71 @@ Ex. Housing:
 
 We have 101 parameters and we don't know which parameters that we should shrink.
 What we can do is take our cost function for linear regeression and modify it to
-shrink all the parameters, then add an extra regularization term at the end:
+shrink all the parameters, then add an extra regularization term at the end of the sum:
 
+λ * (sum(i=1, n) θ_j^2
 
+that will shrink every single parameter. λ is the regularization parameter that
+determines how much the costs of the θ parameters are infalted.
 
+Our cost function is now:
+J(θ) = 1/(2m) * (sum(i=1, m) (h_θ(x^(i)) - y^(i))^2) + λ * (sum(i=1, n) θ_j^2)
+
+We can use it to create a much better hypothesis for the data. Although the model
+will still have the original order, the behavior of the model is much closer to
+what it should be.
+
+However, if the regularization parameter λ is set too large, like 10^10, then
+the hypothesis will underfit the data. All the parameters will be close to 0, 
+which is like getting rid of all the hypotheses for each feature.
+
+h_θ(x) = θ_0
+
+which is just a horizontal line, prone to underfitting data.
 
 ----------
 
 Regularized Linear Regression
 
+
+
 ----------
 
 Regularized Logistic Regression
+
+Using GD and the more advanced optimization techniques for regularized logistic regression.
+
+All we need to do is append the regularization to our logistic regression cost function:
+
+J(θ) = -(1/m) * (sum(i=1, m) (y^(i)*log(h_θ(x^(i))) + (1-y^(i))*log(1-h_θ(x^(i)))))
+       + λ/(2m) * sum(j=1, n) θ_j^2
+
+The second term means to explicitly exclue the bias term, θ_0. 
+
+For GD:
+
+Repeat {
+    θ_0 := θ_0 - α * (1/m) * (sum(i=1,m) (h_θ(x^(i)) - y^(i)) * x_0^(i)
+    θ_j := θ_j - α * (1/m) * (sum(i=1,m) (h_θ(x^(i)) - y^(i)) * x_j^(i) + λ/m * θ_j^2) 
+}
+
+where 1/m * sum is the derivative of the cost function with respect to θ_j 
+and h_θ(x) = 1/(1+e^(-θ^Tx))
+
+-----
+
+Advanced optimization:
+
+function [jVal, gradient] = costFunction(theta)
+    jVal = code to compute J(θ);
+    J(θ) = -(1/m) * sum(i=1, m) (y^(i)*log(h_θ(x^(i))) + (1-y^(i))*log(1) - h_θ(x^(i))) + λ/(2m) * sum(j=1, n) θ_j^2
+    gradient(1) = code to compute δ/(δθ_0) J(θ);
+    1/m * sum(i=1, m) (h_θ(x^(i)) - y^(i)) * x_0^(i)
+    gradient(2) = code to compute δ/(δθ_1) J(θ);
+    1/m * (sum(i=1, m) (h_θ(x^(i)) - y^(i))) + λ/m * θ_1
+    gradient(3) = code to compute δ/(δθ_2) J(θ);
+    1/m * (sum(i=1, m) (h_θ(x^(i)) - y^(i))) + λ/m * θ_2
+    ...
+    gradient(n+1) = code to compute δ/(δθ_n) J(θ);
+
+Remember that the regularization is done *after* the summation, not within it.
