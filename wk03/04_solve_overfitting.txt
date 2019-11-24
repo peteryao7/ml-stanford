@@ -91,7 +91,36 @@ which is just a horizontal line, prone to underfitting data.
 
 Regularized Linear Regression
 
+J(θ) = (1/2m) * (sum(i=1, m) (h_θ(x^(i)) - y^(i))^2 + λ * sum(j=1, n) θ_j^2)
+min θ J(θ)
 
+GD:
+
+repeat {
+    θ_0 := θ_0 - α * 1/m * (sum(i=1, m) (h_θ(x^(i)) - y^(i))*x_0^(i))
+    θ_j := θ_j - α * (1/m * (sum(i=1, m) (h_θ(x^(i)) - y^(i))*x_j^(i)) + λ/m * θ_j)
+}
+for j ∈ {1,2,...,n}, not 0]]
+
+Equivalently, θ_j := θ_j(1 - α * λ/m) - α/m * sum(i=1, m) (h_θ(x^(i)) - y^(i)) * x_j^(i)
+
+-----
+
+Normal equation
+
+X = [(x^(1))T]          y = [y^(1)]
+    [   ...  ]              [ ... ]
+    [(x^(m))T]              [y^(m)]
+
+min θ J(θ)
+
+θ = (x^Tx + λ * L)^-1 * X^T * y
+
+where L is a matrix of zeros with 0 at the top left, then 1s down the rest of the diagonal.
+L has a dimension (n+1)x(n+1)
+
+If m < n, then X^TX is non-invertible (singular), but when we add the term λ*L, 
+then X^TX + λ*L is invertible.
 
 ----------
 
@@ -104,7 +133,7 @@ All we need to do is append the regularization to our logistic regression cost f
 J(θ) = -(1/m) * (sum(i=1, m) (y^(i)*log(h_θ(x^(i))) + (1-y^(i))*log(1-h_θ(x^(i)))))
        + λ/(2m) * sum(j=1, n) θ_j^2
 
-The second term means to explicitly exclue the bias term, θ_0. 
+The second term means to explicitly exclude the bias term, θ_0. 
 
 For GD:
 
