@@ -140,3 +140,26 @@ the number always seems to be correct. The hidden layers compute complex
 features upon more complex features for the final layer of logistic
 classifiers, which will make accurate predictions without the numbers
 that the network sees.
+
+----------
+
+Multi-class Classification - Multiple categories to distinguish amongst
+
+The handwritten digit zip code example was an example of multi-class classification
+for a neural network as there were 10 possible categories for recognizing the digits
+from 0-9.
+
+-----
+
+Multiple output units: One-vs-all
+Ex. Given an image, we want to see if it's a pedestrian, car, motorcycle, or truck.
+    - build a neural network with 4 output units so our network outputs a vector of 4 numbers
+    - h_Θ(x) ≈ [1],     h_Θ(x) ≈ [0],   h_Θ(x) ≈ [0],   h_Θ(x) ≈ [0]
+               [0]           [1]           [0]           [0]
+               [0]           [0]           [1]           [0]
+               [0]           [0]           [0]           [1]
+      pedestrian            car          motorcycle        truck
+
+Training set: (x^(1), y^(1)), (x^(2), y^(2)), ..., (x^(m), y^(m))
+
+y^(i) is one of the h_Θ(x) above, then (x^(i), y^(i)) will be one of those vectors.
