@@ -1,0 +1,63 @@
+Examples and Intuitions I 
+
+An example showing how a neural network can compute a complex nonlinear function of the input.
+
+x_1, x_2 are binary (0 or 1).
+
+    |
+x_2 |O          X
+    |
+    |
+    |X          O
+    ---------------
+                x_1
+
+y = x_1 XOR x2
+    x_1 XNOR x_2
+    NOT (x_1 XOR x_2)
+
+-----
+
+Example: AND
+
+x_1, x_2 ∈ {0,1}
+y = x_1 AND x_2
+
++1
+    \ -30
+x_1 - +20 -> O -> h_Θ(x)
+    / +20
+x_2
+
+h_Θ(x) = g(-30 + 20x_1 + 20x_2)
+The numerical values are weights.
+
+Θ_1,0^(1) = -30
+Θ_1,1^(1) = 20
+Θ_1,2^(1) = 20
+
+Due to the behavior of the sigmoid function z, as z goes to inf, g(z) converges asymptotically to 1, 
+and as z goes to -inf, g(z) converges asymptotically to 0.
+
+x_1     x_2  |  h_Θ(x)
+-----------------------
+0       0    |  g(-30) ≈ 0
+0       1    |  g(-10) ≈ 0
+1       0    |  g(-10) ≈ 0
+1       1    |  g(10) ≈ 1
+
+This looks like the truth table for AND.
+
+-----
+
+Example: OR
+
++1
+    \ -10
+x_1 - +20 -> O -> h_Θ(x)
+    / +20
+x_2
+
+h_Θ(x) = g(-30 + 20x_1 + 20x_2)
+
+Then following the previous example, we can derive the truth table for OR.
