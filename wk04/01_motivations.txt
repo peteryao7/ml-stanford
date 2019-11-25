@@ -19,3 +19,36 @@ Computer vision and classification, e.g. car detection:
 
 Neural networks is a better way to learn complex hypotheses and complex nonlinear
 hypothesis, even when the feature space (n) is large.
+
+----------
+
+Neurons and the Brain
+
+Origins of neural networks: algorithms that try to mimic the brain.
+Widely used in the 80s and early 90s, but popularity diminished in the late 90s 
+due to being too computationally complex to run.
+Recently, the resurged as a state-of-the-art technique for many applications.
+
+The "one learning algorithm" hypothesis:
+    - the auditory cortex lets us understand people's voices as the ear routes
+      the sound signal to it
+    - if you cut the wire from the ears to the auditory cortex and reroute the
+      signal from your eyes, it gets routed to the auditory cortex and it will
+      learn to see
+    
+    - the somatosensory cortex lets you process your sense of touch
+    - if you do a similar rewiring process, then it will also learn to see
+    - this means there could be one algorithm that lets people process 
+      sight, sense, and touch and the brain's learning algorithm can deal with it
+
+Sensor representations in the brain:
+    - learning to see with your tongue - BrainPort
+        - processing grayscale images with a camera and running a wire to an
+          array of electrodes on your tongue with differing voltages
+    - human echo location, human sonar by snapping fingers or clicking tongue
+        - blind people can learn to interpret the sounds bouncing on walls by sonar
+          and walk, play sports etc. without colliding into anything
+    - haptic belt: direction sense
+        - buzzers will only buzz if it's facing north
+    - plugging a third eye into a frog
+        - the frog will learn to see and process things with it
