@@ -59,3 +59,88 @@ s_(j+1) x ((s_j) + 1).
 
     For example, if layer 1 (s_1) has 2 units and layer 2 (s_2) has 4 units, then Θ^(1) has dimension
     4 x 3.
+
+----------
+
+Model Representation II
+
+Consider the previous neural network from before.
+
+z_1^(2) = Θ_1,0^(1)*x_0 + Θ_1,1^(1)*x_1 + Θ_1,2^(1)*x_2 + Θ_1,3^(1)*x_3
+so a_1^(2) = g(z_1^(2))
+
+Similarly,
+a_2^(2) = g(z_2^(2))
+a_3^(2) = g(z_3^(2))
+
+We can vectorize the computation of this neural network as so:
+
+x = [x_0]       z^(2) = [z_1^(2)]
+    [x_1]               [z_2^(2)]
+    [x_2]               [z_3^(2)]
+    [x_3]
+
+z^(2) = Θ^(1)*x, where x = a^(1)
+a^(2) = g(z^(2))
+
+Now we have a_1^(2), a_2^(2), a_3^(3). We still need one more value, a_0^(2), a bias unit in the 
+hidden layer going to the output layer. We can just add a_0^(2) = 1, so a^(2) ∈ R^4
+
+Thus,
+z^(3) = Θ^(2)*a^(2)
+h_Θ(x) = a^(3) = g(z^(3)), which is the output layer.
+
+This process of computing h_Θ(x) is called forward propagation.
+
+-----
+
+Neural Network learning its own features
+
+If we only have 2 layers, the input and output layers, it pretty much looks like logistic regression, 
+but rather using the original features x_1, x_2, x_3, it's using the features a_1^(2), a_2^(2), a_3^(2),
+which are learned as functions of the input. 
+
+If we introduce new layers, we can think of the input layer as learning its own features to feed
+into the logistic regression instead of using the raw features.
+
+Consider the network:
+
+x_1     O
+                O
+x_2     O               O
+                O
+x_3     O
+
+Let a^(1) = x ∈ R^(n+1) and denote the input with a_0^(1) = 1.
+To compute a^(2):
+z^(2) = Θ^(1)a^(1)
+a^(2) = g(z^(2))
+
+-----
+
+General case:
+
+Define a new variable z_k^(j) that encompasses the parameters inside g.
+
+a_1^(2) = g(z_1^(2))
+a_2^(2) = g(z_2^(2))
+a_3^(2) = g(z_3^(2))
+
+In other words, for layer j=2 and node k, z will be:
+z_k^(2) = Θ_k,0^(1)*x_0 + Θ_k,1^(1)*x_1 + ... + Θ_k,n^(1)*x_n
+
+where the vector representations of x and z^j are:
+x = [x_0]   z^(j) = [z_1^(j)]
+    [x_1]           [z_2^(j)]
+    [...]           [  ...  ]
+    [x_n]           [z_n^(j)]
+
+Setting x = a^(1), the equation can be written as:
+z^(j) = Θ^(j-1)*a(j-1)
+where Θ^(j-1) has dimensions s_j x (n+1) and a^(j-1) with height n+1.
+
+Then we can calculate:
+a^(j) = g(z^(j))
+
+And finally:
+h_Θ(x) = a^(j+1) = g(z^(j+1))
