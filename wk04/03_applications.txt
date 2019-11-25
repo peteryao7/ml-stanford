@@ -14,7 +14,7 @@ x_2 |O          X
 
 y = x_1 XOR x2
     x_1 XNOR x_2
-    NOT (x_1 XOR x_2)
+    equivalent to NOT (x_1 XOR x_2)
 
 -----
 
@@ -41,10 +41,10 @@ and as z goes to -inf, g(z) converges asymptotically to 0.
 
 x_1     x_2  |  h_Θ(x)
 -----------------------
-0       0    |  g(-30) ≈ 0
-0       1    |  g(-10) ≈ 0
-1       0    |  g(-10) ≈ 0
-1       1    |  g(10) ≈ 1
+ 0       0   |  g(-30) ≈ 0
+ 0       1   |  g(-10) ≈ 0
+ 1       0   |  g(-10) ≈ 0
+ 1       1   |  g(10) ≈ 1
 
 This looks like the truth table for AND.
 
@@ -61,3 +61,82 @@ x_2
 h_Θ(x) = g(-30 + 20x_1 + 20x_2)
 
 Then following the previous example, we can derive the truth table for OR.
+
+----------
+
+Examples and Intuitions II
+
+Ex. Negation
+
++1  \ 10
+            -> O -> h_Θ(x)
+x_1 / -20
+
+h_Θ(x) = g(10 - 20x_1)
+
+x_1  |  h_Θ(x)
+--------------------
+ 0   |  g(10) ≈ 1
+ 1   |  g(-10) ≈ 0
+
+-----
+
+Ex. (NOT x_1) AND (NOT x_2) = 1 iff x_1 = x_2 = 0
+
++1  \ +10
+x_1 - -20 -> O -> h_Θ(x)
+x_2 / -20
+
+Θ^(1) = [10 -20 -20]
+
+-----
+
+Putting it all together: x_1 XNOR x_2
+
+Use the networks for AND, (NOT x_1) AND (NOT x_2), and OR
+
++1          
+        a_1^(2)
+x_1                 a_1^(3)
+        a_2^(2)
+x_2
+
+a_1^(2) calculates AND
+a_2^(2) calculates (NOT x_1) AND (NOT x_2)
+a_1^(3) calculates OR
+
+Vectorizing the network:
+
+[x_0]
+[x_1] -> [a_1^(2)] -> [a^(3)] -> h_Θ(x)
+[x_2]    [a_2^(2)]
+
+Θ^(1) = [-30 20  20]
+         [10 -20 -20]
+
+Θ^(2) = [-10 20 20]
+
+a^(2) = g(Θ^(1)*x)
+a^(3) = g(Θ^(2)*a^(2))
+h_Θ(x) = a^(3)
+
+x_1 x_2  |  a_1^(2)  a_2^(2)  |  h_Θ(x)
+-----------------------------------------
+ 0   0   |    0        1      |    1
+ 0   1   |    0        0      |    0
+ 1   0   |    0        0      |    0
+ 1   1   |    1        0      |    1
+
+-----
+
+Handwritten digit classification
+    - one of the earliest neural network successes was reading zip codes
+    - bottom right cell - input
+    - left columns - hidden layer computations
+    - top bar - predicted value
+
+No matter how we distort the number or add scribbles/lines in the input,
+the number always seems to be correct. The hidden layers compute complex
+features upon more complex features for the final layer of logistic
+classifiers, which will make accurate predictions without the numbers
+that the network sees.
