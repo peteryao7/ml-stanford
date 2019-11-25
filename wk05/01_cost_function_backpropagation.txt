@@ -1,0 +1,37 @@
+Cost Function with Neural Networks
+
+Neural Network (Classification)
+{(x^(1), y^(1)), (x^(2), y^(2)), ..., (x^(m), y^(m))}
+L total number of layers in network
+s_l = # units (not counting bias unit) in layer l
+
+Binary classification: y = 0 or 1
+Only 1 output unit for binary classification: h_Θ(x) ∈ R and s_L = 1 (final layer)
+
+Multi-class classification (K >= 3 classes): y ∈ R^K
+Like the image example from last time, with vectors of K dimenstions that represent
+the correct category as 1 with 0 for everything else
+K output units: h_Θ(x) ∈ R^k and s_L = K
+
+-----
+
+Cost function is a generalization of the one from logistic regression
+Instead of one compression output unit, we have K of them.
+
+For h_Θ(x) ∈ R^K, (h_∈(x))_i = i-th output
+
+J(Θ) = (-1/m) * [sum(i=1, m) sum(k=1, K) y_k^(i)*log(h_Θ(x^(i))_k + (1-y_k^(i))*log(1-(h_Θ(x^(i))_k))]
+       + λ/(2m) * (sum(l=1, L-1) sum(i=1, s_l) sum(j=1, s_(l+1)) (Θ_j,i^(l))^2)
+
+It looks complicated, but it's similar.
+We have an additional nested summation that loops through the number of output nodes.
+The regularization accounts for multiple theta matrices, where the # columns in the current
+theta matrix = # nodes in the current layer (including bias unit), and the # rows in the
+current theta matrix = # nodes in the next layer (excluding bias unit).
+
+The double sum adds up the logistic regression costs calculated for each cell in the output layer.
+The triple sum adds up the squares of all the individual Θs in the whole network.
+The i in the triple sum doesn't refer to the i-th training example.
+
+----------
+
