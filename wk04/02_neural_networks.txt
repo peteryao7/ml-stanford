@@ -1,0 +1,61 @@
+Model Representation I
+
+Neural networks were developed as simulating networks of neurons in the brain.
+The brain is packed full of cells, or neurons. They have a cell body and a 
+number of input wires, or dendrites. They receive inputs from other locations.
+The axon is the output wire used to send signals/messages to other neurons.
+
+Essentially, it's a computational unit that takes in a number of inputs through
+its input wires, does some computation on it, then outputs via its axon to other
+nodes/neurons in the brain. 
+
+Neurons communicate with spikes, or pulses of electricity, through its axon. The
+axon connects to the dendrites of other neurons and uses the output as their input.
+Our senses and muscle movement work the same way.
+
+-----
+
+Neuron model: Logistic unit
+
+x_1 
+    \
+x_2 - O -> h_θ(x)   where h_θ(x) = 1/(1+e^(-θTx))
+    /
+x_3
+
+Sometimes there could be an x_0 unit, known as the bias unit, but typically x_0 = 1.
+
+Sigmoid (logistic) activation function: g(z) = 1/(1+e^-z)
+Weights: parameters (θ)
+
+-----
+
+Neural network - a group of different neurons strung together. 
+
+Inputs (input layer): x_1, x_2, x_3
+Neurons (hidden layer): a_1^(2), a_2^(2), a_3^(2)
+Strung together to a node (output layer) to form output h_Θ(x)
+
+There can be more than one hidden layer, they're any layer that doesn't represent the 
+input or output layers.
+
+a_i^(j) = "activation" of unit i in layer j, starts at layer 2 (1 = input)
+Θ^(j) = matrix of weights controlling function mapping from layer j to layer j+1
+
+        Note the capital theta.
+
+Hidden units:
+a_1^(2) = g(Θ_1,0^(1)*x_0 + Θ_1,1^(1)*x_1 + Θ_1,2^(1)*x_2 + Θ_1,3^(1)*x_3)
+a_2^(2) = g(Θ_2,0^(1)*x_0 + Θ_2,1^(1)*x_1 + Θ_2,2^(1)*x_2 + Θ_2,3^(1)*x_3)
+a_3^(2) = g(Θ_3,0^(1)*x_0 + Θ_3,1^(1)*x_1 + Θ_3,2^(1)*x_2 + Θ_3,3^(1)*x_3)
+
+Output unit: 
+h_Θ(x) = a_1^(3) = g(Θ_1,0^(2)*a_0^(2) + Θ_1,1^(2)*a_1^(2) + Θ_1,2^(2)*a_2^(2) + Θ_1,3^(2)*a_3^(2))
+
+Θ^(1) ∈ R^(3x4) matrix
+
+If a network has s_j untis in layer j, s_(j+1) units in layer j+1, then Θ^(j) will be of dimension 
+s_(j+1) x ((s_j) + 1).
+
+    For example, if layer 1 (s_1) has 2 units and layer 2 (s_2) has 4 units, then Θ^(1) has dimension
+    4 x 3.
