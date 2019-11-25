@@ -1,0 +1,21 @@
+Non-linear Hypotheses - Neural Networks
+
+Non-linear classification with many polynomial terms and a lot of features,
+e.g. housing prices:
+    - g(θ_0 + θ_1*x_1 + θ_2*x_2 + θ_3*x_1*x_2 + θ_4*x_1^2*x_2 + ...)
+    - for a case of n = 100 features, then it can grow to thousands of features,
+      resulting in a growth of O(n^2) features
+    - x_1^2, x_1*x_2, x_1*x_3, ... x_1*x_100, x_2^2 etc.
+    - if you include more features, the number of features goes up to O(n^n)
+
+Computer vision and classification, e.g. car detection:
+    - what is this? (a gray car)
+    - the program sees a matrix of pixel intensity values that is used to
+      see it could be a handle of a car, or a window, or tire etc.
+    - can plot the values of 2 pixels on a plane, then use a nonlinear
+      hypothesis to make a model for whether those pixels could indicate a car
+    - for a 50x50 grayscale pixel image -> 2500 pixels, so n = 2500 values of intensities
+    - for quadratic features, that goes up to ~3 million features
+
+Neural networks is a better way to learn complex hypotheses and complex nonlinear
+hypothesis, even when the feature space (n) is large.
