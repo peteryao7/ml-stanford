@@ -1,0 +1,34 @@
+Deciding What to Try Next
+
+How to decide which algorithm to apply to certain ML problems
+
+-----
+
+Debugging a learning algorithm:
+
+$ you have implemented regularized linear regression to predict housing prices.
+
+J(θ) = (1 / (2*m)) * (sum(i=1, m) (h_θ(x^(i)) - y^(i))^2 + λ*sum(j=1, m) θ_j^2)
+
+However, when you test your hypothesis on a new set of houses, you find that
+it makes unacceptably large errors in its predictions. What should you try next?
+    - get more training examples
+    - try smaller sets of features
+    - try getting additional features
+    - try adding polynomial features (x_1^2, x_2^2, x_1*x_2 etc.)
+    - increasing or decreasing λ
+
+Commonly, people just pick to do what their gut feeling is and waste time trying
+an option that doesn't make sense. 
+
+There's a simple technique that rules out many of those options and saves time.
+
+-----
+
+Machine learning diagnostic:
+
+A diagnostic is a test that you can run to gain insight of what is/isn't working
+with a learning algorithm, and gain guidance as to how best to improve its
+performance.
+
+Diagnostics can take time to implement, but can save a lot of time in the long run.
