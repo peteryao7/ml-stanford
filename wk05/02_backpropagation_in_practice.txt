@@ -61,3 +61,64 @@ Matrix vs. Vector
 
 Matrix - more convenient for FP/BP
 Vector - advanced optimization algorithms assume they were already unrolled
+
+----------
+
+Gradient Checking
+
+BP can be difficult to implement and there are many subtle bugs that can occur
+during implementation. J(Θ) may end up decreasing look like it's working as
+intended, but there might be a higher level of error there compared to if you
+had a bug-free BP implementation. 
+Gradient checking will eliminate almost all of these problems for FP and BP.
+
+-----
+
+Numerical estimation of gradients
+
+To numerically approximate the derivative of J(Θ), take θ on J(Θ) and find a
+θ - ε and θ + ε, then connect the points with a line. Take the slope as an
+approximation to the derivative. 
+
+Then d/dθ J(θ) ≈ (J(θ + ε) - J(θ + ε))/(2*ε)
+where ε is something tiny, like 10^-4
+
+gradApprox = (J(theta + EPSILON) - J(theta - EPSILON)) / (2 * EPSILON);
+
+-----
+
+Parameter vector θ
+
+θ ∈ R^n (where ∈ is the unrolled version of Θ^(1), Θ^(2), Θ^(3))
+θ = [θ_1, θ_2, ..., θ_n]
+
+∂/∂θ_1 J(θ) ≈ J(θ_1 + ε, θ_2, ..., θ_n) - J(θ_1 - ε, θ_2, ..., θ_n) / (2 * ε)
+∂/∂θ_2 J(θ) ≈ J(θ_1, θ_2 + ε, θ_3, ..., θ_n) - J(θ_1, θ_2 - ε, θ_3, ..., θ_n) / (2 * ε)
+...
+∂/∂θ_n J(θ) ≈ J(θ_1, θ_2, θ_3, ..., θ_n + ε) - J(θ_1, θ_2, θ_3, ..., θ_n - ε) / (2 * ε)
+
+EPSILON = 1e-4;
+for i = 1:n,
+    thetaPlus = theta;
+    thetaPlus(i) = thetaPlus(i) + EPSILON;
+    thetaMinus = theta;
+    thetaMinus(i) = thetaMinus(i) - EPSILON
+    gradApprox(i) = (J(thetaPlus) - J(thetaMinus)) / (2 * EPSILON);
+end
+
+Then check that gradApprox ≈ DVec (from BP)
+
+-----
+
+Implementing gradient checking:
+    - implement BP to compute DVec (unrolled D^(1), D^(2), D^(3))
+    - implement numerical gradient check from above to compute gradApprox
+    - make sure they give similar values
+    - turn off gradient checking and use BP for learning
+
+    - be sure to disable GC before training your classifier; if you run GC on every
+      iteration of GD or in the inner loop of costFunction, runtime will be very slow
+      as GC is quite slow
+
+----------
+
