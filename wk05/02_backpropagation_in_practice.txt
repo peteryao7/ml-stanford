@@ -122,3 +122,64 @@ Implementing gradient checking:
 
 ----------
 
+Random Initialization
+
+Initial value of Θ
+
+For GD and advanced optimization method, need initial value for Θ.
+    optTheta = fminunc(@costFunction, initialTheta, options)
+
+Consider GD: set initialTheta = zeros(n,1)?
+    - OK in logistic regression, but not sufficient for training NN
+    - If you set every value to 0, then every unit in the corresponding hidden layer
+      will be the same and every delta value will be identical.
+    - Every weight is the same, and for each subsequent iteration of GD, all the weights
+      will keep staying the same, meaning they're computing the same feature
+
+-----
+
+The solution: Random initialization
+
+Initialize each Θ_i,j^(l) to a random value in [-ε,ε]
+
+Theta1 = rand(10,11) * (2 * INIT_EPSILON) - INIT_EPSILON;
+Theta2 = rand(1,11) * (2 * INIT_EPSILON) - INIT_EPSILON;
+
+rand(m,n) will compute a matrix of size m x n with random values between 0 and 1
+
+Note that this ε is different from that from GC.
+
+----------
+
+Putting It Together
+
+Training a NN
+
+First, pick a network architecture (connetivity pattern btwn neurons)
+    - choose how many hidden units for each hidden layer and how many hidden layers you want
+    - # input units: dimension of features x^(i)
+    - # output units: # classes
+    - reasonable default: 1 hidden layer, or if >1 hidden layer, have same # hidden units in every layer
+        - usually the more the better
+
+1) Randomly initialize weights (near 0 within |ε|)
+2) Implement FP to get h_Θ(x^(i)) for any x^(i)
+3) Implement code to compute cost function J(Θ)
+4) Implement BP to compute partial derivatives ∂/∂Θ_j,k^(l) J(Θ)
+
+for i = 1:m
+    perform FP and BP for example (x^(i),y^(i))
+    (get activations a^(l) and delta terms δ^(l) for l = 2, ..., L from FP and BP)
+    Δ^(l) := Δ^(l) + δ^(l+1)*a^(l)^T
+end
+
+compute ∂/∂Θ_j,k^(l) J(Θ)
+
+5) Use GC to compare ∂/∂Θ_j,k^(l) J(Θ) from BP vs. numerical estimate of gradient of J(Θ)
+   Then disable GC code
+6) Use GD or advanced optimization like LBGS with BP to try to minimize J(Θ) as a function of
+   parameters Θ
+
+J(Θ) can be non-convex, so it is susceptible to local optima, but GD will typically either
+converge to the global minimum, or at least a very close local minimum. Ideally, we want
+h_Θ(x^(i)) ≈ y^(i), which minimizes our cost function. 
