@@ -145,7 +145,7 @@ Now with our training and test set, we have ((x_cv^(1),y_cv^(1)), ..., (x_cv^(m_
 for our CV set.
 
 The CV error is also similar:
-J_cv(θ) = (1/2m_cv) * sum(i=1, m_cv) (h_θ(x_cv^(i)) - y_cv^(i))^2
+J_cv(θ) = (1/(2*m_cv)) * sum(i=1, m_cv) (h_θ(x_cv^(i)) - y_cv^(i))^2
 
 -----
 

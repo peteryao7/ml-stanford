@@ -1,0 +1,33 @@
+Diagnosing Bias vs. Variance
+
+If your learning algorithm isn't running as well as you're hoping, it's because
+you have either a high bias or high variance problem, in other words, an
+underfitting or overfitting problem. Distinguishing which one it is is critical in 
+improving your algorithm.
+
+If d is too low, it can underfit, and if d is too high, it can overfit.
+
+Training error: J_train(θ) = (1 / (2*m)) sum(i=1, m) (h_θ(x(i)) - y^(i))^2
+CV error (or J_test(θ)): J_cv(θ) = (1/(2*m_cv)) * sum(i=1, m_cv) (h_θ(x_cv^(i)) - y_cv^(i))^2
+
+If we graphed the degree of polynomial d against the error, we can see that:
+    - J_train(θ) will produce a concave curve in behavior, approaching 0 as d -> inf
+    - J_cv(θ) will produce an upward-facing parabolic curve in behavior,
+      somewhere around the vertex is where the optimal value of d will be
+
+-----
+
+Suppose your learning algorithm is performing less well than you were hoping (J_cv(θ) or J_test(θ) is high).
+Is it a bias or variance problem?
+
+If you're fitting a low degree polynomial, it's a bias (underfitting) problem.
+    - J_cv(θ) and J_train(θ) are both high
+    - J_cv(θ) ≈ J_train(θ), cv possibly higher
+If you're fitting a high degree polynomial, it's a variance (overfitting) problem.
+    - J_cv(θ) is high, J_train(θ) is low
+    - J_cv(θ) >> J_train(θ) (much greater than)
+
+E.g. if J_train(θ) = 0.10 and J_cv(θ) = 0.30, then you have a high variance (overfitting) problem.
+
+==================================================
+
