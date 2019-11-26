@@ -97,3 +97,60 @@ Test error = 1 / m_test * sum(i=1, m_test) err(h_θ(x_test^(i)), y_test^(i))
 
 which gives us the proportion of the test data that was misclassified.
 
+==================================================
+
+Model Selection and Train/Validation/Test Sets
+
+Once parameters θ_0, θ_1, ..., θ_n were fit to some set of data (training set), the error
+of the parameters as measured on that data (the training error J(θ)) is likely to be lower than
+the actual generalization error.
+
+-----
+
+Model Selection
+d=1) h_θ(x) = θ_0 + θ_1x                                    => θ^(1) => J_test(θ^(1))
+d=2) h_θ(x) = θ_0 + θ_1x + θ_2x^2                           => θ^(2) => J_test(θ^(2))
+d=3) h_θ(x) = θ_0 + θ_1x + θ_2x^2 + θ_3x^3                  => θ^(3) => J_test(θ^(3))
+...
+d=10) h_θ(x) = θ_0 + θ_1x + θ_2x^2 + ... + θ_10x^10         => θ^(10) => J_test(θ^(10))
+
+$ we chose θ_0 + ... + θ_5x^5
+How well does the model generalize? Report test set error J_test(θ^(5)).
+Problem: J_test(θ^(5)) is likely to be an optimistic estimate of generalization error, so it 
+may not do as well on new data compared to our current test set.
+I.e. our extra parameter (d = deg of polynomial) is fit to the test set.
+
+-----
+
+Evaluating your hypothesis
+
+Splitting our dataset into 3 pieces:
+
+size    price
+2104    400     
+1600    330
+2400    369
+1416    232     Use these 6 examples for our training set
+3000    540
+1985    300
+-------------
+1534    315     Use these 2 examples for our cross validation (CV) set
+1427    199
+-------------
+1380    212     Use these 2 examples for our test set
+1494    243
+
+We can split the data up 60/20/20 for our new training/CV/test sets.
+Now with our training and test set, we have ((x_cv^(1),y_cv^(1)), ..., (x_cv^(m_cv),y_cv^(m_cv)))
+for our CV set.
+
+The CV error is also similar:
+J_cv(θ) = (1/2m_cv) * sum(i=1, m_cv) (h_θ(x_cv^(i)) - y_cv^(i))^2
+
+-----
+
+Now we can select our model from before based on the lowest CV error.
+
+Say J_cv(θ^(4)) gave us the lowest CV error, so we would pick:
+θ_0 + θ_1x_1 + ... + θ_4x^4
+for our model, and we avoid training the degree of the polynomial d with the test set.
