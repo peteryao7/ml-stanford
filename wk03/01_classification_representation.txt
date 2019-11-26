@@ -23,7 +23,7 @@ Binary classification problem
 Logistic regression => 0≤h_θ(x)≤1
     - Note this is a classification algorithm, despite the name.
 
-----------
+==================================================
 
 Hypothesis Representation - the function to represent h in a classification problem
 
@@ -47,7 +47,7 @@ h_θ(x) is the estimated probability that our output is 1 on input x.
            h_θ(x) = 0.7
     Tell patient there's a 70% chance of the tumor being malignant.
 
-----------
+==================================================
 
 Decision Boundary - the line that separates the area where y=0 and y=1.
 

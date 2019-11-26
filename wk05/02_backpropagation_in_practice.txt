@@ -62,7 +62,7 @@ Matrix vs. Vector
 Matrix - more convenient for FP/BP
 Vector - advanced optimization algorithms assume they were already unrolled
 
-----------
+==================================================
 
 Gradient Checking
 
@@ -120,7 +120,7 @@ Implementing gradient checking:
       iteration of GD or in the inner loop of costFunction, runtime will be very slow
       as GC is quite slow
 
-----------
+==================================================
 
 Random Initialization
 
@@ -149,7 +149,7 @@ rand(m,n) will compute a matrix of size m x n with random values between 0 and 1
 
 Note that this ε is different from that from GC.
 
-----------
+==================================================
 
 Putting It Together
 

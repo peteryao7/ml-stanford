@@ -62,7 +62,7 @@ h_Θ(x) = g(-30 + 20x_1 + 20x_2)
 
 Then following the previous example, we can derive the truth table for OR.
 
-----------
+==================================================
 
 Examples and Intuitions II
 
@@ -141,7 +141,7 @@ features upon more complex features for the final layer of logistic
 classifiers, which will make accurate predictions without the numbers
 that the network sees.
 
-----------
+==================================================
 
 Multi-class Classification - Multiple categories to distinguish amongst
 

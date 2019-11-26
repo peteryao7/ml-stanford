@@ -22,7 +22,7 @@ Algorithm:
         θ_0 := temp0
         θ_1 := temp1
 
-----------
+==================================================
 
 Gradient Desent Intuition
 
@@ -40,7 +40,7 @@ If α is too large, gradient descent can overshoot the minimum and fail to conve
 
 If θ_1 is already at the local minimum, the derivative will = 0 and θ_1 won't change.
 
-----------
+==================================================
 
 Gradient Descent for Linear Regression
 

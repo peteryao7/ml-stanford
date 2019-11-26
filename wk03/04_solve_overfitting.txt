@@ -43,7 +43,7 @@ Options:
         - keep all features, but reduce magnitude/values of parameters θ_j
         - works well when we have a lot of features, each of which contributes a bit to predicting y
 
-----------
+==================================================
 
 Cost Function for Regularization
 
@@ -87,7 +87,7 @@ h_θ(x) = θ_0
 
 which is just a horizontal line, prone to underfitting data.
 
-----------
+==================================================
 
 Regularized Linear Regression
 
@@ -122,7 +122,7 @@ L has a dimension (n+1)x(n+1)
 If m < n, then X^TX is non-invertible (singular), but when we add the term λ*L, 
 then X^TX + λ*L is invertible.
 
-----------
+==================================================
 
 Regularized Logistic Regression
 

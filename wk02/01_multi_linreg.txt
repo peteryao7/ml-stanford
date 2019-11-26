@@ -25,7 +25,8 @@ Ex. Features of a house
     x_2 = # floors
 
     h(x) = 80 + 0.1x_1 + 0.01x_2 + 3x_3 - 2x_4 (x_4 = age of house, so value goes down the older it gets)
-----------
+
+==================================================
 
 Gradient Descent for Multiple Variables
 
@@ -51,7 +52,7 @@ Algorithm for n features:
 
         θ_j := θ_j - α * 1/m * sum(i=1, m) (h_θ(x^(i)) - y^(i)) * x_j^(i) for j := 0...n
 
-----------
+==================================================
 
 Gradient Descent in Practice I - Feature Scaling
 
@@ -76,7 +77,7 @@ To implement both techniques:
     µ_i = avg of all values for feature i
     s_i = range of values (max - min), or standard deviation
 
-----------
+==================================================
 
 Gradient Descent in Practice II - Learning Rate (α)
 
@@ -98,7 +99,7 @@ If α is too big, J(θ) may not decrease every iteration, may not lead to conver
 
 When choosing α, try ..., 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1, ...
 
-----------
+==================================================
 
 Features and Polynomial Regressions
 

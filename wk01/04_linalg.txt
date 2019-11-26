@@ -34,7 +34,7 @@ Octave notation:
     Index into 2nd row 3rd col of matrix A
         A_23 = A(2,3) => 6
 
-----------
+==================================================
 
 Addition and Scalar Multiplication
 
@@ -59,7 +59,7 @@ Octave notation:
     Add scalar to matrix
         add_As = A + s => adds s to every value in matrix
 
-----------
+==================================================
 
 Matrix-Vector Multiplication
 
@@ -73,7 +73,7 @@ m x n matrix multiplied by an n x 1 vectors results in a m x 1 vector.
 
 Can multiply a matrix and vector the same way as with a scalar.
 
-----------
+==================================================
 
 Matrix-Matrix Multiplication
 
@@ -91,7 +91,7 @@ The # cols in matrix 1 must equal the # rows in matrix 2.
 
 Can multiple 2 matrices the same way as with a scalar.
 
-----------
+==================================================
 
 Matrix Multiplication Properties
 
@@ -107,7 +107,7 @@ Octave notation:
     Initialize a 2x2 identity matrix
         I = eye(2)
 
-----------
+==================================================
 
 Inverse and Transpose
 

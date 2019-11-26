@@ -20,7 +20,7 @@ Computer vision and classification, e.g. car detection:
 Neural networks is a better way to learn complex hypotheses and complex nonlinear
 hypothesis, even when the feature space (n) is large.
 
-----------
+==================================================
 
 Neurons and the Brain
 

@@ -67,7 +67,7 @@ Comparison of gradient descent vs. normal equation
 
 If n>10000, use an iterative process like GD.
 
-----------
+==================================================
 
 Normal Equation Noninvertibility
 

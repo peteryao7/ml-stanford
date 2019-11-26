@@ -41,7 +41,7 @@ eye(4) % 4x4 identity matrix
 
 help command for description of command
 
-----------
+==================================================
 
 Moving Data Around
 
@@ -84,7 +84,7 @@ B = [11 12; 13 14; 15 16]
 C = [A B] (or [A, B]) concatenates A and B together to make a 3x4 matrix
 C = [A; B] puts A on top of B to make a 6x2 matrix 
 
-----------
+==================================================
 
 Computing on Data
 
@@ -163,7 +163,7 @@ flipud(eye(3)) [0 0 1]
 pinv(A) to get inverse of A
 A * pinv(A) returns matrix close to A with roundoff error
 
-----------
+==================================================
 
 Plotting Data
 
@@ -206,7 +206,7 @@ Command chaining
     a=1, b=2, c=3
     a=1; b=2; c=3 won't print out anything
 
-----------
+==================================================
 
 Control Statements (for, while, if statements)
 
@@ -282,7 +282,7 @@ Third example with the cost function:
     j = costFunctionJ(X,y,theta);
         j = 2.3333, where (1^2 + 2^2 + 3^2) / (2*m) = 14 / 6
 
-----------
+==================================================
 
 Vectorization - making Octave programs run faster
 

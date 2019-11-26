@@ -33,7 +33,7 @@ The double sum adds up the logistic regression costs calculated for each cell in
 The triple sum adds up the squares of all the individual Θs in the whole network.
 The i in the triple sum doesn't refer to the i-th training example.
 
-----------
+==================================================
 
 *** Backpropagation Algorithm *** - minimizing the cost function
 
@@ -87,7 +87,7 @@ For example, for 2 training examples (x^(1), y^(1)) and (x^(2), y^(2)), to compu
 gradient, you'd calculate FP using x^(1) followed by BP using y^(1), then FP using x^(2)
 followed by BP using y^(2).
 
-----------
+==================================================
 
 Backpropagation Intuition
 

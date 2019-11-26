@@ -22,9 +22,7 @@ ML Examples:
 AI Problem - building truly intelligent machines that humans can do
     How to make progress? Neural networks: mimic how the human brain works.
 
-
-
-----------
+==================================================
 
 Supervised Learning - All the correct answers are given
 
@@ -55,7 +53,7 @@ Problem: Running a company, want to develop learning algs to address both proble
     Problem 2: Want software to examine individual customer accounts, and for each account decide if it has been hacked/compromised.
         Classification problem
 
-----------
+==================================================
 
 Unsupervised Learning - here's a data set, can you find some kind of structure in it?
 

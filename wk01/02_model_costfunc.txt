@@ -20,7 +20,7 @@ How do we represent h?
     h_θ(x) = θ_0 + θ_1x represents a line (think y = mx + b)
     h(x) is shorthand for h_θ(x)
 
-----------
+==================================================
 
 Cost Function - Fitting the best possible straight line to our data
 
@@ -34,7 +34,7 @@ How to find the best fit line for the data?
         minimize θ_0θ_1 -> J(θ_0, θ_1) = (1/2m) * sum(i=1, m)(h(x^(i)) - y^(i))^2
     Cost function (squared error function) is the sum J(θ_0, θ_1).
 
-----------
+==================================================
 
 Cost Function Intuition I - Global Minimum of J(θ_1)
 
@@ -51,7 +51,7 @@ For θ_1 = 1
         point at (1,0)
         Want to find the global minimum of the function graphed to find the best θ_1
 
-----------
+==================================================
 
 Cost Function Intuition II - Contour Plots (nonzero θ_0)
 

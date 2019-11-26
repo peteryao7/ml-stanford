@@ -23,7 +23,7 @@ If the correct answer y is 0, then the cost function will be 0 if h also outputs
 If the correct answer y is 1, then the cost function will be 0 if h outputs 1.
     If h approaches 0, then the cost function approaches infinity.
 
-----------
+==================================================
 
 Simplified Cost Function and Gradient Descent for Logistic Regression
 
@@ -50,7 +50,7 @@ Vectorizing the cost function:
 J(θ) = 1/m * (-y^T*log(h) - (1-y)^T*log(1-h))
 for h = g(Xθ)
 
----
+-----
 
 Gradient descent:
 Take our previous equation for J(θ).
@@ -71,7 +71,7 @@ and make sure J(θ) is decreasing on every iteration.
 Quiz: To vectorize θ := θ - α∂ for some vector ∂ ∈ R^(n+1), we should use the form
 θ := θ - α*(1/m)*(sum(i=1, m) (h_θ(x^(i)) - y^(i) * x^(i)))
 
-----------
+==================================================
 
 Advanced Optimization - faster ways of optimizing θ
 
@@ -106,7 +106,7 @@ J(θ) = (θ_1 - 5)^2 + (θ_2 - 5)^2
 ∂/(∂θ_1) J(θ) = 2(θ_1-5)
 ∂/(∂θ_2) J(θ) = 2(θ_2-5)
 
----
+-----
 
 function [jVal, gradient] = costFunction(theta)
     jVal = (theta(1)-5)^2 + (theta(2)-5)^2;
@@ -132,7 +132,7 @@ exitFlag = 1
 (@ - pointer to costFunction)
 (help for info on functions)
 
----
+-----
 
 Applying this to logistic regression
 
