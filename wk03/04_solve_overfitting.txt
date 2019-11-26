@@ -152,13 +152,13 @@ Advanced optimization:
 function [jVal, gradient] = costFunction(theta)
     jVal = code to compute J(θ);
     J(θ) = -(1/m) * sum(i=1, m) (y^(i)*log(h_θ(x^(i))) + (1-y^(i))*log(1) - h_θ(x^(i))) + λ/(2m) * sum(j=1, n) θ_j^2
-    gradient(1) = code to compute δ/(δθ_0) J(θ);
+    gradient(1) = code to compute ∂/(∂θ_0) J(θ);
     1/m * sum(i=1, m) (h_θ(x^(i)) - y^(i)) * x_0^(i)
-    gradient(2) = code to compute δ/(δθ_1) J(θ);
+    gradient(2) = code to compute ∂/(∂θ_1) J(θ);
     1/m * (sum(i=1, m) (h_θ(x^(i)) - y^(i))) + λ/m * θ_1
-    gradient(3) = code to compute δ/(δθ_2) J(θ);
+    gradient(3) = code to compute ∂/(∂θ_2) J(θ);
     1/m * (sum(i=1, m) (h_θ(x^(i)) - y^(i))) + λ/m * θ_2
     ...
-    gradient(n+1) = code to compute δ/(δθ_n) J(θ);
+    gradient(n+1) = code to compute ∂/(∂θ_n) J(θ);
 
 Remember that the regularization is done *after* the summation, not within it.

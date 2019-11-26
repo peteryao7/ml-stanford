@@ -68,7 +68,7 @@ parameter θ ∈ R^(n+1). To make sure the learning rate α is set properly,
 plot the simplified cost function as a function of the number of iterations
 and make sure J(θ) is decreasing on every iteration.
 
-Quiz: To vectorize θ := θ - αδ for some vector δ ∈ R^(n+1), we should use the form
+Quiz: To vectorize θ := θ - α∂ for some vector ∂ ∈ R^(n+1), we should use the form
 θ := θ - α*(1/m)*(sum(i=1, m) (h_θ(x^(i)) - y^(i) * x^(i)))
 
 ----------
@@ -79,11 +79,11 @@ Optimizing logistic regression to run much more quickly than it's possible with 
 and scaling the machine to bigger ML problems with more features.
 
 With cost function J(θ), we want min_θ J(θ).
-Given θ, we can compute J(θ) and δ/(δθ_j)*J(θ) for j = 0,1,2,...,n
+Given θ, we can compute J(θ) and ∂/(∂θ_j)*J(θ) for j = 0,1,2,...,n
 
 For GD:
 Repeat {
-    θ_j := θ_j - α*δ/(δθ_j)*J(θ)
+    θ_j := θ_j - α*∂/(∂θ_j)*J(θ)
 }
 
 But there are different algorithms for optimizing min_θ like GD:
@@ -103,8 +103,8 @@ Ex.
     [θ_2]
 
 J(θ) = (θ_1 - 5)^2 + (θ_2 - 5)^2
-δ/(δθ_1) J(θ) = 2(θ_1-5)
-δ/(δθ_2) J(θ) = 2(θ_2-5)
+∂/(∂θ_1) J(θ) = 2(θ_1-5)
+∂/(∂θ_2) J(θ) = 2(θ_2-5)
 
 ---
 
@@ -143,7 +143,7 @@ theta = [θ_0]
 
 function [jVal, gradient] = costFunction(theta)
     jVal = code to compute J(θ);
-    gradient(1) = code to compute δ/(δθ_0) J(θ);
-    gradient(2) = code to compute δ/(δθ_1) J(θ);
+    gradient(1) = code to compute ∂/(∂θ_0) J(θ);
+    gradient(2) = code to compute ∂/(∂θ_1) J(θ);
     ...
-    gradient(n+1) = code to compute δ/(δθ_n) J(θ);
+    gradient(n+1) = code to compute ∂/(∂θ_n) J(θ);
