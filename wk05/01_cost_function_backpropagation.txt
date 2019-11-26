@@ -37,4 +37,52 @@ The i in the triple sum doesn't refer to the i-th training example.
 
 *** Backpropagation Algorithm *** - minimizing the cost function
 
-Want to find min Θ J(Θ), so we need code to compute J(Θ) and ∂/∂Θ_i,j^(l)
+Want to find min Θ J(Θ) like from GD, so we need code to compute J(Θ) and ∂/∂Θ_i,j^(l) J(Θ).
+
+-----
+
+Gradient computation
+
+Ex. a neural network:
+s_1 = 3, s_2 = 5, s_3 = 5, s_4 = 4
+
+Given one training example (x,y), we can apply forward propagation 
+to see the output from the input:
+a^(1) = x
+z^(2) = Θ^(1)a^(1)
+a^(2) = g(z^(2))    (add bias term a_0^(2))
+z^(3) = Θ^(2)a^(2)
+a^(3) = g(z^(3))    (add bias term a_0^(3))
+z^(4) = Θ^(3)a^(3)
+a^(4) = h_Θ(x) = g(z^(4))
+
+To compute the derivatives (gradient computation), we use the backpropagation algorithm:
+
+Intuition: δ_j^(l) = "error" of node j in layer l.
+
+For each output unit (layer L = 4):
+δ_j^(4) = a_j^(4) - y_j
+Where a_j^(4) = h_Θ(x)_j and y_j is from our training set
+
+δ^(3) = (Θ^(3))^T * δ^(4) .* g'(z^(3)) where g'(z^(3)) = a^(3) .* (1-a^(3))
+δ^(2) = (Θ^(2))^T * δ^(3) .* g'(z^(2)) where g'(z^(2)) = a^(2) .* (1-a^(2))
+
+We start by computing the delta term for the output layer, then we go back a layer to 
+calculate the delta terms until we reach the input layer, which has no delta.
+
+-----
+
+Backpropagation algorithm:
+Training set {(x^(1), y^(1)),..., (x^(m), y^(m))}
+Set Δ_i,j^(l) = 0 (for all l, i, j)
+For i = 1 to m
+    Set a^(1) = x^(i)
+    Perform forward propagation to compute a^(l) for l = 2,3,...,L
+    Using y^(i), compute δ^(L) = a^(L) - y^(i)
+    Compute δ^(L-1), δ^(L-2), ..., δ^(2)
+    Δ_i,j^(l) := Δ_i,j^(l) + a_j^(l)*δ_i^(l+1) // can also be vectorized
+end
+
+For example, for 2 training examples (x^(1), y^(1)) and (x^(2), y^(2)), to compute the
+gradient, you'd calculate FP using x^(1) followed by BP using y^(1), then FP using x^(2)
+followed by BP using y^(2).
