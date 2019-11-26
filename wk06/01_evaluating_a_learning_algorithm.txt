@@ -32,3 +32,68 @@ with a learning algorithm, and gain guidance as to how best to improve its
 performance.
 
 Diagnostics can take time to implement, but can save a lot of time in the long run.
+
+==================================================
+
+Evaluating a Hypothesis
+
+When we fit the parameters of our learning algorithm, we think about choosing params
+that minimize the training error. However, getting a low training error introduces
+the risk of overfitting our data, which is terrible for generalizing new data.
+
+One thing we can do is simply plot the data, but what about data with a ton of
+features? 
+
+Suppose we have a data set:
+
+size    price
+2104    400     
+1600    330
+2400    369
+1416    232     Use these 7 examples for our training set
+3000    540
+1985    300
+1534    315
+-------------
+1427    199
+1380    212     Use these 3 examples for our test set
+1494    243
+
+We can split the data up 70/30 for our new training/test sets.
+
+Now we have in our training set ((x^(1),y^(1)), ..., (x^(m),y^(m))) and 
+(x_test^(1),y_test^(1), ..., (x_test^(m_test),y_test^(m_test))), where
+m_test is the # of test examples.
+
+If your data is ordered, then you should randomly shuffle your training set, then
+pick the first 70% of data in your training set, otherwise you can pick the first
+70% without shuffling.
+
+-----
+
+Training/testing procedure for linear regression
+
+Learn parameter θ from training data, minimizing error J(θ)
+Compute test set error:
+J_test(θ) = (1 / (2*m_test)) * sum(i=1, m_test) (h_θ(x_test^(i)) - y_test^(i))^2
+
+-----
+
+Training/testing procedure for logistic regression
+
+Learn parameter θ from training data
+Compute test set error:
+J_test(θ) = (-1 / m_test) * sum(i=1, m_test) (y_test^(i) * log(h_θ(x_test^(i))) + (1-y_test^(i)) * log(h_θ(x_test^(i))))
+
+Sometimes there's an alternative test set metric that's easier to interpret, the misclassification error:
+err(h_θ(x), y) = 1 if h_θ(x) >= 0.5, y = 0
+                   or h_θ(x) < 0.5, y = 1
+                 0 otherwise
+
+This gives us a binary 0 or 1 error result based on a misclassification. 
+The average test error for the test set is:
+
+Test error = 1 / m_test * sum(i=1, m_test) err(h_θ(x_test^(i)), y_test^(i))
+
+which gives us the proportion of the test data that was misclassified.
+
