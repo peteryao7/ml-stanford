@@ -86,3 +86,48 @@ end
 For example, for 2 training examples (x^(1), y^(1)) and (x^(2), y^(2)), to compute the
 gradient, you'd calculate FP using x^(1) followed by BP using y^(1), then FP using x^(2)
 followed by BP using y^(2).
+
+----------
+
+Backpropagation Intuition
+
+Closer look at FP
+
+  +1                        +1                       +1
+
+ x_1                z_1^(2) -> a_1^(2)       z_1^(3) -> a_1^(3)    ->   z_1^(4) -> a_1^(4)
+
+ x_2                z_2^(2) -> a_2^(2)       z_2^(3) -> a_2^(3)
+
+(x^(i), y^(i))
+
+z_1^(3) = Θ_1,0^(2) * 1 + Θ_1,1^(2) * a_1^(2) + Θ_1,2^(2) * a_1^(2)
+
+-----
+
+What is BP doing?
+
+Focusing on a single example (x^(i), y^(i)), the case of 1 output unit, and ignoring
+regularization (λ = 0),
+
+cost(i) = y^(i)*log(h_Θ(x^(i)))) + (1 - y^(i)) * log(h_Θ(x^(i)))
+Think of cost(i) ≈ (h_Θ(x^(i)) - y^(i))^2, or how well is the network doing on example i?
+
+δ_j^(l) = "error" of cost for a_j^(l) (unit j in layer l).
+Formally, δ_j^(l) = ∂/∂z_j^(l) cost(i) for j >= 0, where
+cost(i) = y^(i)*log(h_Θ(x^(i)))) + (1 - y^(i)) * log(h_Θ(x^(i)))
+
+Back to this network:
+
+  +1                        +1                       +1
+
+ x_1                z_1^(2) -> a_1^(2)       z_1^(3) -> a_1^(3)    ->   z_1^(4) -> a_1^(4)
+
+ x_2                z_2^(2) -> a_2^(2)       z_2^(3) -> a_2^(3)
+
+δ_1^(4) in the last layer = y^(i) - a_1^(4)
+Using that, we can calculate δ_1^(3) and δ_2^(3), then δ_1^(2) and δ_2^(2). Imagine that we're
+going backwards in the NN.
+
+δ_2^(3) = Θ_1,2^(3)*δ_1^(4)
+δ_2^(2) = Θ_1,2^(2)*δ_1^(3) + Θ_2,2^(2)*δ_2^(3)
