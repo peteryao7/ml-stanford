@@ -1,0 +1,28 @@
+Autonomous Driving Example
+
+Autonomous driving - getting a car to learn to drive itself.
+
+Dean Pomerleau - CMU: ALVINN
+    - ALVINN is a series of neural networks that learns to steer by watching a person drive
+    - lower left: the front view seen by the car
+    - top: first horizontal bar shows direction selected by human driver, second
+      bar shows steering direction selected by learning algorithm from NN
+        - before the NN starts learning, the network is a gray band, meaning
+          it started randomly initialized
+        - then after learning, it outputs a solid white band that is more confidently
+          selecting a band in one particular location
+
+Training procedure for ALVINN
+    - person drives as ALVINN watches
+    - once every 2 seconds, ALVINN digitizes a video image of the road ahead, and records
+      the steering direction
+    - the training image is reduced to a 30x32 image as input for ALVINN's 3-layered network
+    - BP trains ALVINN to produce output as the same steering direction as the 
+      human driver for that image
+    - at first it's random, but after 2 minutes ALVINN can imitate the steering reactions
+    - then the process is repeated for other road types
+
+Intersections
+    - when a vehicle approaches an intersection, the confidence of the lone lane network decreases
+    - when it crosses it and the 2-lane road comes into view, the confidence rises
+    - then the 2-lane network is selected to steer and guide the vehicle
