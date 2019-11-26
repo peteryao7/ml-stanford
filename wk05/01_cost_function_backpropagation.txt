@@ -35,3 +35,6 @@ The i in the triple sum doesn't refer to the i-th training example.
 
 ----------
 
+*** Backpropagation Algorithm *** - minimizing the cost function
+
+Want to find min Θ J(Θ), so we need code to compute J(Θ) and ∂/∂Θ_i,j^(l)
