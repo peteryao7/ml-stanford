@@ -1,0 +1,63 @@
+Implementation Note: Unrolling Parameters from Matrices into Vectors
+
+function [jVal, grad] = costFunction(theta)
+...
+optTheta = fminunc(@costFunction, initialTheta, options)
+
+where theta and initialTheta are vectors
+
+Neural Network (L=4):
+    Θ^(1), Θ^(2), Θ^(3) are matrices Theta1, Theta2, Theta3
+    D^(1), D^(2), D^(3) are gradient matrices D1, D2, D3
+"Unroll" into vectors
+
+Ex. s_1 = 10, s_2 = 10, s_3 = 1
+    Θ^(1) ∈ R^(10x11), Θ^(2) ∈ R^(10x11), Θ^(3) ∈ R^(1x11)
+    D^(1) ∈ R^(10x11), D^(2) ∈ R^(10x11), D^(3) ∈ R^(1x11)
+
+    thetaVec = [Theta1(:); Theta2(:); Theta3(:)];
+    DVec = [D1(:); D2(:); D3(:)];
+
+If you want to go back to matrix representation:
+    Theta1 = reshape(thetaVec(1:110), 10, 11);
+    Theta2 = reshape(thetaVec(111:220), 10, 11);
+    Theta3 = reshape(thetaVec(221:231), 1, 11);
+
+Ex. D1 ∈ R^(10x6), D2 ∈ R^(1x11) and DVec = [D1(:); D2(:)];
+    If you want D2 back from DVec:
+    Theta2 = reshape(thetaVec(61:72), 1, 11);
+
+-----
+
+Example Octave code:
+
+Theta1 = ones(10,11)
+Theta2 = 2*ones(10,11)
+Theta3 = 3*ones(1,11)
+
+thetaVec = [Theta1(:); Theta2(:); Theta3(:)];
+// thetaVec becomes a 231x1 vector
+
+reshape(thetaVec(1:110), 10, 11);
+reshape(thetaVec(111:22), 10, 11);
+reshape(thetaVec(221:231), 1, 11);
+// thetaVec gets unrolled
+
+-----
+
+Learning Algorithm
+
+Have initial params Θ^(1), Θ^(2), Θ^(3)
+Unroll to get initialTheta to pass to fminunc(@costFunction, initialTheta, options)
+
+function [jVal, gradientVec] = costFunction(thetaVec)
+    From thetaVec, get Θ^(1), Θ^(2), Θ^(3)
+    Use FP/BP to compute D^(1), D^(2), D^(3) and J(Θ)
+    Unroll D^(1), D^(2), D^(3) to get gradientVec
+
+-----
+
+Matrix vs. Vector
+
+Matrix - more convenient for FP/BP
+Vector - advanced optimization algorithms assume they were already unrolled
