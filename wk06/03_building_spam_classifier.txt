@@ -1,0 +1,71 @@
+Prioritizing What to Work On - ML System Design for a Spam Classifier
+
+Two examples of spam vs. non-spam emails
+
+Spam emails have:
+    - suspicious e-mails and subjects
+    - keywords for selling things (deal, buy)
+    - misspelled words
+
+vs. a non-spam email, like an email from a family member
+
+Labels y=1 for spam and y=0 for non-spam.
+
+-----
+
+Supervised learning for building a classifier to distinguish spam vs. non-spam
+
+x = features of email
+y = spam (1) or not spam (0)
+
+Features x: Choose 100 words indicative of spam/not spam
+    - deal, buy, discount, andrew, now, ...
+
+Given a spam mail, we can take the list of words, sort them in lexicographical order,
+and check if these words appear in the e-mail or not.
+
+Then define a feature vector x of size 100x1 and if a word appears, set the index as 1,
+if not, set as 0.
+
+-----
+
+From: cheapsales@buystufffromme.com
+To: ang@cs.standord.edu
+Subject: Buy now!
+
+Deal of the week! Buy now!
+
+x = [ 0 ]     andrew
+    [ 1 ]     buy
+    [ 1 ]     deal
+    [ 0 ]     discount
+    [...]
+    [ 1 ]     now
+
+In practice, we'd take the most frequently occurring n words (10000 or 50000) in training
+set, rather than manually picking 100 words.
+
+-----
+
+How to spend your time to make it have low error?
+    - collect lots of data
+        - e.g. a "honeypot" project creates fake e-mail addresses to send to spammers
+          for them to use, so the creators get tons of spam email to use for data to train
+          their learning algorithms
+    - develop sophisticated features based on email routing information (from email header)
+        - when spammers send e-mail, they'll try to obscure the origins of the e-mail, or
+          use fake e-mail headers, or send the e-mail through unusual routes
+        - some of this info is reflected in the e-mail header
+    - develop sophisticated features for the message body
+        - should "discount" or "discounts" be treated as the same word?
+        - what about "deal" or "Dealer"
+        - punctuation?
+    - develop sophisticated algorithm to detect misspellings
+        - m0rtgage, med1cine, w4tches
+
+It's difficult to see which one is the most helpful.
+
+-----
+
+When working on a ML problem, it's helpful to brainstorm lists of different things to try
+like above. Avoid focusing on one single problem or going with a gut feeling. 
