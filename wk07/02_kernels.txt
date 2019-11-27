@@ -67,3 +67,74 @@ Then f_1 ≈ 1, f_2 ≈ 0, f_3 ≈ 0 since the training example is close to l_1 
 θ_0 + θ_1*1 + θ_2*0 + θ_3*0
 = -0.5 + 1 = 0.5 >= 0
 So we'd predict y = 1.
+
+==================================================
+
+Kernels II
+
+Where do we get landmarks like l^(1), l^(2), l^(3) from?
+
+Take some training examples, and put your landmarks in the same locations at those examples.
+You'll end up with m landmarks, from l^(1), l^(2)... up to l^(m).
+
+Your features will measure how close an example is to one of the things you saw in your training set.
+
+-----
+
+Given (x^(1), y^(1)), (x^(2), y^(2)), ..., (x^(m), y^(m))
+choose l^(1) = x^(1), l^(2) = x^(2), ..., l^(m) = x^(m)
+
+Given example x:
+f_1 = similarity(x, l^(1)) where l^(1) = x^(1)
+f_2 = similarity(x, l^(2))
+...
+
+As a feature vector:
+f = [f_1; f_2; ...; f_m] (can also add an f_0 = 1)
+
+For training example (x^(i), y^(i)):
+         f_1^(i) = sim(x^(i), l^(1))
+x^(i) -> f_2^(i) = sim(x^(i), l^(2))
+         ...
+         f_m^(i) = sim(x^(i), l^(m))
+
+where x^(i) ∈ R^(n+1) with f_0^(i) = 1
+
+Somewhere in the middle, f_i^(i) = sim(x^(i), l^(i)) = exp(-0/(2*σ^2)) = 1
+
+-----
+
+SVM with Kernels
+
+Hypothesis: Given x, compute features f ∈ R^(m+1)
+    Predict "y=1" if θ^T*f >= 0
+    where θ^T*f = θ_0*f_0 + θ_1*f_1 + ... + θ_m*f_m
+
+Training:
+    min θ C * [sum(i=1, m) y^(i) * cost_1(θ^T*f^(i)) + (1 - y^(i)) * cost_0(θ^T*f^(i))] 
+          + 1/2 * sum(j=1, n) θ_j^2
+    (here, n is equal to the # of features of the training example, or m in the previous slide)
+
+The last term is actually done slightly differently:
+    - another way to write it is θ^T*θ, if θ = [θ_1; θ_2; ...; θ_m]
+    - sometimes, it's written as θ^T*M*θ where M is a matrix depending on the kernel you use,
+      to evaluate a slightly different distance metric
+    - if M is huge, like 50000 or 100000, then solving for all these parameters becomes expensive
+      for the SVM
+
+Using kernels with other algorithms like logistic regression will be really slow, so SVM isn't
+used for much else other than classification.
+
+-----
+
+Choosing SVM parameters: 
+
+C (= 1/λ)
+Large C (small λ): lower bias, high variance -> overfitting
+Small C (large λ): higher bias, low variance -> underfitting
+
+σ^2
+Large σ^2: features f_i vary more smoothly (hill)
+           higher bias, lower variance -> underfitting
+Small σ^2: features f_i vary less smoothly (peak)
+           lower bias, higher variance -> overfitting
