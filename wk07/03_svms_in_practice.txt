@@ -1,0 +1,92 @@
+Using an SVM
+
+Use an SVM software package (liblinear, libsvm, etc.) to solve for parameters θ.
+
+Need to specify your parameter C and your choice of kernel (similarity function).
+    - no kernel (linear kernel)
+        - predict "y=1" if θ^T*x >= 0
+        - or θ_0 + θ_1*x_1 + ... + θ_n*x_n >= 0
+        - this is just a standard linear classifier
+        - use if you have a huge number of features (n large), but a small training set (m small)
+    - Gaussian kernel
+        - f_i = exp(-||x - l^(i)||^2 / (2*σ^2)), where l^(i) = x^(i)
+        - need to choose σ^2
+        - use if x ∈ R^n and n is small, and/or m is large
+    - there are other kernels, but those 2 are the most popular by far
+    
+-----
+
+Kernel (similarity) functions
+
+You may be asked to implement your own similarity function
+
+function f = kernel (x1, x2)
+    f = exp(-||x_1 - x_2||^2 / (2*σ^2))
+return
+
+Do perform feature scaling before using the Gaussian kernel.
+    - If you're computing the norm between x and l ||x-l||^2, then you're computing
+      v = x-l, then computing ||v|| = v_1^2 + v_2^2 + ... + v_n^2
+    - That's the same as computing (x_1-l_1)^2 + (x_2+l_2)^2 + ... + (x_n-l_n)^2
+    - If x_1 is in the range of thousands of square feet and x_2 measures the # bedrooms,
+      the difference will be huge and the weight of x_1 will be much greater than x_2's
+
+-----
+
+Other choices of kernel
+
+Not all similarity functions similarity(x, l) make valid kernels.
+
+They need to satisfy the technical condition "Mercer's Theorem" to make sure SVM packages'
+optimizations run correctly, and don't diverge.
+
+Other kernels:
+    - polynomial kernel
+        - k(x,l) = (x^T*l)^2, or (x^T*l)^3, or (x^T*l+1)^3, or (x^T*l+5)^4 etc.
+        - in the form of (x^T*l + constant)^degree
+        - the inner product will be large if X and l are close to each other
+        - generally performs worse than the Gaussian kernel
+        - usually used if X and l are strictly nonnegative
+    - string kernel
+        - input data is text strings
+        - determine similarity of 2 strings
+    - chi-square kernel
+    - histogram intersection kernel
+
+These can be used to measure the similarity between different objects.
+
+To choose which kernel to use and choose parameters like C or σ^2, you should choose
+whichever one performs best on the CV data.
+
+-----
+
+Multi-class classification and SVMs
+
+Many SVM packages have multiclass functionality built in already.
+
+But you can still use the one-vs-all method:
+    - train K SVMS where y ∈ {1,2,3,...,K}
+    - use one to distinguish y = i from the rest, for i = 1,2,...,K
+    - get θ^(1) for y=1, θ^(2) for y=2, ..., θ^(K) for y=k
+    - then pick class i with largest (θ^(i))^T*x
+
+-----
+
+Logistic regression vs. SVMs
+
+Say n = # features (x ∈ R^(n+1)), m = # training examples
+
+If n is large relative to m, where n = 10000 and m = 10~1000, then use logistic regression
+or SVM without a kernel, a linear kernel.
+
+If n is small and m is "intermediate", where n = 1~1000 and m = 10~10000, then use SVM
+with a Gaussian kernel.
+
+If n is small and m is large, where n = 1~1000 and m = 50000+, then create/add more features,
+then use logistic regression or SVM without a kernel.
+
+Logistic regression and SVM with no kernel are quite similar algorithms and provide similar results
+with similar performance.
+
+Regarding neural networks, they're likely to work well for most of these settings, but may be
+slower to train. If your SVM package is efficient, they can be faster than NNs.
