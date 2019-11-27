@@ -1,0 +1,48 @@
+Error Metrics for Skewed Classes
+
+Ex. Cancer classification
+
+Train logistic regression model h_θ(x) (y=1 if cancer, y=0 otherwise)
+Find that you got 1% error on test set (99% correct diagnoses), impressive!
+
+But only 0.5% of patients have cancer. Now it doesn't look very impressive.
+
+function y = predictCancer(x)
+    y = 0; % ignore x, but we a get 0.5% error
+return
+
+This is a non-learning algorithm that predicts y=0 every time, and this has
+a lower % error on the test set.
+
+Because we have so many more negative examples than positive ones, we have
+skewed classes. 
+
+-----
+
+Say your current algorithm has 99.2% accuracy (0.8% error)
+Then you make some changes and your algorithm now has 99.5% accuracy (0.5% error)
+
+Is it an improvement? By numerical evaluation, yes, but did we really do anything
+useful, or replace our code with something that predicts y=0 every time? It's not
+clear if your changes actually did anything. We need a different evaluation metric.
+
+-----
+
+Precision/Recall
+
+y=1 in presence of rare class we want to detect
+
+                            Actual class
+                        1                        0
+Predicted   1      true positive           false positive
+
+class       0      false negative          true negative
+
+Precision: of all patients where we predicted y=1, what fraction actually has cancer?
+    true positives / # predicted positive = true positives / (true positives + false positives)
+
+Recall: of all patients that actually have cancer, what fraction did we correctly detect as having cancer?
+    true positives / # actual positives = true positives / (true positives + false negatives)
+
+We want high precision and high recall. This gives us a more useful evaluation metric than a 
+single number, and it prevents the algorithm from cheating, like predicting y=0 every time.
