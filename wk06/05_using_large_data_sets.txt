@@ -1,0 +1,61 @@
+Data For Machine Learning 
+
+How much data should you train on?
+
+-----
+
+Designing a high accuracy learning system [Bank and Brill, 2001]
+
+E.g. classify between confusable words: to/two/too, then/than
+For breakfast I ate ___ eggs - two
+
+Algorithms:
+    - perceptron (logistic regression)
+    - winnow
+    - memory-based
+    - naive Bayes
+
+Training set size (millions)
+    - they all have similar performance
+    - as you go from 100000 to a billion training examples, the performance
+      of the algorithms basically increase monotonically
+    - if you pick an "inferior" algorithm, but give it more data, it could
+      beat the "superior" algorithm
+
+Many different learning algorithms can give similar ranges in performance, 
+but what really drives performance is giving the algorithm a ton of training data.
+
+This is what led to the saying:
+"It's not who has the best algorithm that wins. It's who has the most data."
+
+When is this true and not true?
+
+-----
+
+Large data rationale
+
+Assume feature x ∈ R^(n+1) has sufficient information to predict y accurately.
+
+Example: Confusable words - For breakfast I ate ___ eggs.
+    - the features could capture the surrounding words
+    - you can unambiguously decide what is the label y, or what word should be in the blank
+Counterexample: Predict housing price from only size, no other features.
+    - maybe a house is 500 ft^2, but you don't know the age of the house, ba/bd, location etc.
+    - there are so many other features at play, we don't have sufficient information
+
+Useful test: Given the input x, can a human expert confidently predict y?
+    - If we went to an expert English speaker and they could predict y well, then
+      you'd have more confidence that x allows us to predict y accurately.
+    - But if we went to an expert realtor and told them the size of a house, they couldn't
+      predict the price, y, confidently.
+
+Use a learning algorithm with many parameters (e.g. logistic/linear regression with many features, 
+or a NN with many hidden units)
+    - low bias algorithms that can fit complex functions
+    - chances are, if we run these algorithms on the data set, it'll be able to fit the training
+      set well
+        - the training error J_train(θ) should be small
+    - if we use a massive training set, then hopefully even though we have a lot of parameters, 
+      it's unlikely that they will overfit
+        - J_train(θ) ≈ J_test(θ)
+    - this implies that J_test(θ) will also be small, meaning we have low variance
