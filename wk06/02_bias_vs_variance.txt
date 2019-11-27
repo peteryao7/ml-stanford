@@ -116,3 +116,52 @@ For models that overfit the data:
 Getting more training data is likely to help.
 If we extended the graph to include more of m, J_cv(θ) and J_train(θ) will 
 start getting closer to each other.
+
+==================================================
+
+Deciding What to Do Next (Revisited)
+
+Going back to our problem of large errors in our prediction, how do we figure
+out which of these options might be fruitful?
+    - get more training examples 
+        - fixes high variance
+    - try smaller sets of features
+        - fixes high variance
+    - try getting additional features
+        - fixes high bias - current hypothesis is too simple
+    - try adding polynomial features (x_1^2, x_2^2, x_1*x_2 etc.)
+        - fixes high bias
+    - decreasing λ
+        - fixes high bias
+    - increasing λ
+        - fixes high variance
+
+-----
+
+Neural Networks and Overfitting
+
+Small NN have fewer parameters and are prone to underfitting, 
+but are computationally cheaper
+
+Large NN have more parameters and are prone to overfitting,
+and are computationally more expensive (but usually not a huge problem).
+
+Use regularization λ to address overfitting.
+
+A reasonable default for hidden layers is having only one to prevent
+overfitting, but if you want to choose the # of hidden layers, you can
+find yourself a training cross-validation and test set split, then try
+training NNs with one hidden layer, then two hidden layers etc. and see
+which of them performs best on the CV sets, then take the NNs and compute
+the CV error with J_cv(θ) and use that to select the best NN.
+
+-----
+
+Lower-order polynomials (low model complexity) have high bias and low variance.
+    In this case, the model fits poorly consistently.
+
+Higher-order polynomials (high model complexity) have low bias and high variance.
+    The model fit the training data extremely well and the test data extremely poorly.
+
+We want to choose a model somewhere in between, that can generalize well and fit
+the data reasonably well.
