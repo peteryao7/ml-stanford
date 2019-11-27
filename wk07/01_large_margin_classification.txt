@@ -96,3 +96,60 @@ be susceptible to outliers, and the model would try to fit and separate them.
 
 This tells you that C plays a similar role to λ, where if C is too big or too small,
 you could end up with boundaries that try to overfit outliers.
+
+==================================================
+
+The Mathematics Behing Large Margin Classification
+
+Vector Inner Product
+
+Let u = [u_1; u_2] and v = [v_1; v_2]
+u^Tv = ?
+||u|| = length of vector u
+      = sqrt(u_1^2 + u_2^2) ∈ R
+
+Let p be the length of the projection of v onto u
+Then u^Tv (= v^Tu) = p * ||u||
+          = u_1*v_1 + u_2*v_2
+
+Note that p ∈ R and ||u|| ∈ R and p is signed, so if the angle between u and v is > 90 deg,
+then we'd get a projection that goes in the opposite direction of u, resulting in a -p.
+
+-----
+
+SVM decision boundary
+
+min θ 1/2 * sum(j=1, n) θ_j^2 = 1/2 * (θ_1^2 + θ_2^2) = 1/2 * (sqrt(θ_1^2 + θ_2^2))^2 = ||θ||
+    (sqrt(θ_1^2 + θ_2^2) is just the norm of θ)
+s.t. θ^T*x^(i) >= 1 if y^(i) = 1 and θ^T*x^(i) <= -1 if y^(i) = 0
+    - θ^T*x^(i) looks similar to u^T*v, so let θ^T = u^T and x(i) = v
+    - Then we can plot x^(i) as (x_1^(i), x_2^(i)) on a plane, and get a vector pointing 
+      to the training example
+    - We can also plot θ as (θ_1, θ_2) on the same plane, and get another vector pointing to θ
+    - Now we can take the inner product of them, and get:
+        θ^T*x^(i) = p^(i) * ||θ||
+                  = θ_1*x_1^(i) + θ_2*x_2^(i)
+
+Now we can replace those constraints as:
+min θ 1/2 * sum(j=1, n) θ_j^2 = 1/2 * ||θ||^2
+s.t. p^(i) * ||θ|| >= 1 if y^(i) = 1 and p^(i) * ||θ|| <= -1 if y^(i) = 0
+where p^(i) is the projection of x^(i) onto the vector θ.
+
+(Simplification: θ_0 = 0, meaning θ must pass through the origin)
+
+-----
+
+Suppose the SVM chose a decision boundary with tiny margins. Why wouldn't SVM do this?
+
+If we illustrate the boundary, θ is perpendicular to the boundary at the origin.
+For some training example x^(1), the distance from p^(1) might be small, but for some x^(2) on the
+other side, then p^(2), going in the opposite direction, could also be small. But this also means |p|
+will be pretty small, and for p^(1) * ||θ|| >= 1 to be true, then ||θ|| must be large. Additionally,
+for p^(2) * ||θ|| <= -1, then ||θ|| must also be large.
+
+For another boundary, it might be vertical, so θ is perpendicular and is on the x-axis. p^(1) and
+p^(2) are now much bigger, so the constraints are easier to fulfill now that ||θ|| can be smaller. 
+SVM can now make the norm of the parameters θ much smaller, therefore ||θ||^2 will also be smaller.
+SVM will pick this boundary instead.
+
+We want our projections to be large, which act as our margins.
