@@ -63,3 +63,56 @@ For small λ, you have a high variance problem, and for large λ, you have a hig
     - J_train(λ) will increase as λ increases
     - J_cv(λ) will have a parabolic behavior, where it's high when λ is too low and too high
     - J_cv(λ) > J_train(λ)
+
+==================================================
+
+Learning Curves
+
+Learning curves are useful for sanity checking if your algorithm is working correctly, 
+or if you want to improve its performance. They're also useful for diagnosing an algorithm
+for bias and/or variance.
+
+To plot a learning curve, plot J_train(θ) or J_cv(θ) as a function of m, the number of
+training examples you have. Deliberately limit the number of training examples used to
+around 10-40 and plot what the training and cross validation are for the small set
+of training exercises.
+
+Say for h_θ(x) = θ_0 + θ_1x + θ_2x^2
+    - for m=1, we can fit it perfectly with many quadratic functions
+    - for m=2, we can still fit it quite well
+    - for m=3, we could still fit it perfectly
+
+For m = 1, 2, 3 the training error will be 0 assuming regularization isn't used, or slightly
+0 if it is used. 
+If the training set is small, then the error is likely to also be small.
+
+    - for m=4, we might not be able to fit all the data perfectly
+
+As m grows, it gets harder and harder to map a function that crosses every single training example.
+That means as m grows, then the error grows.
+
+Conversely as m increases, J_cv(θ) will start high, then decrease.
+
+-----
+
+High Bias
+
+For models that underfit the data:
+    - J_cv(θ) will start high, decreases, and start to plateau out
+    - J_train(θ) will start low, increases, and J_train(θ) ≈ J_cv(θ)
+    - J_cv(θ) and J_train(θ) will both be quite high, indicating high error
+
+Getting more training data by itself won't help all that much. 
+
+-----
+
+High Variance
+
+For models that overfit the data:
+    - J_cv(θ) will start high, decreases, and plateaus a bit
+    - J_train(θ) will start low, increases, and stay fairly low
+    - there's a huge gap between J_cv(θ) and J_train(θ)
+
+Getting more training data is likely to help.
+If we extended the graph to include more of m, J_cv(θ) and J_train(θ) will 
+start getting closer to each other.
