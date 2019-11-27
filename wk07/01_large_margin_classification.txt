@@ -1,0 +1,59 @@
+Optimization Objective
+
+Support Vector Machine (SVM)
+    - supervisory learning algorithm
+    - sometimes gives a cleaner and more powerful way of learning complex
+      non-linear functions
+    
+-----
+
+Alternate view of logistic regression
+
+h_θ(x) = 1 / (1 + e^(-θ^Tx)), z = θ^Tx
+
+If y = 1, we want h_θ(x) ≈ 1, θ^Tx >> 0
+If y = 0, we want h_θ(x) ≈ 0, θ^Tx << 0
+
+Cost of example: -(y*log(h_θ(x)) + (1 - y) * log(1 - h_θ(x)))
+    substitute h_θ(x) with 1 / (1 + e^(-θ^Tx))
+
+If y = 1, then only the first term really matters as the other will be 0.
+Then the function ends up being -log(1 / (1 + e^-z)), which is a decreasing concave function.
+To build a SVM, we'll take that function and modify it.
+    - z on the x-axis from 1 onwards will be 0
+    - then when z < 1, there is a straight line with a negative slope
+
+If y = 0, then only the second term really matters as the other will be 0.
+Then the function ends up being -log(1 - 1 / (1 + e^-z)), which is an increasing concave function.
+To build an SVM, we'll modify that function again.
+    - z from -1 and before will be 0
+    - then when z > -1, there is a straight line with a positive slope
+
+For the SVM:
+min θ C * [sum(i=1, m) y^i * cost_1(θ^Tx^(i)) + (1 - y^i) * cost_0(θ^Tx^(i))] 
++ λ/2 * sum(i=0, n) θ_j^2
+
+Firstly, we can reparametize this to ignore both 1/m terms since they're just constants, 
+we'd end up with the same optimal value for theta regardless. 
+
+Ex. for min u (u - 5)^2 + 1             => u = 5
+If we multiplied the function by 10,
+min u 10*(u - 5)^2 + 10                 => u = 5
+
+Secondly, we can separate the objective function into 2 terms, the cost term as A
+and the regularization term as B:
+A + λB
+We can use a different term C instead and write it as:
+CA + B
+For logistic regression, if we set λ to be a large value, we gave B more weight. Here, 
+we want to find the minimum value of C to give B more weight.
+You can think of C = 1/λ, but they're not the same.
+
+-----
+
+SVM hypothesis
+
+min θ C * [sum(i=1, m) y^i * cost_1(θ^Tx^(i)) + (1 - y^i) * cost_0(θ^Tx^(i))] 
+
+h_θ(x) will predict 1 if θ^Tx >= 0
+                    0 otherwise
