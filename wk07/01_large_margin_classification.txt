@@ -57,3 +57,42 @@ min θ C * [sum(i=1, m) y^i * cost_1(θ^Tx^(i)) + (1 - y^i) * cost_0(θ^Tx^(i))]
 
 h_θ(x) will predict 1 if θ^Tx >= 0
                     0 otherwise
+
+==================================================
+
+Large Margin Intuition
+
+min θ C * [sum(i=1, m) y^i * cost_1(θ^Tx^(i)) + (1 - y^i) * cost_0(θ^Tx^(i))] 
+
+If y = 1, we want θ^Tx >= 1 (not just >= 0)
+If y = 0, we want θ^Tx <= -1 (not just < 0)
+These are the places where cost(z) = 0
+
+-----
+
+If C is large, say 100000:
+
+We want to choose a value for the first term that will set it to 0
+
+We want to set the cost to 0, so:
+    Whenever y^(i) = 1, θ^Tx^(i) >= 1
+    Whenever y^(i) = 0, θ^Tx^(i) <= -1
+min θ C * 0 + 1/2 * sum(i=1, n) θ_j^2 with those constraints
+
+When you solve this optimization problem and get a decision boundary, you may
+not get one that looks right. It could separate the positive and negative examples
+perfectly, but the slope may look really unnatural.
+
+The SVM would choose a much more natural looking decision boundary. It has a minimum
+distance from the other training examples, which is the margin of the SVM, and gives
+it a certain robustness as it tries to find the boundary with the maximum margin.
+
+-----
+
+Large margin classifier with outliers
+
+SVM is more than just the large margin classifier. If you only used the LMC, you will
+be susceptible to outliers, and the model would try to fit and separate them. 
+
+This tells you that C plays a similar role to λ, where if C is too big or too small,
+you could end up with boundaries that try to overfit outliers.
