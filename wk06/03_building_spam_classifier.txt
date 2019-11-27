@@ -69,3 +69,68 @@ It's difficult to see which one is the most helpful.
 
 When working on a ML problem, it's helpful to brainstorm lists of different things to try
 like above. Avoid focusing on one single problem or going with a gut feeling. 
+
+==================================================
+
+Error Analysis
+
+Recommended approach:
+    - start with a simple algorithm that you can implement quickly
+        - implement it and test it on your cross-validation data
+    - plot learning curves to decide if more data, more features etc. are likely to help
+        - there's not much of a way to see in advance whether your algorithm suffers from
+          high bias or high variance, and you can use that to decide if you want more
+          data, more features etc.
+    - error analysis: manually examine the examples in cross-validation set that your
+      algorithm made errors on
+        - see if you can spot any systematic trend in what type of examples it is making
+          errors on
+        - e.g. see which emails are being misclassified as spam/not spam, then try finding
+          any patterns you can use to design new features
+
+-----
+
+Let's say you have 500 examples in your CV set (m_cv = 500)
+Algorithm misclassifies 100 e-mails.
+Manually examine the 100 errors and categorize them based on:
+    - what type of email it is (pharmacy, replicas, phishing, ...)
+    - what cues (features) you think would have helped the algorithm classify them correctly
+
+Pharma: 12
+Replica/fake: 4
+Phishing: 53     <= the algorithm is doing particularly poorly for these e-mails
+Other: 31
+
+Deliberate misspellings: 5      <= sufficiently rare phenomenon, may not be worth focusing on
+Unusual e-mail routing: 16 
+Unusual punctuation: 32         <= there's a lot, maybe it's more worth your while
+
+This kind of error analysis, where you manually examine the mistakes of the algorithm, can
+guide you to the most fruitful avenues to pursue. And the fastest way to get these results
+and identify the hard examples is with a quick and dirty implementation of the algorithm.
+
+-----
+
+The importance of numerical evaluation
+
+You want your algorithm to return a single real number, like accuracy or error, that tells
+you how well it's doing easily. One candidate is the CV error.
+
+Should discount/discounts/discounted/discounting be treated as the same word?
+    - can use "stemming" software (e.g. "Porter stemmer") to treat these as the same word
+    - but watch out for words that look similar but are unrelated (universe/university)
+
+Error analysis may not be helpful for deciding if this is like to improve performance, but
+the only solution is to try it and see if it works.
+
+Say we look at the CV error for stemming vs. no stemming:
+    - stemming: 3% error
+    - non-stemming: 5% error
+So using stemming is probably a good idea.
+
+What about distinguishing upper vs. lower case (Mom/mom)?
+    - with distinguishing: 3.2% error, which is worse than only stemming
+    - since 3.2% > 3%, we shouldn't include it
+
+With a single real number, we only need to see if a number goes up or down to evaluate our
+results, instead of changing parts of an algorithm and making comparisons manually every time.
