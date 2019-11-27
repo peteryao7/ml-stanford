@@ -46,3 +46,74 @@ Recall: of all patients that actually have cancer, what fraction did we correctl
 
 We want high precision and high recall. This gives us a more useful evaluation metric than a 
 single number, and it prevents the algorithm from cheating, like predicting y=0 every time.
+
+==================================================
+
+Trading Off Precision and Recall
+
+For many applications, we want to somehow control the trade-off between precision and recall.
+
+Definitions:
+    precision = true pos / predicted pos = TP / (TP + FP)
+    recall = true pos / actual pos = TP / (TP + FN)
+
+-----
+
+Cancer classification example (y=1 has cancer, y=0 otherwise):
+
+Logistic regression: 0 <= h_θ(x) <= 1
+Predict 1 if h_θ(x) >= 0.5
+Predict 0 if h_θ(x) < 0.5
+
+Suppose we want to predict y=1 (cancer) only if very confident. 
+    - we don't want to deliver bad news to people who don't have cancer, or it's a 
+      lengthy and expensive treatment process
+    - we can increase the thresholds for predicting (maybe 0.7 or 0.9 instead of 0.5)
+    - higher precision, lower recall
+
+Suppose we want to avoid missing too many cases of cancer (avoid FNs)
+    - we want people who may have some risk of having cancer to get treatment, we don't
+      want them to falsely believe they're ok when they're not
+    - we can decrease the thresholds for predicting (0.3)
+    - lower precision, higher recall
+
+More generally: Predict 1 if h_θ(x) >= threshold.
+
+If you were to graph precision vs. recall, then there will typically be a trade-off, where
+we get a decreasing curve where high precision + low recall results from a high threshold, and 
+low precision + high recall from a low threshold. 
+
+-----
+
+F_1 score (F score) - comparing precision/recall numbers
+
+            Precision (P)           Recall (R)
+Algo 1          0.5                    0.4
+Algo 2          0.7                    0.1
+Algo 3          0.02                   1.0
+
+Which one is better? We can use a single real number evaluation metric.
+
+Average: (P + R)/2
+    - not great, for a cheating algorithm like setting y=0 every time, then we'd get a high
+      recall of 1.0, which would skew the result dramatically
+    - in this case, you could get that with algo 3 by cheating, but it's not the best algorithm
+    - DON'T USE THIS
+
+F_1 score: 2 * (P * R) / (P + R)
+    - kind of like taking the average of precision and recall, but it gives the lower value
+      a larger weight
+    - in the numerator, if P or R is close or equal to 0, then the F score will be close or 
+      equal to 0
+    - for the F score to be large, then both P and R have to be large
+    - if P=0 or R=0, then F-score = 0
+    - if P=1 and R=1, then F-score = 1
+
+There are many other ways to determine the metric, but the F_1 score is what ML people 
+traditionally use.
+
+-----
+
+To determine the best tradeoff between precision and recall, try a range of values of 
+thresholds and evaluate them on, for example, your CV set, then pick whatever value of 
+threshold gives the highest F-score.
