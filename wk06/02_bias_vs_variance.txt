@@ -31,3 +31,35 @@ E.g. if J_train(θ) = 0.10 and J_cv(θ) = 0.30, then you have a high variance (o
 
 ==================================================
 
+Regularization and Bias/Variance
+
+Regularization can help prevent overfitting, but how does it influence bias/variance?
+
+-----
+
+Suppose our model is h_θ(x) = θ_0 + θ_1x + θ_2x^2 + θ_3x^3 + θ_4x^4 and
+J(θ) = 1/(2m) * (sum(i=1, m) (h_θ(x^(i)) - y^(i))^2) + λ/(2m) * sum(j=1, n) θ_j^2
+
+Using a large λ for our J(θ), then we get high bias. Conversely, with a small λ, we get high variance.
+
+For J_train(θ), the regularization is the sum of squared errors on the training set w/o taking
+regularization account. The same goes for J_cv(θ) and J_test(θ).
+
+1) Try λ = 0        => min θ J(θ) => Θ^(1) => J_cv(Θ^(1))
+2) Try λ = 0.01     => min θ J(θ) => Θ^(2) => J_cv(Θ^(2))
+3) Try λ = 0.02     => min θ J(θ) => Θ^(3) => J_cv(Θ^(3))
+4) Try λ = 0.04     => min θ J(θ) => Θ^(4) => J_cv(Θ^(4))
+5) Try λ = 0.08     => min θ J(θ) => Θ^(5) => J_cv(Θ^(5)) => pick this assuming this is the min
+...
+12) Try λ = 10.24   => min θ J(θ) => Θ^(12) =>  J_cv(Θ^(12))
+
+Now we have 12 possible values of λ to check. Say we pick Θ^(5), then we find the test error J_test(Θ^(5)).
+
+J(θ) = 1/(2m) * (sum(i=1, m) (h_θ(x^(i)) - y^(i))^2) + λ/(2m) * sum(j=1, n) θ_j^2
+J_train(θ) = (1/2*m) sum(i=1, m) (h_θ(x^(i)) - y^(i))^2
+J_cv(θ) = (1/2*m_cv) sum(i=1, m_cv) (h_θ(x_cv^(i)) - y_cv^(i))^2
+
+For small λ, you have a high variance problem, and for large λ, you have a high bias problem.
+    - J_train(λ) will increase as λ increases
+    - J_cv(λ) will have a parabolic behavior, where it's high when λ is too low and too high
+    - J_cv(λ) > J_train(λ)
