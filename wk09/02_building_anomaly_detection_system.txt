@@ -1,0 +1,56 @@
+Developing and Evaluating an Anomaly Detection System
+
+When developing a learning algorithm, making decisions is much easier if we have
+a way of evaluating our learning algorithm, like real-number evaluation or
+precision/recall.
+
+Assume we have some labeled data, of anomalous and non-anomalous examples.
+    y=0 if normal, y=1 if anomalous
+Ex. aircraft engines, y=0 if they're ok, y=1 if they're flawed or strange in some way.
+
+Training set: x^(1),x^(2),...,x^(m) (assume non-anomalous, ok if some are actually anomalous)
+CV set: (x_cv^(1),y_cv^(1)),...,(x_cv^(m_cv),y_cv^(m_cv))
+Test set: (x_test^(1),y_test(1)),...,(x_test(m_test),y_test(m_test))
+
+We'll include some examples we know to be anomalous in the CV and test sets.
+
+-----
+
+Aircraft engines example
+
+10000 good engines (normal)
+20 flawed engines (anomalous)
+
+Still ok if some flawed engines slipped into the 10000, but assume they're all good.
+
+Split the good engines 60/20/20 for our data sets and include anomalies:
+Training set: 6000 good engines (y=0)
+    - use these 6000 engines to fit p(x) = p(x_1;μ_1,σ_1^2)...p(x_n;μ_n,σ_n^2)
+CV: 2000 good engines (y=0), 10 anomalous (y=1)
+Test: 2000 good engines (y=0), 10 anomalous (y=1)
+
+Alternative (not recommended):
+Training set: 6000 good engines
+CV: 4000 good engines (y=0), 10 anomalous (y=1)
+Test: 4000 good engines (y=0), 10 anomalous (y=1)
+
+-----
+
+Algorithm evaluation
+
+Fit model p(x) on training set {x^(1),...,x^(m)}
+On a CV/test example x, predict
+    y = 1 if p(x) < ε (anomaly)
+        0 if p(x) >= ε (normal)
+
+For each (x_test^(i), y_test^(i)), y_test^(i) will either be 0 or 1.
+
+Possible evaluation metrics:
+    - true positive, false positive, true negative, false negative, true negative
+    - precision/recall
+    - F_1 score
+
+Measuring accuracy isn't a great idea because of skewed data.
+
+Can also use CV set to choose ε
+    - try many different values of ε, then pick the one that maximizes the f-score
