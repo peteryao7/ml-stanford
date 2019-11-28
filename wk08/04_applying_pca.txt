@@ -64,3 +64,79 @@ or equivalently, (sum(i=1, k) s_i,i) / (sum(i=1, n) s_i,i) >= 0.99
 
 You only need to call svd once instead of needing to call svd multiple times for a different k,
 then you only need to calculate the above inequality by incrementing k instead.
+
+==================================================
+
+Advice for Applying PCA
+
+PCA can be used to speed up the runtime of a learning algorithm.
+
+-----
+
+Supervised learning speedup
+
+Say you have a supervised learning problem with input x and labels y:
+(x^(1), y^(1)), (x^(2), y^(2)), ... (x^(m), y^(m))
+and x^(i) ∈ R^(10000), a very high dimensional.
+
+Maybe you're processing a 100x100 image with 10000 intensity values.
+
+With PCA, we can reduce the dimension of the data.
+    - extract inputs
+        - unlabeled dataset: x^(1), x^(2), ..., x^(m) ∈ R^10000
+    - apply PCA to get z^(1), z^(2), ..., z^(m) ∈ R^1000
+    - new training set (z^(1), y^(1)), (z^(2), y^(2)), ..., (z^(m), y^(m))
+    - then we can take this reduced dimension training set and feed it to a learning algorithm
+      like NN or logistic regression, and learn the hypothesis h_θ(z) to make predictions
+        - ex. with logistic regression, train a hypothesis that outputs h_θ(z) = 1 / (1 + e^(-θ^T*z))
+    - if you have a new test example, map it through the same mapping found by PCA to get your
+      corresponding z, then feed z to this hypothesis so it can make a prediction
+
+Note that PCA maps x to z and is only defined from running PCA on the training set. It computes
+a set of parameters like U_reduce, which is learned by PCA, and should only be fitted on our
+training sets, not the CV or test sets.
+
+Reducint 10000D to 1000D is actually not that unrealistic; it's common to reduce the dimensional
+data by 5x or 10x and still retain most of the variance and barely affect the classification accuracy.
+And in return, our learning algorithm runs much faster.
+
+-----
+
+Summarizing application of PCA
+
+Compression
+    - reduce memory/disk space needed to store data
+    - speed up learning algorithm
+    - choose k by % of variance retained
+Visualization
+    - usually we only know what k=2 or k=3 looks like, so we'll usually choose those to reduce to
+
+-----
+
+Misusing PCA to prevent overfitting
+
+Use z^(i) instead of x^(i) to reduce the number of features to k < n
+Thus fewer features, less likely to overfit.
+
+It could work ok, but you really should use regularization instead.
+
+PCA doesn't use a label y, so it will throw away some information or reduces the dimension of
+your data without knowing what y is. If 99% of the variance is kept, it's ok, but it can
+throw away some valuable information.
+
+-----
+
+Other ways of misusing PCA
+
+Design of ML system:
+    - get training set {(x^(1),y^(1)),...,(x^(m),y^(m))}
+    - run PCA to reduce x^(i) in dimension to get z^(i)
+    - train logistic regression on {(z^(1),y^(1)), ..., (z^(m),y^(m))}
+        - we could train on the original training set instead
+    - test on test set: map x_test^(i) to z_test^(i), run h_θ(z) on 
+      {(z_test^(1),y_test^(1)),...,(z_test^(m),y_test^(m))}
+
+What if we just did the whole thing without PCA?
+Before implementing PCA, first try running whatever you want to do with the original/raw data x^(i).
+Only if you have strong evidence that it doesn't do what you want, then implement PCA and consider 
+using z^(i).
