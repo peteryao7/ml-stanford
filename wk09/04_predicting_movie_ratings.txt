@@ -41,4 +41,71 @@ Maybe Alice's ? will be 5 since she likes romances/comedies, Bob's ? will be 4.5
 he likes 4 or 5, Carol's ? will be 0 as the other movies she rated in the category were 0, and Dave's ?
 as 0 for the same reason.
 
+==================================================
 
+Content-Based Recommendations
+
+A first approach to builder a recommender system.
+
+-----
+
+Back to our previous example
+
+User rates movies using 0-5 stars
+
+Movie                   | Alice(1)  Bob(2)  Carol(3)  Dave(4) | x_1 (romance)  x_2 (action)
+Love at Last                5         5        0        0           0.9             0
+Romance Forever             5         ?        ?        0           1.0            0.01
+Cute Puppies of Love        ?         4        0        ?           0.99            0
+Nonstop Car Chases          0         0        5        4           0.1            1.0
+Swords vs. Karate           0         0        5        ?            0             0.9
+
+n_u = 4
+n_m = 5
+
+We'll add 2 new features that will measure the degree to which a movie is a romantic movie, or an
+action movie respectively.
+For Love at Last, x_1 = 0.9, so it's a very romantic movie, but has no action.
+
+Each of these movies can be represented with a feature vector, with x_0 = 1
+So for Love at Last, x^(1) = [1; 0.9; 0]
+
+For each user j, learn a parameter θ^(j) ∈ R^3. Predict user j as rating movie i with
+(θ^(j))^T * x^(i) stars. (Note θ^(j) ∈ R^(n+1))
+
+Take user 1, Alice, and associate her with a parameter vector θ^(1), Bob with θ^(2) etc.
+
+What would Alice think of Cute Puppies of Love?
+    Assume we have Alice's θ^(1) already, let it be [0;5;0].
+    x^(3) = [1; 0.99; 0]^T * [0; 5; 0] = 5 * .99 = 4.95
+    So ? = 4.95
+
+-----
+
+Problem formulation
+r(i,j) = 1 if user j has rated movie i (0 otherwise)
+y^(i,j) = rating by user j on movie i if defined
+
+θ^(j) = parameter vector for user j
+x^(i) = feature vector for movie i
+For user j, movie, i, predicted rating: (θ^(j))^T * x^(i)
+
+m^(j) = # movies rated by user j
+To learn θ^(j):
+    min θ^(j) of 1/2 * sum(i:r(i,j)=1) (θ^(j)^T * x^(i) - y^(i,j))^2 
+                 + λ / 2 * sum(k=1, n) (θ_k^(j))^2)
+    where θ^(j) ∈ R^(n+1)
+
+    This is basically a linear regression problem.
+
+To learn θ^(1), θ^(2), ..., θ^(n_u):
+    min θ^(1), ..., θ^(n_u) of 1/2 * sum(j=1, n_u) sum(i:r(i,j)=1) (θ^(j)^T * x^(i) - y^(i,j))^2 
+                               + λ / 2 * sum(j=1, n_u) sum(k=1, n) (θ_k^(j))^2)
+    = J(θ^(1), θ^(2), ..., θ^(n_u))
+
+Gradient descent update:
+    θ_k^(j) := θ_k^(j) - α * sum(i:r(i,j)=1) (θ^(j)^T * x^(i) - y^(i,j)) * x_k^(i) for k = 0
+    θ_k^(j) := θ_k^(j) - α * [sum(i:r(i,j)=1) (θ^(j)^T * x^(i) - y^(i,j)) * x_k^(i) + λ * θ_k^(j)] for k != 0
+
+It can be difficult to get features for many of our movies, so may need another way to recommend products
+not based on its content.
