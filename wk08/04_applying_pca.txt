@@ -1,0 +1,21 @@
+Reconstruction From Compressed Representation
+
+After compressing data into a lesser dimensional feature vector through PCA, how
+do you go back to your original representation?
+
+-----
+
+Say you have a 2D plot and you projected them onto a 1D surface, and now you only
+need a real number for each point on z_1. How do we go back to our 2D space?
+Can we map z ∈ R back to x ∈ R^2?
+
+x_approx = U_reduce * z
+U_reduce ∈ R^(n x k) and z ∈ R^k, so x_approx ∈ R^n
+
+If the square projection error isn't too big, then x_approx ≈ x.
+
+So you get back the 2D plot with every x^(i) directly on the line, instead of maybe
+being slightly above or below it.
+
+It's not perfect, but it's an approximation and lets you go back to your uncompressed
+representation of the data. This process is called reconstruction of the original data.
