@@ -96,3 +96,75 @@ Supervised learning
     - e-mail spam classification
     - weather prediction (sunny/rainy/etc.)
     - cancer classification
+
+==================================================
+
+Choosing What Features to Use
+
+When applying anomaly detection, one thing that has a huge impact on how well it does is what features to use
+and what features you choose to give it.
+
+-----
+
+In anomaly detection, we modeled the features using Gaussian distribution, with p(x_i;μ_i,σ_i^2).
+You can plot the histogram of the data with hist to make sure the data looks vaguely Gaussian 
+before feeding it to an anomaly detection algorithm.
+
+However, if it looks like the data is very skewed or not Gaussian, you can use transformations
+to make the data look more Gaussian. 
+    - log(x) will transform a plot skewed right to look more Gaussian
+        - log(x_1), log(x_2+c)
+    - sqrt
+    - exponent
+
+-----
+
+Octave example
+
+Let x ∈ R^1000
+hist(x,50) shows a plot that doesn't look Gaussian
+
+hist(x.^0.5, 50) shifted it a bit, but doesn't look that Gaussian
+hist(x.^0.05, 50) is good
+xNew = x.^0.05;
+
+hist(log(x),50) looks pretty good too
+xNew = log(x);
+
+-----
+
+Error analysis for anomaly detection (similar to supervised learning)
+
+Want p(x) large for normal examples x
+     p(x) small for anomalous examples x
+
+Most common problem:
+    p(x) is comparable (both large) for normal and anomalous examples
+
+Say we had a plot of data on x_1 and we draw a Gaussian distribution model based on it.
+Then there's an anomaly relatively close to the middle, so it has a pretty high probability
+of being normal, but the model fails to flag it as anomalous.
+
+We can plot x_1 against a newly created feature x_2 and try to find the anomalous example with that.
+Hopefully it's easier to distinguish from there.
+
+-----
+
+How to choose features - monitoring computers in a data center
+
+Choose features that might take on unusually large or small values in the event of an anomaly.
+
+You have tens of thousands of machines in a data center. You want to know if a machine is acting up
+or doing something strange.
+    x_1 = memory use of computer
+    x_2 = number of disk accesses/sex
+    x_3 = CPU load
+    x_4 = network traffic
+
+CPU load and network traffic tend to grow linearly with each other.
+I'm suspecting that a machine got stuck in some infinite loop. One failure case is that the CPU load
+grows, but the network traffic doesn't.
+
+Create a new feature x_5 = CPU load / network traffic
+If a machine has a large CPU load but not much network traffic, then x_5 will grow unusually high, when
+normally it should be around 1.
