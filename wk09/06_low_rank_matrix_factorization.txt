@@ -1,0 +1,54 @@
+Vectorization: Low Rank Matrix Factorization
+
+The vectorization implementation of the collaborative filtering algorithm and other things
+we can do with CFA.
+
+-----
+
+Take our movie example again:
+
+Movie                   | Alice(1)  Bob(2)  Carol(3)  Dave(4)
+Love at Last                5         5        0        0
+Romance Forever             5         ?        ?        0
+Cute Puppies of Love        ?         4        0        ?
+Nonstop Car Chases          0         0        5        4
+Swords vs. Karate           0         0        5        ?
+
+We can group our data into a matrix Y:
+
+Y = [5 5 0 0]
+    [5 ? ? 0]
+    [? 4 0 ?]
+    [0 0 5 4]
+    [0 0 5 0]
+
+Our predicted ratings can also be turned into a matrix:
+[(θ^(1)^T*x^(1) (θ^(2)^T*x^(1) ... (θ^(n_u)^T*x^(1)]
+[(θ^(1)^T*x^(2) (θ^(2)^T*x^(2) ... (θ^(n_u)^T*x^(2)]
+[...                           ...                 ]
+[(θ^(1)^T*x^(n_m)            ... (θ^(n_u)^T*x^(n_m)]
+
+X = [ x^(1)^T ]         Θ = [ θ^(1)^T ]
+    [ x^(2)^T ]             [ θ^(2)^T ]
+        ...                     ...
+    [x^(n_m)^T]             [θ^(n_u)^T]
+
+Now to compute our predicted ratings, we can simply compute X * Θ^T
+This is the process of low rank matrix factorization.
+
+-----
+
+Finding related movies
+
+For each product i, we learn a feature vector x^(i) ∈ R^n.
+    x_1 = romance, x_2 = action, x_3 = comedy, x_4 = ...
+
+It can be hard to come up with a human understandable interpretation of what
+these features really are. It can be hard to visualize and hard to understand,
+but these features are often quite important.
+
+How to find movies j related to movie i?
+    Maybe a user is watching movie i and wants to find movies like movie j.
+    A small ||x^(i) - x^(j)|| -> movies j and i are "similar"
+
+E.g. to find the 5 most similar movies to movie i, find the 5 movies j with the smallest ||x^(i) - x^(j)||
