@@ -1,0 +1,58 @@
+Collaborative Filtering
+
+Another approach of building a recommender system using feature learning, which is an algorithm
+that can start to learn what features to use for itself.
+
+With the previous example:
+
+Movie                   | Alice(1)  Bob(2)  Carol(3)  Dave(4) | x_1 (romance)  x_2 (action)
+Love at Last                5         5        0        0           0.9             0
+Romance Forever             5         ?        ?        0           1.0            0.01
+Cute Puppies of Love        ?         4        0        ?           0.99            0
+Nonstop Car Chases          0         0        5        4           0.1            1.0
+Swords vs. Karate           0         0        5        ?            0             0.9
+
+Someone here told us what the values are for each feature data, and often you'll want more
+features than just those 2.
+
+Say we have a data set now where we have no idea how romantic or action-packed each movie is.
+Everything in the x_1 and x_2 columns are empty.
+But now, we can go to each user and ask how much they like romantic and action movies, and
+let the users collaborate with the algorithm.
+
+θ^(1) = [0;5;0], θ^(2) = [0;5;0], θ^(3) = [0;0;5], θ^(4) = [0;0;5]
+So Alice and Bob love romantic movies and Carol and Dave love action movies, and they all
+hate the other category.
+
+If we can get this info from our users, we can infer what the values for x_1 and x_2 are for
+each movie.
+
+For movie Love at Last, x^(1), Alice and Bob loved the movie while Carol and Dave hated it. By that,
+we can reasonably conclude that it's a romantic movie and not an action movie, so x_1 = 1 and
+x_2 = 0 for x^(1). 
+    What feature vector should x^(1) be such that (θ^(1))^T * x^(1) ≈ 5, (θ^(2))^T * x^(1) ≈ 5,
+    (θ^(3))^T * x^(1) ≈ 0, and (θ^(4)))^T * x^(1) ≈ 0
+    So hopefully, we'll get an x^(1) = [1;1.0;0.0]
+
+Given θ^(1),...,θ^(n_u), to learn x^(i):
+    min x^(i) 1/2 * [sum(j:r(i,j)=1) ((θ^(j))^T * x^(i) - y^(i,j))^2] + λ/2 * sum(k=1, n) (x_k^(j))^2
+
+Given θ^(1),...,θ^(n_u), to learn x^(i),...,x^(n_m):
+    min x^(i),...,x^(n_M) 1/2 * [sum(i=1, n_m) sum(j:r(i,j)=1) ((θ^(j))^T * x^(i) - y^(i,j))^2] 
+    + λ/2 * sum(i=1, n_m) sum(k=1, n) (x_k^(j))^2
+
+-----
+
+Given x^(1),...,x^(n_m) (and movie ratinsgs), can estimate θ^(1),...,θ^(n_u)
+Given θ^(1),...,θ^(n-u), can estimate x^(1),...,x^(n_m)
+
+You can randomly guess θ and use the above procedure to learn the features for your different movies,
+then use those features to get better θ's, then use those to get better x's etc. Your algorithm will
+then converge to reasonable features and parameters.
+
+-----
+
+The strategy of letting users collaborate with the algorithm to get better movie ratings for
+everyone, since every user is helping the algorithm to obtain better features and get better
+movie recommendations in return. Thus, the system makes better recommendations, and the user
+gets better movie recommendations.
