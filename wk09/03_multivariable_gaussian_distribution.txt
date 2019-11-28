@@ -1,0 +1,64 @@
+Mutivariate Gaussian Distribution
+
+This has advantages and disadvantages, and can catch anomalies that the previous
+Gaussian distribution couldn't.
+
+Say we have a 2D plot for x_1 (CPU load) and x_2 (memory use), then we can plot 2 Gaussian distributions 
+as before with respect to x_1 and x_2. 
+
+CPU load and memory use seem to grow linearly with each other, but we can see there's an anomaly
+where there's a lot of memory use with little CPU load. However, if we plotted the anomaly on
+the 2 Gaussian distributions, their probabilities aren't that different from what we've seen before,
+so p(x_1;μ_1,σ_1^2) and p(x_2;μ_2,σ_2^2) will be rather high for the anomaly and not flag it as such.
+
+-----
+
+Multivariate Gaussian (Normal) distribution
+
+x ∈ R^n, don't model p(x_1), p(x_2), ... separately.
+Model p(x) all in one go.
+Params: μ ∈ R^n, Σ ∈ R^(n x n) (covariance matrix)
+
+p(x;μ,Σ) = 1/ ((2*pi)^(n/2) * |Σ|^(1/2)) * exp(-1/2 * (x - μ)^T * Σ^-1(x-μ))
+|Σ|^(1/2) is the determinant of a matrix, which can be found with det(Sigma)
+
+-----
+
+Examples
+
+2D
+Let μ = [0;0] for all these examples.
+
+Σ = [1 0;0 1]
+
+For some specific value of x_1 and x_2, the height of the surface will be p(x).
+p(x) is highest when x_1 = x_2 = 0, the peak of the Gaussian distribution.
+The probability falls off on a bell-shaped surface.
+
+Σ = [0.6 0;0 0.6]
+Shrinking Σ increases the height of p(x) and narrows the bell shape as the area under should always be 1.
+
+Σ = [2 0;0 2]
+Enlarging Σ lowers the height of p(x) and widens the bell shape.
+
+Σ = [0.6 0;0 1]
+This reduces the variance of x_1 while keeping the variance of x_2 the same.
+
+Σ = [2 0;0 1]
+Conversely, this increases the variance of x_1 and can take on more values while x_2 stays the same. 
+The distribution falls off more slowly as x_1 moves away from 0.
+
+Σ = [1 0;0 0.6]
+x_2 takes on a smaller range of values
+
+Σ = [1 0;0 2]
+x_2 takes on a larger range of values
+
+Σ = [1 0.5;0.5 1]
+If x_1 and x_2 are highly correlated with each other, you get a different type of Gaussian distribution.
+The distribution gets more thinly peaked along the x=y line. 
+
+Increasing the values of the off-diagonal makes the peak higher and narrower, while making the values
+negative has the same behavior in the -x=y direction.
+
+Changing μ will change the center of the peak, but not the behavior of the Gaussian distribution.
