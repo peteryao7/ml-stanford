@@ -1,0 +1,19 @@
+Unsupervised Learning: Introduction
+
+In supervised learning, we're given a labeled training set and our goal is to
+find a boundary separating the positive and negative labeled examples. We want
+to fit a hypothesis to it.
+
+In unsupervised learning, we're given data with no labels associated with it.
+It's just a set of points and no labels mapped onto a graph of x_1 vs. x_2.
+We're asking the algorithm to find some sort of structure to it.
+
+In this case, it looks like we have 2 groups of points bunched together. Those
+are clusters. We can use a clustering algorithm to identify clusters.
+
+Applications of clustering
+    - market segmentation
+    - social network analysis, like looking at info of groups on FB or G+ or LI
+    - organize computing clusters or data centers to find out how to design
+      your network or data center communications
+    - astronomical data analysis - galaxy formation
