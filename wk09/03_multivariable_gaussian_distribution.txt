@@ -19,7 +19,7 @@ x ∈ R^n, don't model p(x_1), p(x_2), ... separately.
 Model p(x) all in one go.
 Params: μ ∈ R^n, Σ ∈ R^(n x n) (covariance matrix)
 
-p(x;μ,Σ) = 1/ ((2*pi)^(n/2) * |Σ|^(1/2)) * exp(-1/2 * (x - μ)^T * Σ^-1(x-μ))
+p(x;μ,Σ) = 1 / ((2*pi)^(n/2) * |Σ|^(1/2)) * exp(-1/2 * (x - μ)^T * Σ^-1(x-μ))
 |Σ|^(1/2) is the determinant of a matrix, which can be found with det(Sigma)
 
 -----
@@ -62,3 +62,66 @@ Increasing the values of the off-diagonal makes the peak higher and narrower, wh
 negative has the same behavior in the -x=y direction.
 
 Changing μ will change the center of the peak, but not the behavior of the Gaussian distribution.
+
+==================================================
+
+Anomaly Detection Using the Multivariate Gaussian Distribution
+
+Parameters: μ, Σ
+p(x;μ,Σ) = 1 / ((2*pi)^(n/2) * |Σ|^(1/2)) * exp(-1/2 * (x - μ)^T * Σ^-1(x-μ))
+
+Parameter fitting:
+Given training set {x^(1),x^(2),...,x^(m)}, x ∈ R^n
+μ = 1/m * sum(i=1, m) x^(i)
+Σ = 1/m * sum(i=1, m) (x^(i) - μ) * (x^(i) - μ)^T
+
+Similar to PCA
+
+-----
+
+Anomaly detection with multivariate Gaussian
+
+1) Fit model p(x) by setting
+μ = 1/m * sum(i=1, m) x^(i)
+Σ = 1/m * sum(i=1, m) (x^(i) - μ) * (x^(i) - μ)^T
+
+2) Given a new example x, compute 
+p(x) = 1 / ((2*pi)^(n/2) * |Σ|^(1/2)) * exp(-1/2 * (x - μ)^T * Σ^-1(x-μ))
+Flag an anomaly if p(x) < ε
+
+This results in contour rings that aren't circles, but ellipses that more closely
+represent the data.
+
+-----
+
+Relationship to original model
+
+The original model p(x_1;μ_1,σ_1^2) * ... * p(x_n;μ_n,σ_n^2) corresponds to a special case of
+multivariate Gaussian where the contours of the probability distribution function are axis aligned.
+    - so there are no nonzero values on the off diagonal of covariance matrix Σ and its diagonal is σ_i^2
+
+-----
+
+Original model vs. Multivariate Gaussian model
+
+Original model
+    - used more often
+    - manually create features to capture anomalies where x_1, x_2 take unusual combinations of values
+        - x_3 = x_1/x_2 = CPU load / memory used
+    - computationally cheaper, scales better to large n (10000-100000+)
+    - ok even if m (training set size) is small
+Multivariate model
+    - used less often 
+    - automatically capturs correlations between features 
+        - e.g. x=y => linear correlation
+    - computationally more expensive
+        - computing Σ ∈ R^(nxn), and computing Σ^-1 for large n can be expensive
+        - Σ ~ (n^2)/2
+    - must have m > n, so the # examples > # features you have
+        - else Σ is non-invertible/singular, or Σ^-1 doesn't exist
+        - additionally, maybe only use the multivariate model if m >> n, like m >= 10*n
+
+If you fit a multivariate Gaussian model and you find Σ is singular, there are 2 cases for this:
+    - m > n is not satisfied
+    - redundant features, like x_1 = x_2, or x_3 = x_4 + x_5
+        - the features are linearly dependent
