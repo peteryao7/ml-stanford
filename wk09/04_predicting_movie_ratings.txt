@@ -1,0 +1,44 @@
+Problem Formulation
+
+Recommender systems - one of the most important applications of ML and currently 
+    has lots of room for improvement.
+
+Amazon, Netflix, eBay, etc. have systems that try to recommend new products.
+These recommendations are a substantial fraction of the products consumed by their users.
+So an improvement in recommender performance can provide a substantial and immediate
+impact on the bottom line of many of these companies ($$$). 
+
+Also, as we approach near the end of the course, this is one of the few big ideas in ML.
+The features you choose will have a big impact on performance of your learning algorithm.
+
+-----
+
+Ex. predicting movie ratings
+
+User rates movies using 0-5 stars
+
+Movie                   | Alice(1)  Bob(2)  Carol(3)  Dave(4)
+Love at Last                5         5        0        0
+Romance Forever             5         ?        ?        0
+Cute Puppies of Love        ?         4        0        ?
+Nonstop Car Chases          0         0        5        4
+Swords vs. Karate           0         0        5        ?
+
+? - didn't watch
+We have 3 romance/comedy movies and 2 action movies.
+It looks like Alice and Bob give high ratings for romantic/comedies and low ratings for action movies, and
+Carol and Dave are the opposite.
+
+n_u = # users = 4
+n_m = # movies = 5
+r(i,j) = 1 if user j has rated movie i = 0 or 1
+y(i,j) = rating given by user j to movie i (defined only if r(i,j) = 1) = 0 to 5
+
+The recommender system problem is, given this data set and the r(i,j)s and y(i,j)s, to look through 
+all the movie ratings that are missing and try to predict what the ?s will be.
+
+Maybe Alice's ? will be 5 since she likes romances/comedies, Bob's ? will be 4.5 since he rated the movies
+he likes 4 or 5, Carol's ? will be 0 as the other movies she rated in the category were 0, and Dave's ?
+as 0 for the same reason.
+
+
