@@ -17,3 +17,61 @@ Applications of clustering
     - organize computing clusters or data centers to find out how to design
       your network or data center communications
     - astronomical data analysis - galaxy formation
+
+==================================================
+
+K-means Algorithm
+
+Suppose you have a graph of unlabeled data as before. If you run the K-means clustering
+algorithm, you would first identify 2 cluster centroids, color them red or blue. Then,
+the algorithm iterates repeatedly through these 2 steps:
+    - assignment
+        - in an inner loop of k-means, it will go through each example and depending on
+          whether it's closer to a centroid compared to the other, it's going to assign each
+          data point to a centroid
+        - then it will color each data point depending on which centroid it's closer to,
+          clustering them together to a centroid
+    - move centroid step
+        - move the centroids to the average points of all the locations of each color
+        - look at all red/blue dots, compute the mean, and move the centroids there
+As you run additional iterations, the centroids will stop moving after a while and you will
+reach separated groups of clusters.
+
+Input:
+    - K (# clusters)
+    - Training set {x^(1), x^(2), ..., x^(m)} (no y since we're doing unsupervised learning)
+
+    x^(i) ∈ R^n (drop x_0 = 1 convention)
+
+---
+
+Procedure of k-means algorithm
+
+Randomly initialize K cluster centroids μ_1, μ_2, ..., μ_K ∈ R^n
+
+repeat {
+    for i = 1:m
+        c^(i) := index (from 1 to K) of cluster centroid closest to x^(i)
+        % find min k ||x^(i) - μ_k||
+    end
+    for k = 1:K
+        μ_k := average (mean) of points assigned to cluster k
+        % ex. μ_2 has points x^(1), x^(5), x^(6), x^(10) assigned to it
+        % and c^(1) = 2, c^(5) = 2, c^(6) = 2, c^(10) = 2, meaning all 4 points got assigned to cluster 2
+        % then here, we'll compute the average of their distance
+        % μ_2 = 1/4 * (x^(1) + x^(5) + x^(6) + x^(10)) ∈ R^n
+        % it's possible for a centroid to have no points, but it doesn't happen often
+    end
+}
+
+-----
+
+K-means for non-separated clusters
+
+Say you're a t-shirt manufacturer and you want to sell t-shirts to a certain population.
+You collect data on height and weight, and they seem to be positively correlated with no clusters.
+You want to make 3 sizes of shirts, S/M/L. 
+
+K-means can still cluster them appropriately, even if the clusters aren't very apparent.
+It's similar to market segmentation, where you can design a product for different sizes to suit
+different sub-populations.
