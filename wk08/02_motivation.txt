@@ -1,0 +1,60 @@
+Motivation I: Data Compression
+
+Dimensionality reduction - another type of unsupervised learning problem
+Lets us perform data compression, leading to using up less computer memory and disk space,
+and speed up our learning algorithms.
+
+-----
+
+Say we have a data set with many features, and plotted 2 of them. Unknown to us, x_1
+is the length of something in cm, and x_2 is the length of something in inches, so both
+of them are doing the same thing.
+
+It sounds contrived, but if you have hundreds of thousands of features, it's easy to lose
+track of what you have and there could be multiple teams giving you data with similar
+or identical features, which are redundant.
+
+In this case, the cm and inches may be rounded off, so they don't fit perfectly with
+our model. If we can reduce the data to 1 dimension instead of 2 dimensions, that 
+reduces the redundancy
+
+-----
+
+Example: autonomous helicopter pilots
+
+x_1 measures the pilot's skill, x_2 the pilot's enjoyment
+
+Maybe they're highly correlated and the direction of the correlation represents the
+pilot's aptitude. In that case, it's also helpful to reduce the dimension from 2D to 1D.
+
+-----
+
+By reducing the dimension, we take the positions from the 2D plot, and plot them on
+a 1D "number line" to make a new feature z_1. 
+
+For x^(1) in the 2D plot, we can plot it on the 1D line as z^(1)
+
+x^(1) ∈ R^2     ->    z^(1) ∈ R
+x^(2) ∈ R^2     ->    z^(2) ∈ R
+...
+x^(m) ∈ R^2     ->    z^(m) ∈ R
+
+The only value of z^(i) is the location of x^(i) on the 2D plot.
+
+This halves the memory/space requirement for storing your data for that feature and helps
+with the runtime of our learning algorithm.
+
+-----
+
+Reducing data from 3D to 2D
+
+We might even have a 1000 dimensional data or 1000D data that we might want to reduce to
+100D, but 3D to 2D is easier to visualize.
+
+In our 3D plot, we plot x_1 vs. x_2 vs. x_3
+x^(i) ∈ R^3
+
+Then we project all the data onto a plane. To specify a location on this plane, we need 2
+numbers that project their location on axes z_1 and z_2.
+
+Now we can represent z^(i) ∈ R^2 as z^(i) = [z_1^(i); z_2^(i)]
