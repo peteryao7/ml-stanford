@@ -52,3 +52,55 @@ How to find movies j related to movie i?
     A small ||x^(i) - x^(j)|| -> movies j and i are "similar"
 
 E.g. to find the 5 most similar movies to movie i, find the 5 movies j with the smallest ||x^(i) - x^(j)||
+
+==================================================
+
+Implementation Detail: Mean Normalization
+
+Mean normalization can help the algorithm work a bit better.
+
+-----
+
+Say we have a user that hasn't rated any movies.
+
+Movie                   | Alice(1)  Bob(2)  Carol(3)  Dave(4)  Eve(5)
+Love at Last                5         5        0        0        ?
+Romance Forever             5         ?        ?        0        ?
+Cute Puppies of Love        ?         4        0        ?        ?
+Nonstop Car Chases          0         0        5        4        ?
+Swords vs. Karate           0         0        5        ?        ?
+
+CFA will have to learn a θ^(5) ∈ R^2. When we try to run J, the first term zeros out, so
+the only term that matters is our regularization term for θ. Thus, if you try to minimize
+that term, then θ^(5) = [0;0]
+
+θ^(5)^T * x^(i) = 0
+
+So we'll predict that Eve will rate every movie 0. But it doesn't seem all that useful.
+Some people may have rated Love at Last 5, or Swords vs. Karate 5, so how do we really know
+if Eve will rate everything 0? We also can't recommend her anything.
+
+-----
+
+Let's group our data into matrix Y:
+
+Y = [5 5 0 0 ?]
+    [5 ? ? 0 ?]
+    [? 4 0 ? ?]
+    [0 0 5 4 ?]
+    [0 0 5 0 ?]
+
+Compute the average rating that each moving obtained in vector μ. 
+μ = [2.5; 2.5; 2; 2.25; 1.25]
+Look at all the moving ratings, then subtract the mean ratings for every rating.
+
+Y = [2.5    2.5  -2.5  -2.5  ?]
+    [2.5     ?     ?   -2.5  ?]
+    [ ?      2    -2    ?    ?]
+    [-2.25 -2.25 2.75  1.75  ?]
+    [-1.25 -1.25 3.75 -1.25  ?]
+
+We can use Y to learn θ^(j), x^(i).
+For user j, on movie i, predict (θ^(j)^T) * x^(i) + μ_i
+Now, we'll predict for Eve (θ^(5)^T) * x^(i) + μ_i = 0 + u_i, which is just the average score.
+So Eve will be predicted to rate all the movies based on μ.
