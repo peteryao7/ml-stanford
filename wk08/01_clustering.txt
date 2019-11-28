@@ -105,6 +105,8 @@ min c^(1),...,c^(m) and μ_1,...,μ_K of J(c^(1),...,c^(m),μ_1,...,μ_K)
 
 Also known as the distortion of the algorithm.
 
+-----
+
 Randomly initialize K cluster centroids μ_1, μ_2, ..., μ_K ∈ R^n
 
 repeat {
@@ -117,3 +119,45 @@ repeat {
         % minimize J(...) with respect to μ_1,...,μ_K
     end
 }
+
+==================================================
+
+Random Initialization
+
+In the first part of the K-means algorithm, we randomly initialize K clust centroids.
+How do we do that?
+
+Should have K < m, or more centroids than training examples
+Randomly pick K training examples.
+Set μ_1,...,μ_K equal to these K examples.
+
+-----
+
+Say K = 2. Then from a plot of data, we'll pick 2 training examples from what already looks like
+different clusters and make those our cluster centroids. But maybe we randomly picked 2 centroids
+really close together.
+
+This means that k-means can converge to different solutions depending on which centroid clusters
+you initially pick and converge to local optima of the distortion function J.
+
+For example, take a plot with 3 clusters of points. If we picked a centroid for each cluster, 
+everything's ok. But if we picked 2 centroids close to each other, k-means could cluster the 
+points into different groups, because they converged to local optima.
+
+-----
+
+We want to increase the odds of k-means finding good centroids. What we can do is initialize 
+K-means lots of times and run K-means lots of times, and use that to make sure we get
+as good a solution, as good a local or global optima as possible.
+
+for i = 1:100
+    randomly initialize k-means
+    run k-means, get c^(1),...,c^(m),μ_1,...,μ_K
+    compute cost function (distortion) J(c^(1),...,c^(m),μ_1,...,μ_K)
+end
+
+Pick clustering that gave lowest cost J.
+
+It turns that if you're running k-means with a small number of clusters (2-10), then doing
+random initializations can ensure that you're finding better clustering data. But if
+K = 100 or so, then random initialization is less likely to make much of a difference.
