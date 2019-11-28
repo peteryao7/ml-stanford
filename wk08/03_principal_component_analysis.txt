@@ -1,0 +1,44 @@
+Principal Component Analysis Problem Formulation
+
+Principal component analysis (PCA) is the most commonly used algorithm
+for dimensionality reduction.
+
+-----
+
+Say we have a 2D plot of data and we want to reduce it to 1D. If we draw a decent-looking
+line through our data, what we find is that the distance between each point and the 
+projected line is pretty small.
+
+What PCA does is that it tries to find a lower dimensional surface, a line in this case, onto
+which to project the data so that the sum of squares of those lines is minimized. 
+
+Before applying PCA, it's common to first perform mean normalization at feature scaling so
+that the features x_1 and x_2 have 0 mean, and have comparable ranges of values.
+
+-----
+
+Formal definition:
+
+Reduce from 2D to 1D: Find a direction (a vector u^(1) ∈ R^n) onto which to project the data
+so as to minimize the projection error.
+
+Reduce from n-D to k-D: Find k vectors u^(1), u^(2), ..., u^(k) onto which to project the data
+so as to minimize the projection error.
+
+Ex. to reduce 3D to 2D, we'd pick vectors u^(1) and u^(2) that define a 2D surface onto which
+you'd want to project your data.
+
+-----
+
+How does PCA relate to linear regression?
+
+Even though they look a lot like each other, they are quite different.
+
+In linear regression, we're fitting a straight line to minimize the squared magnitudes of
+the y-values between the training data and the model.
+
+In PCA, we're fitting a straight line to minimize the magnitude of the orthogonal distances,
+so those lines are not vertical, they're perpendicular to the straight line we drew.
+
+PCA has no special y we're trying to predict; we have a list of features and we're treating
+all of them equally.
