@@ -54,3 +54,45 @@ Measuring accuracy isn't a great idea because of skewed data.
 
 Can also use CV set to choose ε
     - try many different values of ε, then pick the one that maximizes the f-score
+
+==================================================
+
+Anomaly Detection vs. Supervised Learning
+
+If we have the labeled data and know the anomalies and non-anomalies, why don't we just
+use a supervised learning algorithm like logistic regression or NN to learn directly
+from our labeled data to predict y=0 or y=1?
+
+Anomaly detection
+    - very small number of positive examples (y=1), like 0-20
+    - large number of negative (y=0) examples
+        - when we're trying to estimate p(x), we don't have a lot of negative examples to work with
+    - many different types of anomalies
+        - e.g. there are many ways for aircraft engines to go wrong
+        - it can be hard for any algorithm to learn what the anomalies look like
+    - future anomalies may look nothing like any of the anomalous examples seen so far
+
+Supervised Learning
+    - large number of positive and negative examples
+        - having a small set of positive examples doesn't give much to learn for the learning algorithm
+    - enough positive examples for algorithm to get a sense of what positive examples look like
+    - future positive examples are likely to be similar to the ones in the training set
+
+Ex. Spam classification
+There are many different types of spam e-mails, but we usually have a large set of spam e-mails, so
+we have a good idea of what they all look like already. So we still call it a supervised learning problem.
+
+-----
+
+More examples
+
+Anomaly detection
+    - fraud detection
+        - if you're an online retailer and you have a ton of fraud cases, it's possible it could shift
+          to a supervised learning problem
+    - manufacturing (aircraft engines)
+    - monitoring machines in a data center
+Supervised learning
+    - e-mail spam classification
+    - weather prediction (sunny/rainy/etc.)
+    - cancer classification
