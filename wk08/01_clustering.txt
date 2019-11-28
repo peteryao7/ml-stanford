@@ -161,3 +161,47 @@ Pick clustering that gave lowest cost J.
 It turns that if you're running k-means with a small number of clusters (2-10), then doing
 random initializations can ensure that you're finding better clustering data. But if
 K = 100 or so, then random initialization is less likely to make much of a difference.
+
+==================================================
+
+Choosing the Number of Clusters
+
+By far, the most common ways of choosing the number is still doing it manually by looking
+at visualizations, or by looking at the output of the clustering algorithm, or choosing
+them by hand.
+
+This isn't supervised learning; there are no labels to our data, so picking a good number
+isn't always unambiguous.
+
+-----
+
+Elbow method:
+
+Vary K (total # clusters), run k-means with 1 cluster and compute the distortion function J, and 
+plot it. Then run that process with 2 clusters, hopefully with a smaller distortion, then 3, 4 etc.
+
+We end with a curve that hopefully decreases as we have more clusters.
+
+Looking at the graph, there could be a point where the distortion goes down rapidly beforehand, but
+then reaches the elbow and the distortion goes down much more slowly. So we'd use the elbow.
+
+This method isn't used as often because the elbow behavior isn't always clear. If the graph is 
+smooth, then the elbow may not be there.
+
+However, if J increases with more clusters, then k-means may have gotten stuck in a bad local
+minimum. This should tell you that you should run k-means with the same # clusters multiple times 
+with randomized initializations.
+
+-----
+
+Sometimes, you're running K-means to get clusters to use for some later/downstream purpose, like
+marketing segmentation for t-shirt sizes. Evaluate K-means based on a metric for how well a certain
+number of clusters serve that later downstream purpose.
+
+Do you want 3 t-shirt sizes, S/M/L? Or 5 sizes with XS and XL? Or 4?
+
+If you have 5 segments, how well will your t-shirts sell, and how happy will your customers be
+in the business? Or do you want fewer t-shirt sizes so you can sell them to the customers more
+cheaply?
+
+This can give you another evaluation metric for choosing the number of clusters.
