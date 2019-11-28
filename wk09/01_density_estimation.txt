@@ -39,3 +39,50 @@ Monitoring computers in a data center
 
 If you're flagging too many things as an anomaly, decrease ε and make the restriction more strict.
 If you're flagging no anomalies and can see them yourself, increase ε.
+
+==================================================
+
+Gaussian Distribution (Normal Distribution)
+
+Say x ∈ R. x is a distributed Gaussian with mean μ and variance σ^2.
+
+x ~ N(μ,σ^2)
+
+If we plot the Gaussian distribution, it'll look like the bell curve, parameterized by μ and σ.
+The center of the bell-shaped curve is μ, and the width (one standard deviation) by σ. 
+
+Note the "width" covers the distance from μ to one standard deviation, or half the whole curve.
+
+The function of the graph:
+p(x;μ,σ^2) = 1 / (sqrt(2*pi) * σ) * exp(- (x-μ)^2 / (2*σ^2))
+
+σ is the standard deviation, where σ^2 is the variance.
+
+-----
+
+Examples
+
+If μ = 0, σ = 1, then the curve is centered at 0 and the width of the Gaussian is 1.
+If μ = 0, σ = 0.5, then the curve is centered at 0 and the width of the Gaussian is 0.5,
+    so the curve is narrower and twice as tall since the area under the curve must integrate to 1.
+If μ = 0, σ = 2, then the curve is centered at 0 and the width of the Gaussian is 2,
+    so the curve is wider and half as tall.
+If μ = 3, σ = 0.5, then the curve shifts to the right by 3 and the width of the Gaussian is 0.5.
+
+-----
+
+Parameter estimation
+
+Dataset: {x^(1),x^(2),...,x^(m)} x^(i) ∈ R
+
+Let's say I suspect these examples came from a Gaussian distribution, so x^(i) ~ N(μ,σ^2), but
+we don't know what μ and σ are.
+
+You can center the distribution around where the data clusters up the most (μ) and eye the
+width (σ) depending on when the cluster begins to dissipate.
+
+μ = 1/m * sum(i=1, m) x^(i)
+σ^2 = 1/m * sum(i=1, m) (x^(i) - μ)^2
+μ is the square difference and σ^2 averages the squared differences.
+
+These estimates of μ and σ^2 are also the maximum likelihood estimates of their primes.
