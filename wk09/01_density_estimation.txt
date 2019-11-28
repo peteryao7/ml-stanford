@@ -1,0 +1,41 @@
+Problem Motivation of Anomaly Detection
+
+Example:
+
+Aircraft engine features: x_1 = heat generated, x_2 = vibration intensity ...
+Dataset: {x^(1),x^(2),...,x^(m)}
+
+Then we plot all the engines in an unlabeled plot.
+
+Suppose you have a new engine x_test and you want to see if the engine is 
+anomalous in any way and requires further testing.
+
+If the engine is inside the cluster, then we think it's ok. 
+If it were outside the cluster, then maybe it's an anomaly.
+
+For model p(x), if p(x_test) < ε, flag as an anomaly
+               if p(x_test) >= ε, OK
+
+So it would be like rings, or contour lines, surrounding the central point
+of the cluster of points. If the new point is 3 rings outside, then 
+consider it an anomaly.
+
+-----
+
+Fraud detection:
+    - x^(i) = features of user i's activities
+    - Model p(x) from data
+    - Identify unusual users by checking which have p(x) < ε
+
+Examples of anomaly detection:
+    - detecting user behavior on your website, keeping track of pages visited, # transactions,
+      typing speed etc.
+        - if you find users as an anomaly by checking p(x) < ε, isolate them for further investigation
+    - manufacturing
+
+Monitoring computers in a data center
+    x^(i) = features of machine i
+    x_1 = memory use, x_2 = # of disk accesses/sec, x_3 = CPU load, x_4 = CPU load / network traffic etc.
+
+If you're flagging too many things as an anomaly, decrease ε and make the restriction more strict.
+If you're flagging no anomalies and can see them yourself, increase ε.
