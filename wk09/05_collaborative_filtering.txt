@@ -56,3 +56,36 @@ The strategy of letting users collaborate with the algorithm to get better movie
 everyone, since every user is helping the algorithm to obtain better features and get better
 movie recommendations in return. Thus, the system makes better recommendations, and the user
 gets better movie recommendations.
+
+==================================================
+
+Collaborative Filtering Algorithm
+
+Combining how we can combine ways we can learn parameters from features and learning features from
+parameters into 1 algorithm.
+
+-----
+
+We can minimize x^(1),...,x^(n_m) and θ^(1),...,θ^(n-u) simultaneously and solve simultaneously
+for x and θ:
+For x ∈ R^n and θ ∈ R^n (meaning we now ignore x_0 = 1 and θ_0),
+J(x^(1),...,x^(n_m),θ^(1),...,θ^(n_u)) = 1/2 * [sum((i,j):r(i,j)=1) ((θ^(j))^T * x^(i) - y^(i,j))^2]
+                                         + λ/2 * sum(i=1, n_m) sum(k=1, n) (x_k^(i))^2
+                                         + λ/2 * sum(j=1, n_m) sum(k=1, n) (θ_k^(j))^2
+
+min x^(1),...,x^(n_m) and θ^(1),...,θ^(n_u) of J
+
+Then we can calculate θ -> x -> θ -> x ...
+
+-----
+
+Our algorithm
+
+1) Initialize x^(1),...,x^(n_m),θ^(1),...,θ^(n_u) to small random values (similar to NN)
+2) Minimize J(x^(1),...,x^(n_m),θ^(1),...,θ^(n_u)) using gradient descent or an advanced optimization
+   algorithm. E.g. for every j = 1,...,n_u and i = 1,...,n_m:
+       x_k^(i) := x_k^(j) - α * [sum(j:r(i,j)=1) (θ^(j)^T * x^(i) - y^(i,j)) * θ_k^(i) + λ * x_k^(i)]
+           Also equivalent to ∂/∂x_k^(i) J(...)
+       θ_k^(j) := θ_k^(j) - α * [sum(i:r(i,j)=1) (θ^(j)^T * x^(i) - y^(i,j)) * x_k^(i) + λ * θ_k^(j)]
+3) For a user with parameters θ and a movie with (learned) features x, predict a star rating of θ^T*x
+    (θ^(j))^T * x^(i)
