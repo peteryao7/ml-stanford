@@ -19,3 +19,48 @@ being slightly above or below it.
 
 It's not perfect, but it's an approximation and lets you go back to your uncompressed
 representation of the data. This process is called reconstruction of the original data.
+
+==================================================
+
+Choosing the Number of Principal Components
+
+In PCA, we take N-D features and reduce them to some K-D feature representation, where K 
+is a parameter of PCA. How do we choose K?
+
+-----
+
+Choosing k (number of principal components)
+    - average squared projection error: 1/m * sum(i=1, m) ||x^(i) - x_approx^(i)||^2
+    - total variation in the data: 1/m * sum(i=1, m) ||x^(i)||^2
+
+Typically, choose k to be the smallest value so that:
+
+[(1/m) * sum(i=1, m) ||x^(i) - x_approx^(i)||^2] / [(1/m) * sum(i=1, m) ||x^(i)||^2] <= 0.01, or 1%
+In other words, 99% of the variance is retained.
+
+Other common thresholds are 0.05 or 5%, then 95% of the variance is retained, or 0.10/10%, or 0.15/15%.
+At 99% variance, you can reduce the dimension of the data significantly and still retain most of
+the variance, since in most real life data, many features are highly correlated.
+
+-----
+
+Inefficient algorithm:
+
+Try PCA with k=1
+Compute U_reduce, z^(1), z^(2), ..., z^(m), x_approx^(1), ..., x_approx^(m)
+Check if [(1/m) * sum(i=1, m) ||x^(i) - x_approx^(i)||^2] / [(1/m) * sum(i=1, m) ||x^(i)||^2] <= 0.01
+If not, increment k and try again.
+
+-----
+
+More efficient algorithm:
+
+[U,S,V] = svd(Sigma)
+S is an n x n matrix whose diagonal entries s_11, s_22, ... s_nn are the only nonzero elements.
+
+The previous long formula can be calculated as:
+1 - (sum(i=1, k) s_i,i) / (sum(i=1, n) s_i,i) <= 0.01
+or equivalently, (sum(i=1, k) s_i,i) / (sum(i=1, n) s_i,i) >= 0.99
+
+You only need to call svd once instead of needing to call svd multiple times for a different k,
+then you only need to calculate the above inequality by incrementing k instead.
