@@ -86,3 +86,44 @@ width (σ) depending on when the cluster begins to dissipate.
 μ is the square difference and σ^2 averages the squared differences.
 
 These estimates of μ and σ^2 are also the maximum likelihood estimates of their primes.
+
+==================================================
+
+Applying Gaussian Distribution to an Anomaly Detection Algorithm
+
+Training set: {x^(1),x^(2),...,x^(m)}, x ∈ R^n
+
+Assume x_1 ~ N(μ_1,σ_1^2), x_2 ~ N(μ_2,σ_2^2) etc.
+
+p(x) = p(x_1;μ_1,σ_1^2) * p(x_2;μ_2,σ_2^2) * p(x_3;μ_3,σ_3^2) * ... * p(x_n;μ_n,σ_n^2)
+     = prod(j=1, n) p(x_j;μ_j,σ_j^2)
+
+p(x) corresponds to an independent assumption on the values of the features x_1 to x_n, 
+but in practice, it doesn't matter if they're independent or not.
+
+-----
+
+Anomaly detection algorithm
+    - choose features x_i that you think might be indicative of anomalous examples
+    - fit params μ_1,...,μ_n,σ_1^2,...,σ_n^2
+      where μ_j = 1/m * sum(i=1, m) x_j^(i)
+            σ_j^2 = 1/m * sum(i=1, m) (x_j^(i) - μ_j)^2
+    - given new example x, compute p(x):
+            p(x) = prod(j=1, n) p(x_j;μ_j,σ_j^2)
+                 = prod(j=1, n) 1 / (sqrt(2*pi) * σ_j) * exp(-(x_j - μ_j)^2 / (2*σ_j^2))
+    - anomaly if p(x) < ε
+
+-----
+
+Applying the algorithm
+
+Looking at a plot of x_1 vs. x_2, the data kind of clumps around x_1 = 5, so μ_1 = 5, and the big cluster
+stops around 2 away from its center, so σ_1 = 2.
+
+Looking at the same plot respect to the y-axis, the data clumps around x_2 = 3, so μ_2 = 3 and dissipates
+1 away from the center, so σ_2 = 1.
+
+We can plot p(x_1;μ_1,σ_1) and p(x_2;μ_2,σ_2), then plot it as a 3D graph. 
+The height of the 3D surface is (x_1;μ_1,σ_1) * p(x_2;μ_2,σ_2).
+
+Then we pick a ε, say 0.02, then start plugging x_test values into p(x) and compare them against ε.
