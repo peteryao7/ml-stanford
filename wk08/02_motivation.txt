@@ -58,3 +58,33 @@ Then we project all the data onto a plane. To specify a location on this plane, 
 numbers that project their location on axes z_1 and z_2.
 
 Now we can represent z^(i) ∈ R^2 as z^(i) = [z_1^(i); z_2^(i)]
+
+==================================================
+
+Motivation II: Data Visualization
+
+Dimensionality reduction also offers us a way to visualize our data better.
+
+-----
+
+Suppose we have a huge data set of many statistics and facts about different countries of
+the world, like the GDP, per capita GDP, human development index, life expectancy etc.
+
+Let x_1 = GDP, x_2 = per capita GDP etc., and x ∈ R^50. There's 50 features and it's 
+really difficult to visualize all of that data at once.
+
+We can reduce the dimensionality of a country like Canada, so instead of having 50 numbers
+represent the features of Canada, we can come up with a different feature representation
+of z vectors z^(i) ∈ R^2.
+
+If we just have a pair of numbers that summarizes all 50 numbers, then we can plot these
+countries in R^2 and use that to understand the space and features of these countries better.
+
+We reduced our data from 50D to 2D.
+
+Perhaps z_1 relates to the country size/GDP/economic size of the country, and z_2 the per-person
+GDP or well-being of the country. Maybe those 2 features summarize all 50 features rather well.
+
+If we see the USA and Singapore at the top right, we can see that they're doing rather well, or
+in the bottom left, where they're not doing as well. A point on the bottom right could mean that 
+the country has a substantial amount of economic activity, but the individuals are less well off.
