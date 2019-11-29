@@ -194,3 +194,73 @@ Discussion on getting more data
     - crowdsourcing (e.g. Amazon Mechanical Turk)
         - there are a few websites and services that let you hire people on the web to inexpensively
           label large training sets for you
+
+==================================================
+
+Ceiling Analysis: What Part of the Pipeline to Work on Next
+
+As a ML dev, one of the most valuable resources is your time, so you want to avoid wasting it by
+spending too much time on one component, or spending months on a component that doesn't make a huge
+difference on the performance of the final system. 
+
+Ceiling analysis can give you a strong guidance on what parts of the pipeline might be the best use
+of your time to work on.
+
+-----
+
+Photo ORC pipeline example
+
+Image -> text detection -> character segmentation -> character recognition
+
+What part of the pipeline should you spend the most time trying to improve? Where should you allocate your 
+resources?
+Each component could be built by a small team of engineers, or the whole system could be built by one person.
+
+Ceiling analysis:
+    - it would be nice to have a single rolled number evaluation metric for this learning system
+    - say we pick character level accuracy, so if you're given a set test image, what is the
+      fraction of characters in a test set image that we recognize correctly?
+    - we find that the overall system has 72% accuracy after running it through every module
+
+    - we will go through our first module, text detection, and monkey around with the test set
+        - for every test example, we will provide it the correct text detection outputs, so we will simulate
+          text detection with 100% accuracy manually
+        - then use these ground truth data as our test data set for the next module in the pipeline, to 
+          ensure a fully correct test set for it
+        - say text detection is now 89%
+    - then go to character segmentation, and use our current test data set as input
+        - again, we will need to go to the test set and give it the 100% accurate text detection output
+          and the correct character segmentation output to compare against
+        - character segmentation goes up to 90%
+    - finally, go through the character recognition with your perfect character segmentation test data set, 
+      and we have 100% accuracy.
+
+We can now understand the upside potential of improving each component:
+    - if we get perfect text detection, our performance went up 17%
+        - if we spent a lot of time improving it, we can improve the performance by 17%,
+          so it's well worth our while
+    - perfect character segmentation only went up 1%, so it won't make much impact if we kept working on it
+    - perfect character recognition went up 10%, so it may or may not be worth your while
+
+-----
+
+Ceiling analysis example from face recognition from images (artificial example)
+
+Camera image -> preprocess (remove background) -> face detection -> eyes segmentation
+                                                                 \                    \
+                                                                  > nose segmentation  -> logistic regression -> label
+                                                                 \                    /
+                                                                  > mouth
+
+Component           |   Accuracy
+Overall system            85%
+Preprocess               85.1%      ^ 0.1%, so perfect background removal shouldn't really be worked on
+Face detection            91%       ^ 5.9%, so it's a big jump that we can put more effort in
+Eyes segmentation         95%       ^ 4%, also worth our while to improve
+Nose segmentation         96%       ^ 1%
+Mouth segmentation        97%       ^ 1%
+Logistic regression      100%       ^ 3%, might be worth working on
+
+Performance should in general be going up.
+
+Don't be going with your gut feeling, do some ceiling analysis to see what you should put more work in!
