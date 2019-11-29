@@ -1,0 +1,41 @@
+Problem Description and Pipeline
+
+Photo OCR - Photo Optical Character Recognition
+With the growth of digital photography through cell phones, we now have tons of visual
+pictures that we take all over the place. One thing that has interested devs is how
+to get our computers to understand that content better.
+
+Given an image, it'd be nice if a computer can read the text in the image, and if you're
+searching for "antique mall" or "lula b's, it'll pull up this picture of an antique mall 
+instead of needing to go through hundreds of images.
+
+You could also provide a blind person a camera that can look at what's in front of them,
+and just tell them the words that may be on the street sign in front of them.
+
+Imagine if your car could read street signs and help you navigate to your destination.
+
+-----
+
+Pipeline
+
+1) Text detection - Lula B's Antique Mall, and put a box around it
+2) Character segmentation - into each character
+3) Character classification - decipher which character is what
+
+Hopefully, the algorithm can read the whole line of text.
+
+If the algorithm reads a misspelling, like c1eaning, when there can also be a spell check
+system to correct that as cleaning.
+
+Our pipeline:
+Image -> text detection -> character segmentation -> character recognition
+
+-----
+
+For many complex ML systems, these pipelines are common, where you can have multiple modules.
+For this example, text detection, character segmentation, and character recognition are 
+modules can be an ML component that act on some sort of data to produce the output you want.
+
+If you're designing an ML system, one of the most important decisions is what modules you
+want in your pipeline and what its breakdown is. Each module could require 1-5 engineers
+to work on.
