@@ -101,3 +101,45 @@ the loop, you may already have a perfectly good hypothesis.
 
 In contrast to batch GD, after going through 300 million examples, you'd be making 1 baby step
 because you only went through one iteration.
+
+==================================================
+
+Mini-Batch Gradient Descent
+
+Can work even faster than stochastic GD.
+
+Batch GD: use all m examples in each iteration
+Stochastic GD: use 1 example in each iteration
+Mini-batch GD: use b examples in each iteration, where b = mini-batch size, like 10 (2-100)
+
+So mini-batch GD is like an in-between for batch and stochastic GD.
+
+Get b = 10 examples from training set (x^(i),y^(i)),...(x^(i+9),y^(i+9))
+θ_j := θ_j - α * 1/10 * sum(k=i, i+9) (h_θ(x^(k)) - y^(k)) * x_j^(k); % b = 10
+i := i + 10;
+
+-----
+
+Algorithm
+
+Say b = 10, m = 1000
+Repeat {
+    for i = 1, 11, 21, 31, ..., 991 {
+        θ_j := θ_j - α * 1/10 * sum(k=i, i+9) (h_θ(x^(k)) - y^(k)) * x_j^(k); for every j = 0,...,n
+    }
+}
+
+So for m = 300 million, we only need to look at b = 10 first, then maybe the next 10, then the next 10 etc.
+
+-----
+
+Stochastic GD vs. mini-batch GD
+
+Mini-batch is likely to outperform stochastic GD if you have a good vectorized implementation.
+For mini-batch GD, the sum over 10 examples can be performed in a more vectorized way, which allows you to
+partially parallelize your computation over the 10 examples using the good linalg libraries.
+
+Sometimes, there isn't much to parallelize over from one example in stochastic GD.
+
+One disadvantage for mini-batch GD is that there's an extra parameter b, which may take time to fiddle with.
+But with a good vectorized implementation, it may still be worth your time.
