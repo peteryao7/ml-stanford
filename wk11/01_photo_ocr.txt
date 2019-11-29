@@ -116,3 +116,81 @@ Photo OCR pipeline
     - text detection
     - character segmentation
     - character classification - similar to multiclass classification problem like from number detection
+
+==================================================
+
+Getting Lots of Data and Artificial Data
+
+Where do you get so much training data from? 
+Artificial data synthesis is an easy way to get a huge training set to give to your learning algorithm.
+
+There are 2 variations: 
+    - creating data from scratch
+    - if we already have a small labeled training set, and we somehow amplify that training set
+
+-----
+
+Character recognition from the OCR pipeline
+
+If we go out and collect a large labeled data set of square image patches, we want the classifier to
+recognize the character in the middle of the image patch.
+
+Modern computers often have a large font library, and some word processors have a bunch of fonts as well.
+The internet has many free font libraries as well.
+
+If you want more training examples, you can take the characters from those fonts and paste them into
+a random background, and now you have new training examples of those characters. You can also apply
+some blurring operators, like scaling or rotating or blurring out the letters.
+
+You can create a synthetic set of data that looks remarkably similar to the real data.
+
+-----
+
+Amplifying your current training set with character recognition
+
+You can also take your existing training data set and take a real example from it to amplify your training set.
+
+Take some training example that has an A in it, then distort the A in various ways for your training set.
+There are certain distortions to use that may make more sense for different ML applications.
+
+-----
+
+Speech recognition
+
+Say you have audio clips and you want to recognize what words were spoken in the clip.
+Original audio: zero one two three four five
+
+Introduce some audio distortions on the example to amplify your set:
+    - audio on bad cellphone connection
+    - noisy background: crowd
+    - noisy background: machinery
+
+By synthesizing additional distortions and introducing different background sounds, we've multiplied
+this one example into many more examples by modifying the clean audio clip.
+
+-----
+
+Distortion introduced should be representative of the type of noise/distortions in the test set.
+    - characters: widen, rotations
+    - audio: background noise, bad phone connection
+
+Usually does not help to add purely random/meaningless noise to your data.
+    - characters: for each pixel, add some random Gaussian noise
+    - x_1 = intensity (brightness) of pixel i
+    - x_i <- x_i + random noise
+
+-----
+
+Discussion on getting more data
+
+1) Make sure you have a low bias classifier before expending the effort by plotting learning curves.
+    - keep increasing the # features/# hidden units in NN until you have a low bias classifier
+2) "How much work would it be to get 10x as much data as we currently have?"
+    - a good question for the product team, and it can usually be done in a few days
+    - can be done with artificial data synthesis and collecting/labeling it yourself
+        - maybe it takes me 10 seconds to label one training example, and we currently have 1000 examples,
+          how much time would I need to obtain and label 10000 examples? (3.5 days)
+        - this can be a great way to get much better performance
+    - crowdsourcing (e.g. Amazon Mechanical Turk)
+        - there are a few websites and services that let you hire people on the web to inexpensively
+          label large training sets for you
