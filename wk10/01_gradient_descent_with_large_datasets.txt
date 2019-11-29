@@ -1,0 +1,32 @@
+Learning with Large Datasets
+
+One reason why learning algorithms work much better now than 5 or 10 years ago is
+the sheer amount of data we have now that we can train our algorithms on.
+
+-----
+
+Why do we want to use such large data sets?
+
+One of the best ways to get a high performance ML system is to take a low bias
+learning algorithm, and train that on a lot of data, such as classifying between
+confusable words, like to/two/too and then/than.
+
+"It's not who has the best algorithm that wins. It's who has the most data."
+
+-----
+
+Learning with large datasets can also lead to computational problems
+
+Say m = 100,000,000 (achievable through datasets like the US census or traffic in popular websites)
+
+If we want to use gradient descent as before:
+    θ_j := θ_j - α * 1/m * sum(i=1, m) (h_θ(x^(i)) - y^(i)) * x_j^(i)
+We need to carry out a summation over a hundred million terms to perform a single step of descent.
+
+Maybe we can randomly pick a subset of m = 1000 and train on that as a sanity check, and that may
+do just as well.
+    - It will do just as well if you plot the learning curves and if your training objective and CV
+      objective look like they have high variance (big gap). That signifies high bias, which we know can be
+      resolved with more data.
+    - If you tried to plot the learning curve for m = 100,000,000 and it looks like you have high variance,
+      that also tells you that getting more data than you already have won't be useful.
