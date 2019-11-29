@@ -1,0 +1,76 @@
+Online Learning
+
+The online learning setting is a new large-scale ML setting. It allows us to model problems
+where we have a continuous flood of data coming in and we would like an algorithm to learn
+from that. 
+
+Many of the largest websites using different online learning algorithms to learn
+from the flood of users that keep coming back to the website, so you can learn about their
+user preferences from the stream of data and use that to optimize some of the decisions on
+your website.
+
+-----
+
+Ex. Shipping service
+
+Suppose you run a shipping service website where user comes, specifies origin and destination,
+you offer to ship their package for some asking price, and users sometimes choose to use your
+shipping service (y=1) and sometimes not (y=0).
+
+We want a learning algorithm to help us optimize what we want our asking price to be.
+
+Features x capture properties of user, of origin/destination and asking price.
+We want to learn p(y=1|x;θ) to optimize price.
+
+We can use logistic regression or a NN to find this price.
+
+Repeat forever (as long as our website is up) {
+    Get (x,y) corresponding to user. 
+    % x = origin and destination specified by user and the price we offered to them
+    % y = 0 or 1 depending on whether they chose to use your service
+    
+    Update θ using (x^(i),y^(i)):
+        θ_j := θ_j - α * (h_θ(x) - y) * x_j (for j = 0,...,n)
+    
+    Then discard the example and never use it again. There's no fixed training set here.
+}
+
+Sometimes it might be better to save all that data in a fixed training set if your userbase
+is small, but if you have a continuous stream of data, then an online learning algorithm is
+very effective and can adapt to changing user preferences.
+
+If over time, there are changes to the economy and the users are becoming more price-sensitive,
+or if the economy is booming and users are less price-sensitive, then an online learning
+algorithm keeps track of the trends in your userbase.
+
+-----
+
+Example: Product search (learning to search)
+
+This problem is also known as the problem of learning the predicted click-through rate, or 
+predicted CTR.
+
+Suppose you're running an online service for selling phones.
+
+User searches for "Android phone 1080p camera"
+Have 100 phones in store, will return 10 results.
+
+We can use a learning algorithm to find which 10 phones to return for the user with this search query.
+
+x = features of phone, how many words in user query match name of phone, how many words in query match
+    description of phone etc.
+y = 1 if user clicks on link, 0 otherwise
+Learn p(y=1|x;θ).
+
+You should be getting 10 (x,y) pairs for each search query. Each time a user searches something, you 
+get 10 (x,y) pairs, and you do 10 steps of GD on those 10 examples, then throw the data away.
+
+-----
+
+Other examples: 
+    - choosing special offers to show user
+    - customized selection of news articles
+    - product recommendation, etc.
+
+Note that all of these problems could be done using a fixed training set, but large companies get so
+much data from their users that it isn't necessary and an online learning algorithm can be better.
