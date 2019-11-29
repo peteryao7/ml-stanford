@@ -30,3 +30,74 @@ do just as well.
       resolved with more data.
     - If you tried to plot the learning curve for m = 100,000,000 and it looks like you have high variance,
       that also tells you that getting more data than you already have won't be useful.
+
+==================================================
+
+Stochastic Gradient Descent
+
+For many learning algorithms like linear regression, logistic regression, and NN, the way we derived
+the algorithms was by coming up with a cost function or optimization objective, and minimizing it
+with an algorithm like gradient descent. With a large dataset, gradient descent becomes very slow.
+
+Stochastic GD is a modification of GD that lets us scale these algorithms to much bigger training sets.
+
+-----
+
+Linear regression with GD
+
+h_θ(x) = sum(j=0, n) θ_j*x_j
+J_train(θ) = 1/(2m) * sum(i=1, m) (h_θ(x^(i) - y^(i))^2)
+
+repeat {
+    θ_j := θ_j - α * 1/(m) * sum(i=1, m) (h_θ(x^(i) - y^(i))^2)
+    % 1/m * the summation is also known as ∂/∂θ_j J_train(θ)
+    for all j = 0,...,n
+}
+
+If n is large like 300 million, then the summation in GD becomes expensive.
+This GD is also known as batch GD, which looks at all training examples at a time.
+
+-----
+
+Stochastic GD
+
+cost(θ,(x^(i),y^(i))) = 1/2 * (h_θ(x^(i)) - y^(i))^2
+J_train(θ) = 1/m * sum(i=1, m) cost(θ,(x^(i),y^(i)))
+
+1) Randomly shuffle data set (m training examples) as preprocessing step
+2) Repeat {
+    for i = 1:m
+        θ_j := θ_j - α * (h_θ(x^(i)) - y^(i)) * x_j^(i) 
+        % (h_θ(x^(i)) - y^(i)) * x_j^(i) = ∂/∂θ_j cost(θ,(x^(i),y^(i)))
+        for j = 0,...,n
+    end
+}
+
+It'll look at the first training example, (x^(1),y^(1)), modify the parameters a bit to fit the 
+first training example a little better. In the for loop, it'll move to the second training example,
+then modify the parameters again to fit that training example a bit better, then so on until it
+reaches the entire training set.
+
+Randomizing the data set will speed up stochastic GD a bit, just in case our data came sorted.
+
+Unlike batch GD, where we need to go through every m to make changes to our parameters, we do it
+each training example at a time.
+
+-----
+
+What stochastic GD does to the parameters
+
+Each iteration simply tries to fit the current training example better, so at first, it's possible
+that GD heads in the wrong direction. But as we keep iterating on more training examples, the
+algorithm will generally move the parameters in the right direction, but not always.
+
+It ends up wandering around continuously in a region close to the global minimum; it may not
+even get there exactly, but that's actually ok as it'll be close and that's still a good 
+hypothesis nonetheless.
+
+Depending on the size of the training set, doing the loop in step 2 may be done 1-10 times. For
+a massive training set with 300 million examples, it's possible that after a single pass through
+the loop, you may already have a perfectly good hypothesis. 
+
+In contrast to batch GD, after going through 300 million examples, you'd be making 1 baby step
+because you only went through one iteration.
