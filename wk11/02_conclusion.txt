@@ -1,0 +1,21 @@
+Summary and Thank You
+
+Main topics:
+
+Supervised Learning
+    - linear regression, logistic regression, neural networds, SVMs
+    - for labeled data (x^(i),y^(i))
+
+Unsupervised Learning
+    - K-means, PCA, anomaly detection
+    - for unlabeled data x^(i)
+    - anomaly detection can also use labeled data to evaluate the algorithm
+
+Special applications/special topics
+    - recommender systems, large scale machine learning
+
+Advice on building a ML system
+    - bias/variance, regularization
+    - deciding what to work on next
+        - evaluation of learning algorithms, learning curves (training/CV/test sets), error analysis, 
+          ceiling analysis
