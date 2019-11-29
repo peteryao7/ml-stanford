@@ -74,3 +74,73 @@ Other examples:
 
 Note that all of these problems could be done using a fixed training set, but large companies get so
 much data from their users that it isn't necessary and an online learning algorithm can be better.
+
+==================================================
+
+Map Reduce and Data Parallelism
+
+Some ML problems are way too big to be run on one machine. Sometimes you have so much data that you
+don't ever want to run all of it through a single computer, no matter what algorithm you use on it.
+
+The map reduce approach is one way to approach large scale ML, and is equally as important, if not more
+important than stochastic GD since it can scale further than stochastic GD.
+
+-----
+
+Say we have m = 400 examples while running linear/logistic regression and we're running batch GD.
+
+What map reduce does is split the training set into disjoint subsets. You can have multiple machines
+run a different subset in parallel.
+    - say one machine runs (x^(1),y^(1)),...,(x^(100),y^(100))
+        - so temp_j^(1) = sum(i=1, 100) (h_θ(x^(i)) - y^(i)) * x_j^(i)
+    - then the second machine runs the next 100 examples, then the next one runs the next 100 etc.
+    - the master server will combine all the results
+        - θ_j := θ_j - α * 1/400 * (temp_j^(1) + temp_j^(2) + temp_j^(3) + temp_j^(4)) for j = 0,...,n
+    - it's doing the exact same as batch GD, just the sum of temp_j^(i) are calculated in parallel with
+      4 machines
+
+If we have a much larger m, like 400 million, then we can have multiple computers running subsets of the
+giant batch of data in parallel, then combine all their calculated sums together.
+
+Because of network latencies and the overhead of combining the results afterwards, the speed-up is slightly
+less than that of the magnitude of how many devices you have, but it's still significant.
+
+-----
+
+Map-reduce and summation over the training set
+
+Many learning algorithms can be expressed as computing sums of functions over the training set, so map-reduce
+would be a good candidate.
+
+E.g. for advanced optimization, with logistic regression, need:
+J_train(θ) = -(1/m) * sum(i=1, m) y^(i) * log(h_θ(x^(i))) - (1 - y^(i)) * log(1 - h_θ(x^(i)))
+∂/∂θ_j J_train(θ) = 1/m * sum(i=1, m) (h_θ(x^(i)) - y^(i)) * x_j^(i)
+
+We can calculate the sums in J_train(θ) and its derivative over multiple machines and speed up those calculations,
+then send their results to a centralized server, which can add up all their sums to one aggregated sum to be used
+for the advanced optimization algorithm.
+
+-----
+
+Multi-core machines
+
+Even with just a single computer, map-reduce is still applicable due to multiple processing cores.
+You can have multiple CPUs in one machine, and each CPU can have multiple cores.
+
+On a single computer, you can send subsets of the training set to one core, then each core can take
+the partial sums and combine their results to encompass the entire training set.
+
+Here, we don't need to worry about network latency since everything happens on one machine.
+
+One caveat is that on the details of your implementation and depending on which linalg libraries 
+you're using, some linalg libraries can automatically parallelize their operations across multiple
+cores within the machine.
+
+If you're using one of those libraries and have a good vectorized implementation of your learning
+algorithm, then you may not need to worry about parallelization altogether since the linalg
+libraries take care of it for you, so map-reduce isn't necessary.
+
+-----
+
+In a NN, if you want to utilize map-reduce on 10 machines, then each machine will compute FP and BP
+on 1/10 of the data to compute the derivative with respect to that 1/10 of the data.
