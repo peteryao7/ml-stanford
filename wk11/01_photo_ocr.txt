@@ -39,3 +39,80 @@ modules can be an ML component that act on some sort of data to produce the outp
 If you're designing an ML system, one of the most important decisions is what modules you
 want in your pipeline and what its breakdown is. Each module could require 1-5 engineers
 to work on.
+
+==================================================
+
+Sliding Windows
+
+How the individual components of the OCR pipeline works - the sliding window classifier.
+
+-----
+
+Text detection - finding regions of text that appear in the image
+    - the red rectangles that identify text can have different aspect ratios
+
+Note: aspect ratio is the ratio between the height and width of the rectangles.
+
+Let's look first at an easier problem - pedestrian detection
+    - seems simpler since the aspect ratio for the pedestrians are quite similar, so we
+      can use a fixed aspect ratio
+    - pedestrians can still be farther away from the camera and be smaller in size, but
+      in general the aspect ratios are the same
+
+Supervised learning for pedestrian detection
+    - x = pixels in 82x36 image patches
+    - y = 1 or 0
+    - collect large training data sets of positive and negative examples, can be 10000s
+    - train a NN or other learning algorithm, to take as input the 82x36 images, and 
+      classify those images as y = 1 or 0
+
+Say we get a test set image and we want to find the pedestrians in the image
+    - first, take a rectangular 82x36 patch in the image like in the top left corner
+    - then run the image patch through your classifier, hopefully returning y = 0
+    - next, we slide the window a bit to the right, then run that patch through the classifier
+    
+The amount you should slide the window is a parameter called the step-size or stride. 
+If you step it over 1 pixel at a time, it generally performs best, but moving it more pixels like 
+4 would let you move the window more each time.
+
+We can continuously keep stepping through the image with our sliding window over the different
+locations in the image through your classifier.
+
+Next, we can start looking at larger image patches and run those through the classifier as well.
+Since the classifier only takes 82x36 images, we would resize whatever we captured in our bigger
+window and pass that in.
+
+-----
+
+Back to text detection
+
+We can come up with a bunch of positive and negative examples again, where they're all patches
+of examples that have or don't have text.
+
+Now we can run a sliding window, this time at one fixed scale. Once you run through the whole image,
+the output will be a grayscale image where black is where y=0 and white is where y=1. The axes
+are the same. 
+
+Afterwards, we take the black and white image and apply an expansion operator.
+    - takes each white region and expands it outwards
+        - if a pixel is within 5 pixels of a white pixel, then color it white as well (BFS)
+    - we can use a simple heuristic to rule out white boxes that look funny, like thin tall blobs
+      or random white boxes by themselves
+
+-----
+
+Character segmentation - 1D sliding window
+
+Use a supervised learning algorithm with a set of positive and negative examples
+Is there a character split of 2 different characters in the captured image? y=1 if yes, y=0 if no
+y=0 includes images that have one whole character.
+
+Use a sliding window that goes through the text images you got from text detection and get 
+your images to put into the classifier.
+
+-----
+
+Photo OCR pipeline
+    - text detection
+    - character segmentation
+    - character classification - similar to multiclass classification problem like from number detection
