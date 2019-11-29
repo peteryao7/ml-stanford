@@ -143,3 +143,66 @@ Sometimes, there isn't much to parallelize over from one example in stochastic G
 
 One disadvantage for mini-batch GD is that there's an extra parameter b, which may take time to fiddle with.
 But with a good vectorized implementation, it may still be worth your time.
+
+==================================================
+
+Stochastic GD Convergence
+
+When you're running stochastic GD, how do you make sure it's completely debugged and is converging ok?
+How do you pick a good learning rate α?
+
+-----
+
+Checking for convergence
+
+Batch GD:
+    Plot J_train(θ) as a function of the number of iterations of GD
+    J_train(θ) = 1/(2*m) * sum(i=1, m) (h_θ(x^(i)) - y^(i))^2
+
+Stochastic GD:
+    cost(θ,(x^(i),y^(i))) = 1/2 * (h_θ(x^(i)) - y^(i))^2
+    During learning, compute cost(θ,(x^(i),y^(i))) before updating θ using (x^(i),y^(i))
+    Every 1000 iterations or so, plot cost(θ,(x^(i),y^(i))) averaged over the last
+    1000 examples processed by the algorithm
+        - This gives you a running estimate of how well the algorithm is doing on the last 1000
+          training examples seen.
+
+In contrast to computing J_train periodically, it doesn't cost much to update cost(θ,(x^(i),y^(i))) in 
+comparison and every 1000 iterations or so, we average the last 1000 costs computed and plot that.
+Looking at these plots, we can see if stochastic GD is converging.
+
+-----
+
+Plot cost(θ,(x^(i),y^(i))) averaged over the last 1000 or so examples:
+
+Plot 1: wiggly model, but decreases at first and plateaus
+    - This is a good sign, and shows that the algorithm has converged
+    - Watch out for cases where the algorithm may converge at first, but moves further down as 
+      stochastic GD can dance around the global minimum and we can get slightly better results.
+
+You can average over the last 5000 examples instead of 1000 and get a smoother graph. The problem
+here is that you're increasing that number drastically, which can affect runtime.
+
+Plot 2: the plot isn't increasing or decreasing
+    - The cost isn't increasing or decreasing, so that may be a sign the algorithm isn't learning.
+    - If we were to increase to averaging over a larger number of examples, it is possible that 
+      the graph decreases a bit, and the original plot was too noisy. 
+    - But it is still possible that the graph would still stay flat with 5000 examples, meaning 
+      your algorithm isn't learning.
+
+Plot 3: the plot is increasing
+    - The algorithm is diverging and the errors are increasing
+    - Use a smaller learning rate α
+    
+-----
+
+In most implementations of stochastic GD, the learning rate α typically stays constant. This is 
+why it never converges fully to the global minimum.
+
+If you want it to converge to the global minimum, you can gradually decrease α over time.
+    - set α = constant_1 / (iterationNumber + constant_2)
+    - iterationNumber is the number of training examples seen so far in stochastic GD, increasing
+      over time
+    - not recommended, since you need to play around with both constants more and it gets finnicky
+    - but if the constants are tuned well, the meanderings get smaller until it pretty much
+      converges to the global minimum
